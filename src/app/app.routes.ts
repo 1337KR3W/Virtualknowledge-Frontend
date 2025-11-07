@@ -3,6 +3,14 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
 
 
+
+    //Definicion de la ruta: /
+    {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+
+    },
     //Definicion de la ruta: home
     {
         path: 'home',
