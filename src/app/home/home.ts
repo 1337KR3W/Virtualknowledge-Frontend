@@ -12,7 +12,5 @@ export class HomeComponent {
   constructor(private router: Router) {
 
   }
-  goToLogin() {
-    this.router.navigate(['/login']);
-  }
+
 }

@@ -1,68 +1,63 @@
-<!doctype html>
-<html lang="en">
+<!-- Success message -->
+@if (successMessage) {
+<div class="success-message">
+    {{ successMessage }}
+</div>
+}
+<div class="register-container">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <h1>Registro</h1>
 
-<head>
-    <meta charset="utf-8">
-    <title>Register</title>
-    <!--<base href="/">-->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--<link rel="icon" type="image/x-icon" href="favicon.ico">-->
-</head>
+        <!-- Username -->
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" type="text" formControlName="username" />
+            @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
+            <small class="error">Username is required.</small>
+            }
+            @if (registerForm.get('username')?.hasError('pattern') && registerForm.get('username')?.touched) {
+            <small class="error">Username must have 4 to 16 charaters, including numbers.</small>
+            }
+        </div>
 
-<body>
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" formControlName="email" />
+            @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+            <small class="error">Enter a valid email.</small>
+            }
+        </div>
 
-    <!--registerForm es el formulario reactivo definido en register.ts
-por otro lado, onSubmit() es el método- declarado en register.ts que muestra el formulario en la terminal al enviarlo-->
+        <!-- Password 1 -->
+        <div class="form-group">
+            <label for="password1">Password</label>
+            <input id="password1" type="password" formControlName="password1" />
+            @if (registerForm.get('password1')?.invalid && registerForm.get('password1')?.touched) {
+            <small class="error">Password is required.</small>
+            }
+            @if (registerForm.get('password1')?.hasError('pattern') && registerForm.get('password1')?.touched) {
+            <small class="error">Password must have 8 to 16 charaters, including at least 1 number, 1 upper case and 1
+                special character [.@$!%*?&].</small>
+            }
+        </div>
+
+        <!-- Password 2 -->
+        <div class="form-group">
+            <label for="password2">Confirm Password</label>
+            <input id="password2" type="password" formControlName="password2" />
+            @if (registerForm.get('password2')?.invalid && registerForm.get('password2')?.touched) {
+            <small class="error">Confirmation is required.</small>
+            }
+            @if (registerForm.get('password1')?.value !== registerForm.get('password2')?.value &&
+            registerForm.get('password2')?.touched) {
+            <small class="error">Passwords do not match.</small>
+            }
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" [disabled]="registerForm.invalid">Register</button>
+    </form>
 
 
-    <div class="register-container">
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <!-- Username field -->
-            <div>
-                <label for="username">Username</label>
-                <input id="username" type="text" formControlName="username" />
-
-                @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched){
-                <br>
-                <small style="color: red;">Username is required.</small>
-                }
-            </div>
-            <!-- Email field -->
-            <div>
-                <label for="email">Email</label>
-                <input id="email" type="email" formControlName="email" />
-
-                @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched){
-                <br>
-                <small style="color: red;">Enter a valid email.</small>
-                }
-            </div>
-            <!-- Password field -->
-            <div>
-                <label for="password1">Password</label>
-                <input id="password1" type="password" formControlName="password1" />
-                @if (registerForm.get('password1')?.invalid && registerForm.get('password1')?.touched){
-                <br>
-                <small style="color: red;">Password is required.</small>
-                }
-            </div>
-
-            <!-- Password field -->
-            <div>
-                <label for="password2">Password</label>
-                <input id="password2" type="password" formControlName="password2" />
-                @if (registerForm.get('password2')?.invalid && registerForm.get('password2')?.touched){
-                <br>
-                <small style="color: red;">Password is required.</small>
-                }
-            </div>
-            <!-- Submit button -->
-            <div>
-                <button type="submit">Register</button>
-            </div>
-        </form>
-    </div>
-
-</body>
-
-</html>
+</div>
