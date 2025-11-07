@@ -1,21 +1,28 @@
-$primary-color: #3498db;
-$background-color: #e0e5ec;
+$button-primary-color: #3498db;
+$background-color: #ebebeb;
 $text-color: #333;
-$link-color: $primary-color;
-$link-hover-color: darken($primary-color, 10%);
-$border-radius: 8px;
+$link-color: $button-primary-color;
+$link-hover-color: darken($button-primary-color, 10%);
+$border-radius: 12px;
+
+
+body {
+    background-color: #ffffff;
+    height: 100vh;
+    border-radius: $border-radius;
+}
 
 .home-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 35vh;
+    height: 27vh;
     background-color: $background-color;
     text-align: center;
     padding: 2rem;
-    border-radius: 12px;
-
+    border-radius: $border-radius;
+    border: 4px solid transparent;
     box-shadow: 8px 8px 16px rgba(165, 177, 198, 0.8),
         -8px -8px 16px rgba(255, 255, 255, 0.8);
 
