@@ -1,0 +1,44 @@
+<!--registerForm es el formulario reactivo definido en register.ts
+por otro lado, onSubmit() es el método- declarado en register.ts que muestra el formulario en la terminal al enviarlo-->
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <!-- Username field -->
+    <div>
+        <label for="username">Username</label>
+        <input id="username" type="text" formControlName="username" />
+
+        @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched){
+        <small style="color: red;">Username is required.</small>
+        }
+    </div>
+    <!-- Email field -->
+    <div>
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" />
+
+        @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched){
+        <small style="color: red;">Enter a valid email.</small>
+        }
+    </div>
+    <!-- Password field -->
+    <div>
+        <label for="password1">Password</label>
+        <input id="password1" type="password1" formControlName="password1" />
+        @if (registerForm.get('password1')?.invalid && registerForm.get('password1')?.touched){
+        <small style="color: red;">Password is required.</small>
+        }
+    </div>
+
+    <!-- Password field -->
+    <div>
+        <label for="password2">Password</label>
+        <input id="password2" type="password2" formControlName="password2" />
+        @if (registerForm.get('password2')?.invalid && registerForm.get('password2')?.touched &&
+        registerForm.get('password1') == registerForm.get('password2')){
+        <small style="color: red;">Password is required.</small>
+        }
+    </div>
+    <!-- Submit button -->
+    <div>
+        <button type="submit" [disabled]="registerForm.invalid">Register</button>
+    </div>
+</form>
