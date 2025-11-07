@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit {
       users.push(newUser);
       localStorage.setItem('users', JSON.stringify(users))
       //Mostrar mensaje de exito
-      this.successMessage = `Enhorabuena ${username}, bienvenido a Virtualknowledge.`;
+      this.successMessage = `Welcome to Virtualknowledge, ${username}!`;
 
       //Resetear el formulario
       this.registerForm.reset();

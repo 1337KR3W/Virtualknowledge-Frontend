@@ -1,13 +1,12 @@
-<!-- Success message -->
-@if (successMessage) {
-<div class="success-message">
-    {{ successMessage }}
-</div>
-}
 <div class="register-container">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <h1>Registro</h1>
-
+        <!-- Success message -->
+        @if (successMessage) {
+        <div class="success-message">
+            {{ successMessage }}
+        </div>
+        }
         <!-- Username -->
         <div class="form-group">
             <label for="username">Username</label>
