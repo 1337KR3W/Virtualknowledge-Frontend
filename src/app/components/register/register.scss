@@ -4,8 +4,11 @@ $text-color: #333;
 $error-color: #e74c3c;
 $border-radius: 8px;
 $input-padding: 0.75rem;
-
-
+$message-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+$form-box-shadow: 8px 8px 16px rgba(165, 177, 198, 0.8),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+$input-box-shadow: inset 3px 3px 9px rgba(0, 0, 0, .125),
+    inset -3px -3px 9px rgba(255, 255, 255, 1);
 
 .register-container {
     display: flex;
@@ -26,7 +29,7 @@ $input-padding: 0.75rem;
     border-radius: 8px;
     text-align: center;
     font-weight: bold;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: $message-box-shadow;
 }
 
 
@@ -40,8 +43,7 @@ form {
     max-width: 400px;
     display: flex;
     flex-direction: column;
-    box-shadow: 8px 8px 16px rgba(165, 177, 198, 0.8),
-        -8px -8px 16px rgba(255, 255, 255, 0.8);
+    box-shadow: $form-box-shadow;
 
     div {
         display: flex;
@@ -59,11 +61,7 @@ form {
             border: 1px solid #ccc;
             border-radius: $border-radius;
             font-size: 1rem;
-            box-shadow:
-                /*Sombra*/
-                inset 3px 3px 9px rgba(0, 0, 0, .125),
-                /*Luz*/
-                inset -3px -3px 9px rgba(255, 255, 255, 1);
+            box-shadow: $input-box-shadow;
         }
 
         small {

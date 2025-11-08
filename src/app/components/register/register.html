@@ -3,10 +3,10 @@
         <h1>Registro</h1>
         <!-- Success message -->
         <!-- Muestra el mensaje de éxito o error condicionalmente -->
-         @if (message) {
-            <div [class.success-message]="!isError" [class.error-message]="isError">
-                {{ message }}
-            </div>
+        @if (message) {
+        <div [class.success-message]="!isError" [class.error-message]="isError">
+            {{ message }}
+        </div>
         }
         <!-- Username -->
         <div class="form-group">
@@ -37,8 +37,8 @@
             <small class="error">Password is required.</small>
             }
             @if (registerForm.get('password1')?.hasError('pattern') && registerForm.get('password1')?.touched) {
-            <small class="error">Password must have 8 to 16 charaters, including at least 1 number, 1 upper case and 1
-                special character [.@$!%*?&].</small>
+            <small class="error">Password must have 8 to 16 charaters, including at least 1 number, 1 upper and lower
+                case and 1 special character [.@$!%*?&].</small>
             }
         </div>
 
