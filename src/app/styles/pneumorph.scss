@@ -35,3 +35,19 @@ $text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 //----------Efecto pulsar boton
 $effect-btn-press-box-shadow: inset 2px 2px 5px rgba(165, 177, 198, 0.6),
     inset -2px -2px 5px rgba(255, 255, 255, 0.6);
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    // Esto es crucial para un comportamiento predecible del 100%
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    // Aseguramos que padding y border no sumen altura/ancho total de los elementos
+    box-sizing: inherit;
+}

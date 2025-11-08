@@ -1,0 +1,39 @@
+// src/app/components/footer/footer.scss
+
+// Importamos las variables globales para el estilo
+@import '../../styles/pneumorph.scss';
+
+footer {
+    background-color: $background-color;
+    color: $text-color;
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: $border-radius;
+    // Opcional: Estilo Neumórfico ligero
+    box-shadow: 0 -2px 4px rgba(165, 177, 198, 0.4);
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+
+        p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a {
+            color: $link-color;
+            text-decoration: none;
+            margin-left: 15px;
+
+            &:hover {
+                color: $link-hover-color;
+            }
+        }
+    }
+}

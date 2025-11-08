@@ -1,11 +1,4 @@
-$button-primary-color: #3498db;
-$background-color: #ebebeb;
-$text-color: #333;
-$link-color: $button-primary-color;
-$link-hover-color: darken($button-primary-color, 10%);
-$border-radius: 12px;
-$box-shadow: 8px 8px 16px rgba(165, 177, 198, 0.8),
-    -8px -8px 16px rgba(255, 255, 255, 0.8);
+@import '../../styles/pneumorph.scss';
 
 body {
     background-color: #ffffff;

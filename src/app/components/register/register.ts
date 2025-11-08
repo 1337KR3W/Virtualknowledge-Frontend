@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
 
       // Validacion: coincidencia de contraseñas
       if (password1 !== password2) {
-        this.message = 'Error: Las contraseñas no coinciden.';
+        this.message = 'Error: Passwords do not match.';
         this.isError = true;
         return;
       }
@@ -66,7 +66,7 @@ export class RegisterComponent implements OnInit {
       // Validamos que el email sea único
       const emailExists = users.some((u: any) => u.email === email);
       if (emailExists) {
-        this.message = 'Error: Ya existe un usuario registrado con ese correo.';
+        this.message = 'Error: There is already a registered user with that email.';
         this.isError = true;
         return;
       }
@@ -84,7 +84,7 @@ export class RegisterComponent implements OnInit {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users))
 
       // Mostrar mensaje de exito
-      this.message = `¡Registro exitoso! Bienvenido a Virtualknowledge, ${username}.`;
+      this.message = `Successful registration! Welcome to Virtualknowledge, ${username}.`;
       this.isError = false; // Mensaje de éxito
 
       // Resetear el formulario después del éxito
@@ -93,6 +93,6 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Si necesitas un formulario dinámico, lo pones aquí.
+    // Si necesito un formulario dinamico, poner aquí.
   }
 }

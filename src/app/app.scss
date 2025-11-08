@@ -1,0 +1,16 @@
+// El componente raíz envuelve todo
+:host {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; // La aplicación ocupa al menos el 100% de la ventana
+    // Esto asegura que app-root rellene el viewport, eliminando el scroll innecesario.
+
+}
+
+main {
+    //Crece para ocupar todo el espacio disponible
+    flex-grow: 1;
+
+    // Opcional: Esto ayuda si tienes contenido que se desborda horizontalmente
+    overflow-x: hidden;
+}

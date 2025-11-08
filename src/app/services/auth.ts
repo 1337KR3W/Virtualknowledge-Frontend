@@ -21,7 +21,7 @@ export class AuthService {
     const usersJson = localStorage.getItem(this.STORAGE_KEY);
     //Comprobacion: si no existen usuarios devolvemos el mensaje
     if (!usersJson) {
-      console.warn('No hay usuarios registrados en LocalStorage');
+      console.warn('No user in LocalStorage');
       return false;
     }
 
