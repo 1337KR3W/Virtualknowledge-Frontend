@@ -1,12 +1,5 @@
-// Variables
-$button-primary-color: #3498db; // Azul principal
-$background-color: #ebebeb; // Fondo del contenedor principal
-$text-color: #333;
-$link-color: $button-primary-color;
-$link-hover-color: darken($button-primary-color, 10%);
-$border-radius: 12px;
-$box-shadow: 8px 8px 16px rgba(165, 177, 198, 0.8),
-    -8px -8px 16px rgba(255, 255, 255, 0.8);
+@import '../../styles/pneumorph.scss';
+
 
 body {
     background-color: #ffffff;
@@ -21,8 +14,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    // Aplicamos el estilo neumórfico a la barra (opcional, pero consistente)
     background-color: $background-color;
     padding: 15px 30px;
     box-shadow: $box-shadow;
@@ -35,8 +26,7 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
     text-decoration: none;
-    // Opcional: darle un efecto hundido/presionado
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: $text-shadow;
 }
 
 .navbar-links {
@@ -67,8 +57,7 @@ body {
     &:hover {
         background-color: $link-hover-color;
         // Opcional: efecto hundido al pasar el mouse
-        box-shadow: inset 2px 2px 5px rgba(165, 177, 198, 0.6),
-            inset -2px -2px 5px rgba(255, 255, 255, 0.6);
+        box-shadow: $effect-btn-press-box-shadow;
     }
 }
 
@@ -80,8 +69,7 @@ body {
     &:hover {
         background-color: darken($background-color, 5%);
         // Opcional: efecto hundido al pasar el mouse
-        box-shadow: inset 2px 2px 5px rgba(165, 177, 198, 0.6),
-            inset -2px -2px 5px rgba(255, 255, 255, 0.6);
+        box-shadow: $effect-btn-press-box-shadow;
     }
 }
 
@@ -138,8 +126,7 @@ body {
         &:hover {
             background-color: $link-hover-color;
             // Neumorfismo: efecto de presionado
-            box-shadow: inset 2px 2px 5px rgba(165, 177, 198, 0.6),
-                inset -2px -2px 5px rgba(255, 255, 255, 0.6);
+            box-shadow: $effect-btn-press-box-shadow;
         }
     }
 }

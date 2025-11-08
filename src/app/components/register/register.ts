@@ -1,5 +1,3 @@
-// src/app/components/register/register.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,12 +12,12 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
-  
+
   // Usaremos esta variable para mensajes de ÉXITO y de ERROR
-  message: string = ''; 
+  message: string = '';
   isError: boolean = false; // Indica si el mensaje es un error (para estilos)
 
-  // 🎯 CLAVE DE ALMACENAMIENTO CORREGIDA para coincidir con AuthService
+  // CLAVE DE ALMACENAMIENTO para coincidir con AuthService
   private readonly STORAGE_KEY = 'registeredUsers';
 
   constructor(private fb: FormBuilder) {
@@ -53,18 +51,18 @@ export class RegisterComponent implements OnInit {
 
     if (this.registerForm.valid) {
       const { username, email, password1, password2 } = this.registerForm.value;
-      
+
       // Validacion: coincidencia de contraseñas
       if (password1 !== password2) {
         this.message = 'Error: Las contraseñas no coinciden.';
         this.isError = true;
         return;
       }
-      
+
       // 2. Obtener usuarios existentes en LocalStorage usando la clave CORRECTA
       // Usamos 'STORAGE_KEY' en lugar de 'user' o 'users'
       const users = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
-      
+
       // Validamos que el email sea único
       const emailExists = users.some((u: any) => u.email === email);
       if (emailExists) {
@@ -72,7 +70,7 @@ export class RegisterComponent implements OnInit {
         this.isError = true;
         return;
       }
-      
+
       // Crear un nuevo usuario
       const newUser = {
         id: Date.now(),
@@ -84,7 +82,7 @@ export class RegisterComponent implements OnInit {
       // 3. Guardar en LocalStorage usando la clave CORRECTA
       users.push(newUser);
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users))
-      
+
       // Mostrar mensaje de exito
       this.message = `¡Registro exitoso! Bienvenido a Virtualknowledge, ${username}.`;
       this.isError = false; // Mensaje de éxito

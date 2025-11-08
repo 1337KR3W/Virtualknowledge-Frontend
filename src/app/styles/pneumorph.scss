@@ -1,0 +1,37 @@
+// Paleta de Colores
+$primary-color: #3498db;
+$button-primary-color: #3498db; // Azul principal
+$background-color: #e0e0e0;
+$text-color: #333;
+$error-color: #e74c3c;
+$success-color: #2ecc71; // Añadimos una variable de éxito, útil!
+$link-color: $button-primary-color;
+$link-hover-color: darken($button-primary-color, 10%);
+// Estructura y Espaciado
+$border-radius: 12px;
+$input-padding: 0.75rem;
+
+// Sombras (Estilo Neumórfico)
+$box-shadow: 8px 8px 16px rgba(165, 177, 198, 0.8),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+
+//----------Sombra del mensaje
+$message-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+//----------Sombra para textos
+$text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+
+//----------Sombra para los inputs
+$input-box-shadow: inset 3px 3px 9px rgba(0, 0, 0, .125),
+    inset -3px -3px 9px rgba(255, 255, 255, 1);
+
+//----------Sombra para el cuadro del formulario
+$form-box-shadow: 8px 8px 16px rgba(165, 177, 198, 0.8),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+
+//----------Sombra del texto
+$text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+
+//----------Efecto pulsar boton
+$effect-btn-press-box-shadow: inset 2px 2px 5px rgba(165, 177, 198, 0.6),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.6);
