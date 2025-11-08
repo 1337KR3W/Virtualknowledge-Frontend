@@ -5,6 +5,18 @@ $error-color: #e74c3c;
 $border-radius: 12px;
 $input-padding: 0.75rem;
 
+
+.error-message {
+  color: #d9534f; // Un color rojo de error
+  background-color: #f2dede;
+  border: 1px solid #ebccd1;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+
 .login-container {
     display: flex;
     justify-content: center;

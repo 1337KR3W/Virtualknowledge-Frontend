@@ -1,0 +1,22 @@
+<div class="home-container">
+    <header class="welcome-header">
+        @if (username) {
+        <h1>¡Bienvenido a Virtualknowledge, {{ username }}!</h1>
+        <p>Este es tu panel de control privado.</p>
+        } @else {
+        <h1>¡Bienvenido!</h1>
+        }
+    </header>
+
+    <section class="user-info">
+        <h2>Detalles de la Sesión</h2>
+        <ul>
+            <li>Nombre de Usuario (Username): {{ username || 'No disponible' }}</li>
+            <li>Correo Electrónico (Email): {{ userEmail || 'No disponible' }}</li>
+        </ul>
+    </section>
+
+    <button (click)="onLogout()" class="btn btn-danger">
+        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+    </button>
+</div>

@@ -2,10 +2,11 @@
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <h1>Registro</h1>
         <!-- Success message -->
-        @if (successMessage) {
-        <div class="success-message">
-            {{ successMessage }}
-        </div>
+        <!-- Muestra el mensaje de éxito o error condicionalmente -->
+         @if (message) {
+            <div [class.success-message]="!isError" [class.error-message]="isError">
+                {{ message }}
+            </div>
         }
         <!-- Username -->
         <div class="form-group">

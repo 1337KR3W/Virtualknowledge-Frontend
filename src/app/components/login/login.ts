@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-login',
@@ -12,8 +13,15 @@ import { RouterModule, Router } from '@angular/router';
 
 export class LoginComponent {
   loginForm: FormGroup;
+  loginError: string = '';
 
-  constructor(private fb: FormBuilder, private router: Router) {
+
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -21,17 +29,25 @@ export class LoginComponent {
   }
 
   onLogin() {
+    this.loginError = '';
+
     if (this.loginForm.valid) {
-      console.log('Login:', this.loginForm.value);
-      // Aquí podrías hacer la lógica de autenticación
+      const { email, password } = this.loginForm.value;
+      const loginSuccessful = this.authService.login(email, password);
+
+      if (loginSuccessful) {
+        console.log('Success login, redirecting...');
+        this.router.navigate(['/home']);
+      } else {
+        this.loginError = 'Incorrect email or password. Please, try again';
+      }
+    } else {
+      this.loginError = 'Complete all fields, please'
     }
   }
 
   goToRegister() {
     this.router.navigate(['/register']);
   }
-
-
-
 
 }

@@ -1,29 +1,39 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth-guard';
+import { LoginComponent } from './components/login/login';
+import { WelcomeComponent } from './components/welcome/welcome';
+import { RegisterComponent } from './components/register/register';
+import { HomeComponent } from './components/home/home';
 
 export const routes: Routes = [
 
-
+    //Para cargar componentes de manera alternativa
+    //loadComponent: () => import('./components/welcome/welcome').then(m => m.WelcomeComponent),
 
     //Definicion de la ruta: /
     {
         path: '',
-        redirectTo: 'home',
-        pathMatch: 'full'
-
+        component: WelcomeComponent
     },
     //Definicion de la ruta: home
     {
         path: 'home',
-        loadComponent: () => import('./home/home').then(m => m.HomeComponent)
+        component: HomeComponent,
+        canActivate: [authGuard]
     },
     //Definicion de la ruta: login
     {
         path: 'login',
-        loadComponent: () => import('./login/login').then(m => m.LoginComponent)
+        component: LoginComponent
     },
     //Definicion de la ruta: register
     {
         path: 'register',
-        loadComponent: () => import('./register/register').then(m => m.RegisterComponent)
+        component: RegisterComponent
+    },
+    // Manejo de 404 (opcional, redirige a la raíz)
+    {
+        path: '**',
+        redirectTo: ''
     }
 ];
