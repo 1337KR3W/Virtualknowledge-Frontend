@@ -1,15 +1,15 @@
 <div class="home-container">
     <header class="welcome-header">
         @if (username) {
-        <h1>¡Bienvenido a Virtualknowledge, {{ username }}!</h1>
-        <p>Este es tu panel de control privado.</p>
+        <h1>¡Welcome to Virtualknowledge, {{ username }}!</h1>
+        <p>This is your private control panel.</p>
         } @else {
-        <h1>¡Bienvenido!</h1>
+        <h1>Welcome!</h1>
         }
     </header>
 
     <section class="user-info">
-        <h2>Detalles de la Sesión</h2>
+        <h2>Session details</h2>
         <ul>
             <li>Username: {{ username || 'No disponible' }}</li>
             <li>Email: {{ userEmail || 'No disponible' }}</li>
@@ -17,6 +17,6 @@
     </section>
 
     <button (click)="onLogout()" class="btn btn-danger">
-        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        <i class="fas fa-sign-out-alt"></i> Logout
     </button>
 </div>
