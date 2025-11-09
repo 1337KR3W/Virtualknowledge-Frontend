@@ -12,13 +12,14 @@
 <body>
     <div class="login-container">
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-            
-                @if (loginError) {
-                    <div class="error-message">
-                        <p>{{ loginError }}</p>
-                    </div>
-                }
-            
+            <h1>Login</h1>
+
+            @if (loginError) {
+            <div class="error-message">
+                <p>{{ loginError }}</p>
+            </div>
+            }
+
             <!-- Email field -->
             <div>
                 <label for="email">Email</label>

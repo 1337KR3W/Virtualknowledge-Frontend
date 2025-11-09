@@ -1,0 +1,59 @@
+@import '../../styles/pneumorph.scss';
+
+.main-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $background-color;
+    padding: 15px 30px;
+    box-shadow: $box-shadow;
+    border-radius: $border-radius;
+}
+
+.navbar-logo a {
+    color: $text-color;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: monospace;
+    text-decoration: none;
+    text-shadow: $text-shadow;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-button {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    border-radius: $border-radius;
+    font-family: monospace;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: $box-shadow;
+}
+
+.nav-button.primary {
+    background-color: $button-primary-color;
+    color: white;
+
+    &:hover {
+        background-color: $link-hover-color;
+        box-shadow: $effect-btn-press-box-shadow;
+    }
+}
+
+.nav-button.secondary {
+    background-color: $background-color;
+    color: $text-color;
+
+    &:hover {
+        background-color: darken($background-color, 5%);
+        box-shadow: $effect-btn-press-box-shadow;
+    }
+}

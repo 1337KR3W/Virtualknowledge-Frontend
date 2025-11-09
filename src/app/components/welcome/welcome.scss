@@ -4,86 +4,14 @@
 body {
     background-color: #ffffff;
     height: 100vh;
-    border-radius: $border-radius; // Nota: body es global, aplica a todo el documento
-}
-
-// ----------------------------------------------------
-// 1. Estilos del Navbar (Barra de Navegación)
-// ----------------------------------------------------
-.main-navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: $background-color;
-    margin: 15px 30px;
-    padding: 15px 30px;
-    box-shadow: $box-shadow;
     border-radius: $border-radius;
-    margin-bottom: 30px; // Separación del contenido principal
 }
 
-.navbar-logo a {
-    color: $text-color;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-decoration: none;
-    text-shadow: $text-shadow;
-}
-
-.navbar-links {
-    display: flex;
-    gap: 15px;
-}
-
-// Estilos base para los enlaces que actúan como botones en el navbar
-.nav-button {
-    // Heredamos los estilos de los enlaces base que ya tienes definidos abajo,
-    // pero los ajustamos para que se vean bien dentro del navbar.
-    display: inline-block;
-    padding: 0.75rem 1rem; // Ajuste de padding para el navbar
-    border-radius: $border-radius;
-    font-weight: bold;
-    text-decoration: none;
-    transition: all 0.3s ease;
-
-    // Usamos el box-shadow para que los botones tengan el mismo look
-    box-shadow: $box-shadow;
-}
-
-// Estilo para el botón Login (Primary)
-.nav-button.primary {
-    background-color: $button-primary-color;
-    color: white;
-
-    &:hover {
-        background-color: $link-hover-color;
-        // Opcional: efecto hundido al pasar el mouse
-        box-shadow: $effect-btn-press-box-shadow;
-    }
-}
-
-// Estilo para el botón Register (Secondary)
-.nav-button.secondary {
-    background-color: $background-color; // Color de fondo claro
-    color: $text-color;
-
-    &:hover {
-        background-color: darken($background-color, 5%);
-        // Opcional: efecto hundido al pasar el mouse
-        box-shadow: $effect-btn-press-box-shadow;
-    }
-}
-
-
-// ----------------------------------------------------
-// 2. Estilos del Contenido Principal (Existentes/Ajustados)
-// ----------------------------------------------------
 .div-buttons {
     display: flex;
     flex-direction: row;
 }
 
-// Usamos esta clase para el contenido principal si el navbar está fuera de este contenedor
 .welcome-main-content {
     display: flex;
     justify-content: center;
@@ -91,7 +19,6 @@ body {
 }
 
 .home-container {
-    // Este es ahora el contenedor del contenido central (ya no el cuerpo de la página)
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -101,17 +28,18 @@ body {
     text-align: center;
     padding: 2rem;
     border-radius: $border-radius;
-    border: 4px solid transparent; // Mantenemos el borde transparente por si acaso
+    border: 4px solid transparent;
     box-shadow: $box-shadow;
 
 
     h1 {
         font-size: 2.5rem;
         color: $text-color;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+
     }
 
-    // Estilos para enlaces dentro del contenido principal (si los mantienes)
     a {
         display: inline-block;
         margin: 0.5rem;
@@ -122,11 +50,10 @@ body {
         border-radius: $border-radius;
         font-weight: bold;
         transition: background-color 0.3s ease;
-        box-shadow: $box-shadow; // Neumorfismo
+        box-shadow: $box-shadow;
 
         &:hover {
             background-color: $link-hover-color;
-            // Neumorfismo: efecto de presionado
             box-shadow: $effect-btn-press-box-shadow;
         }
     }

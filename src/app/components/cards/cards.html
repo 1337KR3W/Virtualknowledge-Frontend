@@ -1,0 +1,23 @@
+<div class="card-container">
+
+    <div class="feature-grid">
+
+        @for (feature of features; track feature.title){
+
+        <div class="feature-card {{ feature.cssClass }}">
+            <div class="card-content">
+
+                <div class="card-icon">
+                    <span class="icon-{{ feature.cssClass }}"></span>
+                </div>
+
+                <h3>{{ feature.title }}</h3>
+                <p>{{ feature.description }}</p>
+
+            </div>
+        </div>
+        }
+
+    </div>
+
+</div>

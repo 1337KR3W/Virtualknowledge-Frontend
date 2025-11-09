@@ -2,7 +2,7 @@
 
 .register-container {
     display: flex;
-    flex-direction: column; //Apilo el mensaje de exito y el formulario
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -69,6 +69,7 @@ form {
     }
 
     button {
+        font-family: monospace;
         padding: $input-padding;
         background-color: $primary-color;
         color: white;
