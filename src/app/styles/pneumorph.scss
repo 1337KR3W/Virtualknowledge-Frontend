@@ -9,50 +9,41 @@ __/\\\_____________________________________/\\\_____/\\\\\\\\\\______/\\\\\\\\\\
        _\/\\\\\\\\\__\//\\\\/____________________\/\\\_\///\\\\\\\\\/___\///\\\\\\\\\/____/\\\/____________\/\\\______\//\\\_\/\\\______\//\\\_\///\\\\\\\\\/_______\//\\\__\//\\\______ 
         _\/////////____\////______________________\///____\/////////_______\/////////_____\///______________\///________\///__\///________\///____\/////////__________\///____\///_______     
 */
-// Paleta de Colores
+// Colors palette
 $primary-color: #3498db;
-$button-primary-color: #3498db; // Azul principal
-$background-color: #e0e0e0;
-$text-color: #333;
-$error-color: #e74c3c;
-$success-color: #2ecc71; // Añadimos una variable de éxito, útil!
+$button-primary-color: #3498db; // MAIN BLUE
+$background-color: #e0e0e0; //BACKGROUND
+$text-color: #333; //TEXT COLOR
+$error-color: #e74c3c; // ERROR COLOR
+$success-color: #2ecc71; //SUCCESS COLOR
 $link-color: $button-primary-color;
 $link-hover-color: darken($button-primary-color, 10%);
-// Estructura y Espaciado
-$border-radius: 12px;
-$input-padding: 0.75rem;
-
-// Sombras (Estilo Neumórfico)
+// SHADOWS (NEOMORPHIC STYLE)
 $box-shadow: 8px 8px 16px rgba(165, 177, 198, 0.8),
     -8px -8px 16px rgba(255, 255, 255, 0.8);
-
-//----------Sombra del mensaje
+//----------MESSAGE SHADOW
 $message-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-//----------Sombra para textos
+//----------TEXT SHADOW
 $text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-
-//----------Sombra para los inputs
+//----------INPUT SHADOW
 $input-box-shadow: inset 3px 3px 9px rgba(0, 0, 0, .125),
     inset -3px -3px 9px rgba(255, 255, 255, 1);
-
-//----------Sombra para el cuadro del formulario
+//----------FORM SHADOW
 $form-box-shadow: 8px 8px 16px rgba(165, 177, 198, 0.8),
     -8px -8px 16px rgba(255, 255, 255, 0.8);
-
-//----------Sombra del texto
-$text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-
-//----------Efecto pulsar boton
+//----------BUTTON PRESS EFFECT SHADOW
 $effect-btn-press-box-shadow: inset 2px 2px 5px rgba(165, 177, 198, 0.6),
     inset -2px -2px 5px rgba(255, 255, 255, 0.6);
+
+// STRUCTURE
+$border-radius: 12px;
+$input-padding: 0.75rem;
 
 html,
 body {
     height: 100%;
     margin: 0;
     padding: 0;
-    // Esto es crucial para un comportamiento predecible del 100%
     box-sizing: border-box;
 }
 
@@ -60,7 +51,6 @@ body {
 *,
 *::before,
 *::after {
-    // Aseguramos que padding y border no sumen altura/ancho total de los elementos
     box-sizing: inherit;
 }
 
