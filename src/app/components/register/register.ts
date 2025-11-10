@@ -1,10 +1,17 @@
+/*
+   __          _______ __________ _____  _____      __
+  / /  __ __  <  /_  /|_  /_  / //_/ _ \|_  / | /| / /
+ / _ \/ // /  / //_ <_/_ < / / ,< / , _//_ <| |/ |/ / 
+/_.__/\_, /  /_/____/____//_/_/|_/_/|_/____/|__/|__/  
+     /___/                                            
+*/
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register.html',
   styleUrl: './register.scss',
@@ -96,3 +103,11 @@ export class RegisterComponent implements OnInit {
     // Si necesito un formulario dinamico, poner aquí.
   }
 }
+
+/*
+   __          _______ __________ _____  _____      __
+  / /  __ __  <  /_  /|_  /_  / //_/ _ \|_  / | /| / /
+ / _ \/ // /  / //_ <_/_ < / / ,< / , _//_ <| |/ |/ / 
+/_.__/\_, /  /_/____/____//_/_/|_/_/|_/____/|__/|__/  
+     /___/                                            
+*/

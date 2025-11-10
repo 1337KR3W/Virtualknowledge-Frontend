@@ -1,3 +1,11 @@
+/*
+   __          _______ __________ _____  _____      __
+  / /  __ __  <  /_  /|_  /_  / //_/ _ \|_  / | /| / /
+ / _ \/ // /  / //_ <_/_ < / / ,< / , _//_ <| |/ |/ / 
+/_.__/\_, /  /_/____/____//_/_/|_/_/|_/____/|__/|__/  
+     /___/                                            
+*/
+
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -51,3 +59,10 @@ export class LoginComponent {
   }
 
 }
+/*
+   __          _______ __________ _____  _____      __
+  / /  __ __  <  /_  /|_  /_  / //_/ _ \|_  / | /| / /
+ / _ \/ // /  / //_ <_/_ < / / ,< / , _//_ <| |/ |/ / 
+/_.__/\_, /  /_/____/____//_/_/|_/_/|_/____/|__/|__/  
+     /___/                                            
+*/

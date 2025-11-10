@@ -1,12 +1,16 @@
-// src/app/guards/auth.guard.ts
+/*
+   __          _______ __________ _____  _____      __
+  / /  __ __  <  /_  /|_  /_  / //_/ _ \|_  / | /| / /
+ / _ \/ // /  / //_ <_/_ < / / ,< / , _//_ <| |/ |/ / 
+/_.__/\_, /  /_/____/____//_/_/|_/_/|_/____/|__/|__/  
+     /___/                                            
+*/
 
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth';
 
-/**
- * Functional Guard para proteger rutas.
- */
+//Guard para proteger rutas.
 export const authGuard: CanActivateFn = (route, state) => {
   // Inyección de dependencias dentro del guard funcional
   const authService = inject(AuthService);
@@ -15,7 +19,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   // 1. Verificar el estado de autenticación
   if (authService.isLoggedIn()) {
     // El usuario ha iniciado sesión. Permitir el acceso.
-    return true; 
+    return true;
   } else {
     // El usuario NO ha iniciado sesión.
     // 2. Redirigir a la página de login.
@@ -23,3 +27,11 @@ export const authGuard: CanActivateFn = (route, state) => {
     return false; // Bloquear el acceso a la ruta.
   }
 };
+
+/*
+   __          _______ __________ _____  _____      __
+  / /  __ __  <  /_  /|_  /_  / //_/ _ \|_  / | /| / /
+ / _ \/ // /  / //_ <_/_ < / / ,< / , _//_ <| |/ |/ / 
+/_.__/\_, /  /_/____/____//_/_/|_/_/|_/____/|__/|__/  
+     /___/                                            
+*/
