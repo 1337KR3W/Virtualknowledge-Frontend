@@ -1,0 +1,27 @@
+<div class="users-container">
+    <h2>Listado de Usuarios</h2>
+    <ul>
+        @for(user of users; track user.id; let i = $index){
+        <li>{{user.first_name}} {{user.last_name}}
+            <!--<select name="data">
+                <option>ID: {{user.id}}</option>
+                <option>First name: {{user.first_name}}</option>
+                <option>Last name: {{user.last_name}}</option>
+                <option>Email: {{user.email}}</option>
+            </select>-->
+        </li>
+        }
+    </ul>
+</div>
+
+<!--
+<ul *ngIf="users.length > 0; else loading">
+    <li *ngFor="let user of users">
+        <img [src]="user.avatar" width="50" height="50" />
+        {{ user.first_name }} {{ user.last_name }} - {{ user.email }}
+    </li>
+</ul>
+<ng-template #loading>
+    <p>Cargando usuarios...</p>
+</ng-template>
+-->

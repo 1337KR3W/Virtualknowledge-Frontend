@@ -11,6 +11,7 @@ import { LoginComponent } from './components/login/login';
 import { WelcomeComponent } from './components/welcome/welcome';
 import { RegisterComponent } from './components/register/register';
 import { HomeComponent } from './components/home/home';
+import { UsersComponent } from './components/users/users';
 
 export const routes: Routes = [
 
@@ -37,6 +38,12 @@ export const routes: Routes = [
     {
         path: 'register',
         component: RegisterComponent
+    },
+
+    //Definicion de la ruta: users
+    {
+        path: 'users',
+        component: UsersComponent
     },
     // Manejo de 404 (opcional, redirige a la raíz)
     {
