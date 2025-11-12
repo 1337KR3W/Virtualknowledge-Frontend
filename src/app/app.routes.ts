@@ -12,6 +12,7 @@ import { WelcomeComponent } from './components/welcome/welcome';
 import { RegisterComponent } from './components/register/register';
 import { HomeComponent } from './components/home/home';
 import { UsersComponent } from './components/users/users';
+import { UserDetails } from './components/user-details/user-details';
 
 export const routes: Routes = [
 
@@ -44,6 +45,11 @@ export const routes: Routes = [
     {
         path: 'users',
         component: UsersComponent
+    },
+    //Definicion de la ruta: users/id
+    {
+        path: 'users/:id',
+        component: UserDetails
     },
     // Manejo de 404 (opcional, redirige a la raíz)
     {

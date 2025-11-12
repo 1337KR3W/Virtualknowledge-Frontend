@@ -15,7 +15,9 @@ export class ApiService {
   public getUsers(params?: any): Observable<any> {
     return this.http.get<any>(this.apiURL + 'users', { headers: this.headers, params }).pipe(map(response => response));
   }
-
+  public getUser(id: String): Observable<any> {
+    return this.http.get<any>(this.apiURL + 'users/' + id, { headers: this.headers }).pipe(map(response => response));
+  }
   get headers(): { [key: string]: string } {
     return { 'x-api-key': 'reqres-free-v1' };
   }
