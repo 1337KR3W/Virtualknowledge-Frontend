@@ -12,8 +12,7 @@ __/\\\_____________________________________/\\\_____/\\\\\\\\\\______/\\\\\\\\\\
 <div class="register-container">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <h1>Register</h1>
-        <!-- Success message -->
-        <!-- Muestra el mensaje de éxito o error condicionalmente -->
+        <!-- Success/Error message -->
         @if (message) {
         <div [class.success-message]="!isError" [class.error-message]="isError">
             {{ message }}
