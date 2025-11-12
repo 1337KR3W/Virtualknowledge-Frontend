@@ -1,15 +1,13 @@
 <div class="users-container">
     <h2>Listado de Usuarios</h2>
-    <ul>
+    <div class="feature-grid">
         @for(user of users; track user.id; let i = $index){
-        <li> <img src="{{user.avatar}}"> <br>{{user.first_name}} {{user.last_name}}
-            <!--<select name="data">
-                <option>ID: {{user.id}}</option>
-                <option>First name: {{user.first_name}}</option>
-                <option>Last name: {{user.last_name}}</option>
-                <option>Email: {{user.email}}</option>
-            </select>-->
-        </li>
+        <div class="feature-user">
+            <div class="user-content">
+                <img src="{{user.avatar}}">
+                <h3>{{user.first_name}} {{user.last_name}}</h3>
+            </div>
+        </div>
         }
-    </ul>
+    </div>
 </div>

@@ -1,22 +1,65 @@
 @import '../../styles/pneumorph.scss';
 
+$card-gap: 20px;
+$padding-lateral-global: 20px; // Asumiendo este padding global
+$max-width-global: 1200px; // Ancho máximo del layout
 
 .users-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: $background-color;
-    border-radius: $border-radius;
-    box-shadow: $form-box-shadow;
-    width: 100%;
-    max-width: 400px;
-    padding: 2rem;
-    margin: auto;
+    // Centrar y limitar el ancho del contenido
+    max-width: $max-width-global;
+    margin: 20px auto;
+    padding: 0 $padding-lateral-global;
+
+
 }
 
-li {
-    list-style: none;
+.feature-grid {
+    //CSS Grid para disponer en 3 columnas
+    display: grid;
+    // La fórmula repite 3 columnas de tamaño igual y adaptables (1fr)
+    grid-template-columns: repeat(3, 1fr);
+    gap: $card-gap; // Espacio uniforme entre todas las tarjetas
 
+    // Opcional: Asegurar que el contenido no se desborde
+    padding: 0;
+
+}
+
+.feature-user {
+    background-color: $background-color;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: inset 3px 3px 9px rgba(165, 177, 198, 0.9),
+            inset -3px -3px 9px rgba(255, 255, 255, 0.9);
+        transform: translateY(2px);
+    }
+}
+
+h2 {
+    display: flex;
+    justify-content: center;
+}
+
+.user-content {}
+
+// ----------------------------------------------------
+//                Responsive Básico
+// ----------------------------------------------------
+@media (max-width: 900px) {
+    .feature-grid {
+        // En tabletas, se muestran 2 tarjetas por fila
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .feature-grid {
+        // En móviles, se muestra 1 tarjeta por fila
+        grid-template-columns: 1fr;
+    }
 }
