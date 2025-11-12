@@ -10,6 +10,7 @@ import { map } from 'rxjs';
 export class ApiService {
 
   private http = inject(HttpClient);
+
   private apiURL = 'https://reqres.in/api/';
 
   public getUsers(params?: any): Observable<any> {

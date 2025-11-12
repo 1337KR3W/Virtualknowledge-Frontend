@@ -1,7 +1,22 @@
-<div>
-    <h2>Detalles del Usuario</h2>
-    <img [src]="user.avatar" alt="Avatar" width="150" />
-    <p><strong>ID:</strong> {{ user.id }}</p>
-    <p><strong>Nombre:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
+<div class="user-container">
+
+    <div class="user-data">
+
+
+        <h2>User details</h2>
+        <img [src]="user.avatar" alt="Avatar" width="150" />
+
+
+        <div class="user-info">
+            <p><strong>ID:</strong> {{ user.id }}</p>
+            <p><strong>First name:</strong> {{ user.first_name }}</p>
+            <p><strong>Last name:</strong> {{ user.last_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+
+
+        </div>
+
+    </div>
+
+
 </div>
