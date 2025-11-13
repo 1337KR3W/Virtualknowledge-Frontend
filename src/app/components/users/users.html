@@ -15,8 +15,8 @@ __/\\\_____________________________________/\\\_____/\\\\\\\\\\______/\\\\\\\\\\
         @for(user of users; track user.id; let i = $index){
         <div class="feature-user">
             <div class="user-content">
-                <img [src]="user.avatar">
-                <h3>{{user.first_name}} {{user.last_name}}</h3>
+                <img [src]="user?.avatar">
+                <h3>{{user?.first_name}} {{user?.last_name}}</h3>
                 <a type="button" [routerLink]="['/users', user.id]" class="details-btn">View details</a>
             </div>
         </div>
