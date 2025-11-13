@@ -23,7 +23,7 @@ import { User } from '../../models/userModel';
 })
 export class UsersComponent implements OnInit {
 
-  users: any[] = [];
+  users: User[] = [];
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
