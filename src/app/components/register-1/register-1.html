@@ -1,98 +1,108 @@
-<mat-card class="login-card">
-    <mat-card-header>
-        <mat-card-title>Register Account</mat-card-title>
-    </mat-card-header>
+<div class="flex justify-center items-center min-h-screen bg-gray-50 p-4">
+    <mat-card class="w-full max-w-sm shadow-xl rounded-xl">
+        <mat-card-header class="mb-4">
+            <mat-card-title class="text-3xl font-bold text-center text-indigo-700">Register Account</mat-card-title>
+        </mat-card-header>
 
-    <mat-card-content>
-        <form [formGroup]="registerForm1" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+        <mat-card-content>
+            <!-- 
+            Mantenemos el 'flex flex-col gap-4' en el formulario. 
+            Como cada mat-form-field tiene 'w-full', deben apilarse. 
+            Si no lo hacen, es un problema de ancho de contenedor o de cómo el navegador 
+            interpreta 'w-full' dentro de un mat-form-field.
+            -->
+            <form [formGroup]="registerForm1" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
 
-            <!-- Success/Error message display -->
-            @if (message) {
-            <div class="p-3 rounded-lg text-sm transition-all duration-300" [class.bg-green-100]="!isError"
-                [class.text-green-800]="!isError" [class.bg-red-100]="isError" [class.text-red-800]="isError">
-                {{ message }}
-            </div>
-            }
+                <!-- Success/Error message display -->
+                @if (message) {
+                <div class="p-3 rounded-lg text-sm transition-all duration-300" [class.bg-green-100]="!isError"
+                    [class.text-green-800]="!isError" [class.bg-red-100]="isError" [class.text-red-800]="isError">
+                    {{ message }}
+                </div>
+                }
 
-            <!-- Username -->
-            <mat-form-field appearance="fill" class="w-full">
-                <mat-label>Username</mat-label>
-                <mat-icon matPrefix>person</mat-icon>
-                <input matInput type="text" formControlName="username" required>
-                <!-- Error Messages -->
-                @if (registerForm1.get('username')?.invalid && registerForm1.get('username')?.touched) {
-                <mat-error>
-                    @if (registerForm1.get('username')?.hasError('required')) {
-                    Username is required.
-                    } @else if (registerForm1.get('username')?.hasError('pattern')) {
-                    Username must have 4 to 16 characters (alphanumeric).
+                <!-- Username -->
+                <!-- Cada campo tiene w-full, lo que asegura que ocupe toda la línea disponible -->
+                <mat-form-field appearance="fill" class="w-full">
+                    <mat-label>Username</mat-label>
+                    <mat-icon matPrefix>person</mat-icon>
+                    <input matInput type="text" formControlName="username" required>
+                    <!-- Error Messages (omitted for brevity, but they are here) -->
+                    @if (registerForm1.get('username')?.invalid && registerForm1.get('username')?.touched) {
+                    <mat-error>
+                        @if (registerForm1.get('username')?.hasError('required')) {
+                        Username is required.
+                        } @else if (registerForm1.get('username')?.hasError('pattern')) {
+                        Username must have 4 to 16 characters (alphanumeric).
+                        }
+                    </mat-error>
                     }
-                </mat-error>
-                }
-            </mat-form-field>
+                </mat-form-field>
 
-            <!-- Email -->
-            <mat-form-field appearance="fill" class="w-full">
-                <mat-label>Email</mat-label>
-                <mat-icon matPrefix>email</mat-icon>
-                <input matInput type="email" formControlName="email" required>
-                <!-- Error Messages -->
-                @if (registerForm1.get('email')?.invalid && registerForm1.get('email')?.touched) {
-                <mat-error>
-                    @if (registerForm1.get('email')?.hasError('required')) {
-                    Email is required.
-                    } @else if (registerForm1.get('email')?.hasError('email')) {
-                    Please enter a valid email address.
+                <!-- Email -->
+                <mat-form-field appearance="fill" class="w-full">
+                    <mat-label>Email</mat-label>
+                    <mat-icon matPrefix>email</mat-icon>
+                    <input matInput type="email" formControlName="email" required>
+                    <!-- Error Messages (omitted for brevity, but they are here) -->
+                    @if (registerForm1.get('email')?.invalid && registerForm1.get('email')?.touched) {
+                    <mat-error>
+                        @if (registerForm1.get('email')?.hasError('required')) {
+                        Email is required.
+                        } @else if (registerForm1.get('email')?.hasError('email')) {
+                        Please enter a valid email address.
+                        }
+                    </mat-error>
                     }
-                </mat-error>
-                }
-            </mat-form-field>
+                </mat-form-field>
 
-            <!-- Password 1 -->
-            <mat-form-field appearance="fill" class="w-full">
-                <mat-label>Password</mat-label>
-                <mat-icon matPrefix>lock</mat-icon>
-                <input matInput type="password" formControlName="password1" required>
-                <!-- Error Messages -->
-                @if (registerForm1.get('password1')?.invalid && registerForm1.get('password1')?.touched) {
-                <mat-error>
-                    @if (registerForm1.get('password1')?.hasError('required')) {
-                    Password is required.
-                    } @else if (registerForm1.get('password1')?.hasError('pattern')) {
-                    8-16 chars: 1 uppercase, 1 number, 1 special character (.@$!%*?&).
+                <!-- Password 1 -->
+                <mat-form-field appearance="fill" class="w-full">
+                    <mat-label>Password</mat-label>
+                    <mat-icon matPrefix>lock</mat-icon>
+                    <input matInput type="password" formControlName="password1" required>
+                    <!-- Error Messages (omitted for brevity, but they are here) -->
+                    @if (registerForm1.get('password1')?.invalid && registerForm1.get('password1')?.touched) {
+                    <mat-error>
+                        @if (registerForm1.get('password1')?.hasError('required')) {
+                        Password is required.
+                        } @else if (registerForm1.get('password1')?.hasError('pattern')) {
+                        8-16 chars: 1 uppercase, 1 number, 1 special character (.@$!%*?&).
+                        }
+                    </mat-error>
                     }
-                </mat-error>
-                }
-            </mat-form-field>
+                </mat-form-field>
 
-            <!-- Password 2 (Confirmation) -->
-            <mat-form-field appearance="fill" class="w-full">
-                <mat-label>Confirm Password</mat-label>
-                <mat-icon matPrefix>lock</mat-icon>
-                <input matInput type="password" formControlName="password2" required>
-                <!-- Error Messages -->
-                @if (registerForm1.get('password2')?.invalid && registerForm1.get('password2')?.touched) {
-                <mat-error>
-                    Confirmation is required.
-                </mat-error>
-                } @else if (registerForm1.get('password1')?.value !== registerForm1.get('password2')?.value &&
-                registerForm1.get('password2')?.touched && registerForm1.get('password1')?.value) {
-                <mat-error>
-                    Passwords do not match.
-                </mat-error>
-                }
-            </mat-form-field>
+                <!-- Password 2 (Confirmation) -->
+                <mat-form-field appearance="fill" class="w-full">
+                    <mat-label>Confirm Password</mat-label>
+                    <mat-icon matPrefix>lock</mat-icon>
+                    <input matInput type="password" formControlName="password2" required>
+                    <!-- Error Messages (omitted for brevity, but they are here) -->
+                    @if (registerForm1.get('password2')?.invalid && registerForm1.get('password2')?.touched) {
+                    <mat-error>
+                        Confirmation is required.
+                    </mat-error>
+                    } @else if (registerForm1.get('password1')?.value !== registerForm1.get('password2')?.value &&
+                    registerForm1.get('password2')?.touched && registerForm1.get('password1')?.value) {
+                    <mat-error>
+                        Passwords do not match.
+                    </mat-error>
+                    }
+                </mat-form-field>
 
-            <!-- Form Actions -->
-            <mat-card-actions class="mt-4 flex justify-between p-0">
-                <button mat-raised-button color="primary" type="submit" [disabled]="registerForm1.invalid">
-                    Register
-                </button>
-                <button mat-flat-button color="accent" type="button" (click)="goToLogin()">
-                    Go to Login
-                </button>
-            </mat-card-actions>
+                <!-- Form Actions -->
+                <!-- Eliminé el p-0 y lo moví fuera del gap-4 del formulario para que tenga mejor apariencia -->
+                <mat-card-actions class="mt-4 flex justify-between">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="registerForm1.invalid">
+                        Register
+                    </button>
+                    <button mat-flat-button color="accent" type="button" (click)="goToLogin()">
+                        Go to Login
+                    </button>
+                </mat-card-actions>
 
-        </form>
-    </mat-card-content>
-</mat-card>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
