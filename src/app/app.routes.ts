@@ -14,6 +14,7 @@ import { HomeComponent } from './components/home/home';
 import { UsersComponent } from './components/users/users';
 import { UserDetails } from './components/user-details/user-details';
 import { Login1Page } from './components/login-1/login-1';
+import { Register1Page } from './components/register-2/register-2';
 
 export const routes: Routes = [
 
@@ -45,6 +46,11 @@ export const routes: Routes = [
     {
         path: 'register',
         component: RegisterComponent
+    },
+    //Definicion de la ruta: register-1
+    {
+        path: 'register-1',
+        component: Register1Page
     },
 
     //Definicion de la ruta: users
