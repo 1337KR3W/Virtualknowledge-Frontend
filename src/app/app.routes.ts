@@ -13,10 +13,11 @@ import { RegisterComponent } from './components/register/register';
 import { HomeComponent } from './components/home/home';
 import { UsersComponent } from './components/users/users';
 import { UserDetails } from './components/user-details/user-details';
+import { Login1Page } from './components/login-1/login-1';
 
 export const routes: Routes = [
 
-    //Para cargar componentes de manera alternativa
+    //Para cargar componentes de manera alternativa (Standalone)
     //loadComponent: () => import('./components/welcome/welcome').then(m => m.WelcomeComponent),
 
     //Definicion de la ruta: /
@@ -34,6 +35,11 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginComponent
+    },
+    //Definicion de la ruta: login-1
+    {
+        path: 'login-1',
+        component: Login1Page
     },
     //Definicion de la ruta: register
     {
