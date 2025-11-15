@@ -13,25 +13,26 @@
          [   Z X C V B N M     ]         `~~~~~\_;m__m._>o              └──────┘              
 
 
-
+# Material Design Installation guide
+Official Material Design for Angular guide: https://material.angular.dev/guide/getting-started
 ### Install Material Design in Angular proyect path
 ```
 ng add @angular/material
 ```
 ### During execution, the Angular CLI will prompt you to make several configuration decisions
-```
+
 Choose a prebuilt theme name: Indigo/Pink, Deep Purple/Amber, Pink/Blue Grey, Purple/Green
-```
+
 ### Set up global Angular Material typography styles?
-```
+
 Yes / No
-```
+
 ### Set up browser animations for Angular Material?
-```
+
 Yes / No
-```
 
 ### Animation settings
+
 If you answered "No" to the animation question, or if you encounter issues, you must ensure that the animations module is configured in your application's main file.
 If Using Standalone Components (app.config.ts) Add the animations provider to the providers list in app.config.ts:
 ```
