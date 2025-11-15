@@ -25,15 +25,15 @@ ng add @angular/material
 ```
 ### During execution, the Angular CLI will prompt you to make several configuration decisions
 
-Choose a prebuilt theme name: Indigo/Pink, Deep Purple/Amber, Pink/Blue Grey, Purple/Green
+  > Choose a prebuilt theme name: Indigo/Pink, Deep Purple/Amber, Pink/Blue Grey, Purple/Green
 
 ### Set up global Angular Material typography styles?
 
-Yes / No
+> Yes / No
 
 ### Set up browser animations for Angular Material?
 
-Yes / No
+> Yes / No
 
 ### Animation settings
 
