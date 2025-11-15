@@ -14,7 +14,8 @@ import { HomeComponent } from './components/home/home';
 import { UsersComponent } from './components/users/users';
 import { UserDetails } from './components/user-details/user-details';
 import { Login1Page } from './components/login-1/login-1';
-import { Register1Page } from './components/register-2/register-2';
+import { Register1Page } from './components/register-1/register-1';
+import { Home1Page } from './components/home-1/home-1';
 
 export const routes: Routes = [
 
@@ -30,6 +31,12 @@ export const routes: Routes = [
     {
         path: 'home',
         component: HomeComponent,
+        canActivate: [authGuard],
+    },
+    //Definicion de la ruta: home-1
+    {
+        path: 'home-1',
+        component: Home1Page,
         canActivate: [authGuard],
     },
     //Definicion de la ruta: login

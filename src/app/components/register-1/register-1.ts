@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-register-1',
   standalone: true,
   imports: [
     CommonModule,
@@ -22,8 +22,8 @@ import { Router, RouterModule } from '@angular/router';
     MatButtonModule,
     MatIconModule
   ],
-  templateUrl: './register-2.html',
-  styleUrl: './register-2.scss',
+  templateUrl: './register-1.html',
+  styleUrl: './register-1.scss',
 })
 export class Register1Page implements OnInit {
 

@@ -55,7 +55,7 @@ export class Login1Page {
       if (loginSuccessful) {
         console.log('--- 3. LOGIN ÉXITO, REDIRECCIONANDO ---');
         console.log('Success login, redirecting...');
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home-1']);
       } else {
         console.log('--- 4. LOGIN FALLIDO ---');
         this.loginError = 'Incorrect email or password. Please, try again';
@@ -67,6 +67,6 @@ export class Login1Page {
   }
 
   goToRegister() {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/register-1']);
   }
 }
