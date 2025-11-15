@@ -15,9 +15,9 @@
 
 # Material Design Installation guide
 
-Official Material Design for Angular guide: https://material.angular.dev/guide/getting-started
+- Official Material Design for Angular guide: https://material.angular.dev/guide/getting-started
 
-Material Design for Angular components DOC: https://material.angular.dev/components/form-field/overview
+- Material Design for Angular components DOC: https://material.angular.dev/components/form-field/overview
 
 ### Install Material Design in Angular proyect path
 ```
