@@ -8,12 +8,20 @@ img {
     height: 100px;
 }
 
-.card-icon {
-    width: 100px;
-    height: 100px;
+.card-icon-div {
+    padding: 5px;
 }
 
+.card-icon {
+    font-size: 60px;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    margin: 0;
+    border: 1px solid red;
+}
 
+/*
 .card-bg-lock {
     background-image: url('../../../assets/images/original/card-bg-code.png');
 
@@ -38,3 +46,4 @@ img {
 .card-bg-hover {
     background-image: url('../../../assets/images/original/card-bg-hover.png');
 }
+    */
