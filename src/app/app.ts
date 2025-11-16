@@ -12,8 +12,9 @@ __/\\\_____________________________________/\\\_____/\\\\\\\\\\______/\\\\\\\\\\
 
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from './components/footer/footer';
+//import { FooterComponent } from './components/footer/footer';
 //import { NavbarComponent } from './components/navbar/navbar';
+import { Footer1Component } from './components/md-components/footer-1/footer-1';
 import { Navbar1Component } from "./components/md-components/navbar-1/navbar-1";
 
 
@@ -21,7 +22,7 @@ import { Navbar1Component } from "./components/md-components/navbar-1/navbar-1";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FooterComponent, Navbar1Component],
+  imports: [RouterOutlet, Footer1Component, Navbar1Component],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
