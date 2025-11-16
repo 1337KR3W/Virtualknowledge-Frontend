@@ -108,7 +108,7 @@ export class Register1Page implements OnInit {
       this.registerForm1.reset();
       setTimeout(() => {
         this.router.navigate(['/login-1']);
-      }, 2000); // Redirecciona después de 2 segundos para que el usuario vea el mensaje de éxito
+      }, 3000); // Redirecciona después de 2 segundos para que el usuario vea el mensaje de éxito
 
     } else {
       // Marcar todos los campos como tocados para que se muestren los errores
