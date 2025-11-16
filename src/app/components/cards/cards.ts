@@ -35,7 +35,7 @@ export class CardsComponent {
     { title: 'Consistent UX', description: 'Optimized user flow with global navbar and footer that adapt to your session.', cssClass: 'card-bg-layout' },
     { title: 'Total Adaptability', description: 'Interface compatible with desktop and mobile devices thanks to relative units.', cssClass: 'card-bg-responsive' },
     { title: 'Modular Code', description: 'Structure based on standalone components and SCSS variables for easy maintenance.', cssClass: 'card-bg-code' },
-    { title: 'Hover Effect', description: 'Each card reacts to mouse hover with a sinking or lifting effect.', cssClass: 'card-bg-hover' },
+    { title: 'Material Design', description: 'Latest version of Material Design M3.', cssClass: 'card-bg-hover' },
   ];
 }
 
