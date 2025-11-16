@@ -17,9 +17,9 @@ import { RegisterComponent } from './components/register/register';
 import { HomeComponent } from './components/home/home';
 import { UsersComponent } from './components/users/users';
 import { UserDetails } from './components/user-details/user-details';
-import { Login1Page } from './components/login-1/login-1';
-import { Register1Page } from './components/register-1/register-1';
-import { Home1Page } from './components/home-1/home-1';
+import { Login1Page } from './pages/login-1/login-1';
+import { Register1Page } from './pages/register-1/register-1';
+import { Home1Page } from './pages/home-1/home-1';
 
 export const routes: Routes = [
 
