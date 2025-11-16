@@ -13,12 +13,15 @@ __/\\\_____________________________________/\\\_____/\\\\\\\\\\______/\\\\\\\\\\
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './components/footer/footer';
-import { NavbarComponent } from './components/navbar/navbar';
+//import { NavbarComponent } from './components/navbar/navbar';
+import { Navbar1Component } from "./components/md-components/navbar-1/navbar-1";
+
+
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FooterComponent, NavbarComponent],
+  imports: [RouterOutlet, FooterComponent, Navbar1Component],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
