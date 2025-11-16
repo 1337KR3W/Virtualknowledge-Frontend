@@ -18,6 +18,40 @@ button {
     margin: 0 1rem;
 }
 
+// Estilo para el contenedor del menú (la caja flotante)
+// Nota: La clase del contenedor del menú es inyectada en el body,
+// por lo que a veces es necesario apuntar a una clase global.
+// Usaremos la clase mat-mdc-menu-panel para apuntar a la caja del menú:
+::ng-deep .mat-mdc-menu-panel {
+    // Asegura que no haya desbordamiento horizontal
+    overflow-x: hidden !important;
+}
+
+
+// Estilo para cada ítem del menú (<button mat-menu-item>)
+.mat-mdc-menu-item {
+    // Esto es clave: Asegura que el contenido interno no se estire demasiado.
+    width: 100%;
+}
+
+// Estilo para el texto dentro del ítem del menú.
+// Usamos el span que está dentro del botón:
+.mat-mdc-menu-item span {
+    // Esto es crucial: Si el texto fuera muy largo, lo cortaría en lugar de desbordar.
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    // Controla el espacio entre el icono y el texto, asegurando que haya espacio
+    // Suficiente para el texto dentro del ancho del menú.
+    margin-left: 8px;
+}
+
+// Opcional: Asegúrate de que los íconos no causen desbordamiento
+.mat-mdc-menu-item mat-icon {
+    flex-shrink: 0; // Evita que el ícono se encoja
+}
+
 /*
 __/\\\_____________________________________/\\\_____/\\\\\\\\\\______/\\\\\\\\\\___/\\\\\\\\\\\\\\\__/\\\________/\\\____/\\\\\\\\\_________/\\\\\\\\\\___/\\\______________/\\\_        
  _\/\\\_________________________________/\\\\\\\___/\\\///////\\\___/\\\///////\\\_\/////////////\\\_\/\\\_____/\\\//___/\\\///////\\\_____/\\\///////\\\_\/\\\_____________\/\\\_       

@@ -19,18 +19,10 @@
     justify-items: center;
 }
 
-// 1. Apunta al contenedor que alberga el título y subtítulo
 .home-card mat-card-header {
-    // Por defecto, mat-card-header usa display: flex;
-    // Debemos anular cómo se organizan sus contenidos
-
-    // Apuntamos al contenedor interno que envuelve el título/subtítulo.
-    // Este contenedor es generado internamente por Angular Material.
     .mat-mdc-card-header-text {
         display: flex;
-        // 🔑 La clave: Cambiar la dirección de fila a columna
         flex-direction: column;
-        // Opcional: Esto asegura que el texto se alinee a la izquierda (por defecto)
         justify-content: flex-start;
     }
 }

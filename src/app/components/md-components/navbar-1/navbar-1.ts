@@ -10,19 +10,39 @@ __/\\\_____________________________________/\\\_____/\\\\\\\\\\______/\\\\\\\\\\
         _\/////////____\////______________________\///____\/////////_______\/////////_____\///______________\///________\///__\///________\///____\/////////__________\///____\///_______     
 */
 import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-
-import { MatToolbar } from "@angular/material/toolbar";
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../services/auth';
+// Material Design imports
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+
 
 
 @Component({
   selector: 'app-navbar-1',
-  imports: [RouterModule, MatToolbar, MatButtonModule],
+  imports: [RouterModule, MatToolbarModule, MatButtonModule, MatMenuModule, MatIconModule],
   templateUrl: './navbar-1.html',
   styleUrl: './navbar-1.scss',
 })
 export class Navbar1Component {
+  constructor(private authService: AuthService) { }
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+
+  getCurrentUsername(): string | null {
+    return this.authService.getCurrentUsername();
+  }
+
+
+  logout(): void {
+    this.authService.logout();
+    window.location.reload();
+  }
 
 }
 /*

@@ -11,15 +11,41 @@
     -->
 <mat-toolbar color="primary" class="navbar">
     <h1 routerLink="/" style="cursor: pointer;">Virtualknowledge</h1>
+
     <div class="navbar-div">
-        <button matButton="elevated" routerLink="/login-1">
+
+        @if (!isLoggedIn()) {
+        <button mat-button routerLink="/login-1">
             Login
         </button>
-        <button matButton="elevated" routerLink="/register-1">
+        <button mat-button routerLink="/register-1">
             Register
         </button>
+        }
+
+        @if (isLoggedIn()) {
+        <button mat-button [matMenuTriggerFor]="userMenu">
+            <mat-icon>account_circle</mat-icon>
+            Hola, {{ getCurrentUsername() }}
+            <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        }
+
     </div>
 </mat-toolbar>
+
+<mat-menu #userMenu="matMenu">
+
+    <button mat-menu-item routerLink="/home-1">
+        <mat-icon>home</mat-icon>
+        <span>Home</span>
+    </button>
+
+    <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+    </button>
+</mat-menu>
 <!--
     __/\\\_____________________________________/\\\_____/\\\\\\\\\\______/\\\\\\\\\\___/\\\\\\\\\\\\\\\__/\\\________/\\\____/\\\\\\\\\_________/\\\\\\\\\\___/\\\______________/\\\_        
      _\/\\\_________________________________/\\\\\\\___/\\\///////\\\___/\\\///////\\\_\/////////////\\\_\/\\\_____/\\\//___/\\\///////\\\_____/\\\///////\\\_\/\\\_____________\/\\\_       
