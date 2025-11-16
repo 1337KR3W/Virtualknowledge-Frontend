@@ -27,7 +27,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   } else {
     // El usuario NO ha iniciado sesión.
     // 2. Redirigir a la página de login.
-    router.navigate(['/login']);
+    router.navigate(['/login-1']);
     return false; // Bloquear el acceso a la ruta.
   }
 };

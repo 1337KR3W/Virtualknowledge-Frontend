@@ -44,11 +44,11 @@ export class Login1Page {
   }
 
   onLogin() {
-    console.log('--- 1. FUNCIÓN onLogin DISPARADA ---'); // <-- Añade esto
+    console.log('--- 1. FUNCIÓN onLogin DISPARADA ---');
     this.loginError = '';
 
     if (this.loginForm1.valid) {
-      console.log('--- 2. FORMULARIO VÁLIDO ---'); // <-- Añade esto
+      console.log('--- 2. FORMULARIO VÁLIDO ---');
       const { email, password } = this.loginForm1.value;
       const loginSuccessful = this.authService.login(email, password);
 

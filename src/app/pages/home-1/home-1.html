@@ -1,50 +1,52 @@
-<div class="p-6 md:p-10 lg:p-20 flex justify-center min-h-screen bg-gray-100">
-    <mat-card class="w-full max-w-2xl shadow-2xl rounded-xl">
+<main class="home-content">
+    <mat-card class="home-card">
 
-        <mat-card-header class="pb-4">
+        <mat-card-header class="home-card-header">
             @if (username) {
             <ng-container>
-                <mat-card-title class="text-3xl font-bold text-indigo-700 mb-1">
+                <mat-card-title>
                     ¡Welcome to Virtualknowledge, {{ username }}!
-                </mat-card-title>
-                <mat-card-subtitle class="text-gray-600 mt-1">
+                </mat-card-title><br>
+
+                <mat-card-subtitle>
                     This is your private control panel.
                 </mat-card-subtitle>
+
             </ng-container>
             } @else {
-            <mat-card-title class="text-3xl font-bold">Welcome!</mat-card-title>
+            <mat-card-title>Welcome!</mat-card-title>
             }
         </mat-card-header>
 
-        <mat-card-content class="pt-4 border-t border-gray-200">
+        <mat-card-content class="home-card-content">
 
-            <h2 class="text-xl font-semibold mb-3 text-gray-800 flex items-center">
-                <mat-icon color="primary" class="mr-2">info</mat-icon> Session details
+            <h2>
+                <mat-icon color="primary">info</mat-icon> Session details
             </h2>
 
-            <mat-list role="list" class="rounded-lg border border-gray-100 divide-y divide-gray-100">
+            <mat-list role="list">
 
                 <mat-list-item role="listitem">
                     <mat-icon matListItemIcon>person_outline</mat-icon>
                     <div matListItemTitle>Username</div>
-                    <div matListItemLine class="font-medium text-gray-700">{{ username || 'No disponible' }}</div>
+                    <div matListItemLine>{{ username || 'No disponible' }}</div>
                 </mat-list-item>
 
                 <mat-list-item role="listitem">
                     <mat-icon matListItemIcon>alternate_email</mat-icon>
                     <div matListItemTitle>Email</div>
-                    <div matListItemLine class="font-medium text-gray-700">{{ userEmail || 'No disponible' }}</div>
+                    <div matListItemLine>{{ userEmail || 'No disponible' }}</div>
                 </mat-list-item>
 
             </mat-list>
 
         </mat-card-content>
 
-        <mat-card-actions class="mt-6 flex justify-end">
+        <mat-card-actions>
             <button mat-raised-button color="warn" (click)="onLogout()">
                 <mat-icon>exit_to_app</mat-icon> Logout
             </button>
         </mat-card-actions>
 
     </mat-card>
-</div>
+</main>
