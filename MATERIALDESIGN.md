@@ -19,6 +19,8 @@
 
 - Material Design for Angular components DOC: https://material.angular.dev/components/form-field/overview
 
+- Material Design/Google fonts icons: https://fonts.google.com/icons
+
 ### Install Material Design in Angular proyect path
 ```
 ng add @angular/material
