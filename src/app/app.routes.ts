@@ -12,7 +12,8 @@ __/\\\_____________________________________/\\\_____/\\\\\\\\\\______/\\\\\\\\\\
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth-guard';
 import { LoginComponent } from './components/login/login';
-import { WelcomeComponent } from './components/welcome/welcome';
+// Native SCSS welcome page import
+//import { WelcomeComponent } from './components/welcome/welcome';
 import { RegisterComponent } from './components/register/register';
 import { HomeComponent } from './components/home/home';
 import { UsersComponent } from './components/users/users';
@@ -20,6 +21,7 @@ import { UserDetails } from './components/user-details/user-details';
 import { Login1Page } from './pages/login-1/login-1';
 import { Register1Page } from './pages/register-1/register-1';
 import { Home1Page } from './pages/home-1/home-1';
+import { Welcome1Component } from './pages/welcome-1/welcome-1';
 
 export const routes: Routes = [
 
@@ -29,7 +31,9 @@ export const routes: Routes = [
     //Definicion de la ruta: /
     {
         path: '',
-        component: WelcomeComponent
+        // Native SCSS Welcome page
+        //component: WelcomeComponent
+        component: Welcome1Component
     },
     //Definicion de la ruta: home
     {
