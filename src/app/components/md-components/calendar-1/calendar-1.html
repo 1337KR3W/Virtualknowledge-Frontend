@@ -33,7 +33,7 @@
             'current-month': day.isCurrentMonth && !day.isToday,
             
             'other-month': !day.isCurrentMonth
-          }" [title]="day.isCurrentMonth ? 'Día: ' + day.fullDate.toLocaleDateString() : ''"
+          }" [title]="day.isCurrentMonth ? 'Day: ' + day.fullDate.toLocaleDateString() : ''"
                 (click)="day.isCurrentMonth ? selectDay(day.fullDate) : null">
                 <span class="day-number">
                     {{ day.date }}
