@@ -1,10 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth';
 import { Router } from '@angular/router';
+import { Calendar1Component } from '../../components/md-components/calendar-1/calendar-1';
 
 @Component({
   selector: 'app-overview-1',
-  imports: [],
+  imports: [Calendar1Component],
   templateUrl: './overview-1.html',
   styleUrl: './overview-1.scss',
 })

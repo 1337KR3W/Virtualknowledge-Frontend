@@ -1,0 +1,100 @@
+/*
+Este es el contenido para calendar-1.scss
+Asegura que el layout de cuadrícula funcione correctamente y mantiene la estética Material.
+*/
+
+.main-container {
+    padding: 32px;
+    display: flex;
+    justify-content: center;
+    //background-color: #f5f5f5;
+    /* Color de fondo Material */
+}
+
+.calendar-card {
+    max-width: 270px;
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 8px;
+}
+
+.calendar-header {
+    background: none;
+    display: flex;
+    justify-content: center;
+    color: white;
+    background-color: #4e62d3dc;
+
+}
+
+.month-title {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+    color: white;
+}
+
+
+
+.day-names-grid,
+.days-grid {
+    display: grid;
+    margin-top: 12px;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    text-align: center;
+}
+
+.day-name-cell {
+    padding: 0;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+
+.day-cell {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.day-cell:hover:not(.other-month) {
+    //background-color: rgba(0, 0, 0, 0.04);
+    background-color: #4e62d349;
+}
+
+/* Estilos para el estado del día */
+.current-month {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.other-month {
+    color: rgba(0, 0, 0, 0.38);
+    cursor: default;
+}
+
+.is-today {
+    background-color: var(--mdc-theme-primary, #3f51b5);
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.is-today:hover {
+    background-color: #303f9f;
+    color: var(--mdc-theme-primary, #3f51b5);
+}
+
+.selection-feedback {
+    margin-top: 16px;
+
+    background-color: #e8f5e9;
+    border-left: 4px solid #4caf50;
+    border-radius: 4px;
+}

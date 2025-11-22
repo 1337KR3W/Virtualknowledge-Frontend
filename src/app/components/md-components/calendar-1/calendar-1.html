@@ -1,0 +1,54 @@
+<div class="main-container">
+    <mat-card class="calendar-card">
+
+        <!-- Encabezado y Navegación del Mes (Usando MatToolbar) -->
+        <mat-toolbar class="calendar-header">
+
+
+            <button mat-icon-button (click)="goToPreviousMonth()" aria-label="Mes anterior">
+                <mat-icon>chevron_left</mat-icon>
+            </button>
+            <!-- Mostrar el mes y el año actual -->
+            <h1 class="month-title">{{ currentMonthYear() }}</h1>
+            <!--<span class="spacer"></span>-->
+            <button mat-icon-button (click)="goToNextMonth()" aria-label="Mes siguiente">
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+        </mat-toolbar>
+
+        <!-- Nombres de los Días de la Semana (Fila Superior) -->
+        <div class="day-names-grid">
+            @for (day of dayNames; track day) {
+            <div class="day-name-cell">{{ day }}</div>
+            }
+        </div>
+
+        <!-- Cuadrícula de Días del Mes (7 columnas) -->
+        <div class="days-grid">
+            @for (day of calendarDays(); track day; let i = $index) {
+            <div class="day-cell" [ngClass]="{
+            
+            'is-today': day.isToday,
+            
+            'current-month': day.isCurrentMonth && !day.isToday,
+            
+            'other-month': !day.isCurrentMonth
+          }" [title]="day.isCurrentMonth ? 'Día: ' + day.fullDate.toLocaleDateString() : ''"
+                (click)="day.isCurrentMonth ? selectDay(day.fullDate) : null">
+                <span class="day-number">
+                    {{ day.date }}
+                </span>
+            </div>
+            }
+        </div>
+
+        <!-- Feedback de la selección -->
+        @if (selectedDay()) {
+        <mat-card-content class="selection-feedback">
+            <p>{{ selectedDay() | date: 'fullDate' }}</p>
+        </mat-card-content>
+        }
+
+
+    </mat-card>
+</div>
