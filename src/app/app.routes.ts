@@ -22,6 +22,7 @@ import { Login1Page } from './pages/login-1/login-1';
 import { Register1Page } from './pages/register-1/register-1';
 import { Home1Page } from './pages/home-1/home-1';
 import { Welcome1Component } from './pages/welcome-1/welcome-1';
+import { Overview1Page } from './pages/overview-1/overview-1';
 
 export const routes: Routes = [
 
@@ -45,6 +46,12 @@ export const routes: Routes = [
     {
         path: 'home-1',
         component: Home1Page,
+        canActivate: [authGuard],
+    },
+    //Definicion de la ruta: overview-1
+    {
+        path: 'overview-1',
+        component: Overview1Page,
         canActivate: [authGuard],
     },
     //Definicion de la ruta: login
