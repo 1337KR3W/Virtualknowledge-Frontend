@@ -2,10 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth';
 import { Router } from '@angular/router';
 import { Calendar1Component } from '../../components/md-components/calendar-1/calendar-1';
+import { WeekNumberBar1Component } from '../../components/md-components/week-number-bar-1/week-number-bar-1';
 
 @Component({
   selector: 'app-overview-1',
-  imports: [Calendar1Component],
+  imports: [Calendar1Component, WeekNumberBar1Component],
   templateUrl: './overview-1.html',
   styleUrl: './overview-1.scss',
 })
