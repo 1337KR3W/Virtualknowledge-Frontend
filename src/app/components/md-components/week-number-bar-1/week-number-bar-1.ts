@@ -61,7 +61,6 @@ export class WeekNumberBar1Component {
   }
 
   // --- Lógica de Cálculo de Número de Semana (ISO 8601) ---
-
   /**
    * Calcula el número de semana del año (ISO 8601).
    * La semana 1 es la que contiene el primer jueves del año.

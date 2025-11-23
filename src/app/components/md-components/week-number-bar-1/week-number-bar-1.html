@@ -1,21 +1,13 @@
-<mat-card class="week-bar-card mat-elevation-z2">
+<mat-card class="week-bar-card">
     <mat-toolbar class="week-bar-toolbar">
-
-        <!-- Botón para retroceder una semana -->
-        <button mat-icon-button (click)="goToPreviousWeek()" aria-label="Semana anterior">
+        <button mat-icon-button (click)="goToPreviousWeek()" aria-label="Previous week">
             <mat-icon>chevron_left</mat-icon>
         </button>
-
-        <!-- Información de la semana -->
         <span class="week-info-text mat-title">
             Week {{ weekInfo().weekNumber }} - {{ weekInfo().monthYear | titlecase }}
         </span>
-
-        <!-- Botón para avanzar una semana -->
-        <button mat-icon-button (click)="goToNextWeek()" aria-label="Semana siguiente">
+        <button mat-icon-button (click)="goToNextWeek()" aria-label="Next week">
             <mat-icon>chevron_right</mat-icon>
         </button>
-
-
     </mat-toolbar>
 </mat-card>

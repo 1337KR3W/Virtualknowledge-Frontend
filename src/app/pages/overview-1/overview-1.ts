@@ -3,10 +3,11 @@ import { AuthService } from '../../services/auth';
 import { Router } from '@angular/router';
 import { Calendar1Component } from '../../components/md-components/calendar-1/calendar-1';
 import { WeekNumberBar1Component } from '../../components/md-components/week-number-bar-1/week-number-bar-1';
+import { Timesheet1Component } from '../../components/md-components/timesheet-1/timesheet-1';
 
 @Component({
   selector: 'app-overview-1',
-  imports: [Calendar1Component, WeekNumberBar1Component],
+  imports: [Calendar1Component, WeekNumberBar1Component, Timesheet1Component],
   templateUrl: './overview-1.html',
   styleUrl: './overview-1.scss',
 })

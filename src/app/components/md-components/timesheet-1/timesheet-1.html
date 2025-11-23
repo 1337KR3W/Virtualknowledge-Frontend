@@ -1,0 +1,108 @@
+<mat-card class="timesheet-card mat-elevation-z4">
+
+    <!--
+    <mat-toolbar class="timesheet-header">
+        <h2 class="mat-h2">Hoja de Horas Semanal</h2>
+        <span class="spacer"></span>
+    -->
+    <!-- 
+    <button mat-icon-button (click)="goToPreviousWeek()" aria-label="Semana anterior">
+        <mat-icon>chevron_left</mat-icon>
+    </button>
+    <span class="week-display mat-body-strong">
+        {{ weekDates()[0] | date: 'mediumDate' }} - {{ weekDates()[4] | date: 'mediumDate' }}
+    </span>
+    <button mat-icon-button (click)="goToNextWeek()" aria-label="Semana siguiente">
+        <mat-icon>chevron_right</mat-icon>
+    </button>
+    </mat-toolbar>
+
+    -->
+
+    <!-- Tabla de Hoja de Horas -->
+    <div class="timesheet-table-container">
+        <table class="timesheet-table">
+
+            <!-- Encabezado de la Tabla -->
+            <thead>
+                <tr>
+                    <!-- Columna Fija de Proyectos -->
+                    <th class="project-header">Project</th>
+
+                    <!-- Columnas de Días de la Semana (Lunes a Viernes) -->
+                    @for (dayName of dayNames; track dayName; let i = $index) {
+                    <th class="day-header">
+                        {{ dayName }} <br>
+                        <span class="date-number">{{ weekDates()[i] | date: 'd/M' }}</span>
+                    </th>
+                    }
+                    <!-- Columna de Totales -->
+                    <th class="total-header">Total</th>
+
+                </tr>
+            </thead>
+
+            <!-- Cuerpo de la Tabla (Filas de Proyectos) -->
+            <tbody>
+                @for (project of projects(); track project.id) {
+                <tr>
+                    <!-- Nombre del Proyecto -->
+                    <td class="project-cell">
+                        <span class="project-id">{{ project.id }}</span>
+                        <span class="project-name">{{ project.name }}</span>
+                    </td>
+
+                    <!-- Celdas de Entrada de Horas por Día (Lunes a Viernes) -->
+                    @for (date of weekDates(); track date; let i = $index) {
+                    <!-- Solo días laborables (0 a 4) -->
+                    @if (i < 5) { <td class="time-entry-cell">
+                        <div class="input-group">
+
+                            <!-- Campo de Entrada de Horas -->
+                            <input type="number" step="0.5" min="0" max="24"
+                                [ngModel]="getTimeEntry(project.id, date).hours"
+                                (ngModelChange)="updateHours(project.id, date, $event)" placeholder="0"
+                                class="hour-input">
+
+                            <!-- Botón de Comentario (Lápiz: edit) -->
+                            <button mat-icon-button (click)="editComment(project.id, date)"
+                                aria-label="Agregar o editar comentario para las horas de ese día"
+                                [matTooltip]="getTimeEntry(project.id, date).comment || 'Click para agregar comentario'"
+                                matTooltipPosition="above" class="comment-button"
+                                [class.has-comment]="getTimeEntry(project.id, date).comment.length > 0">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </div>
+                        </td>
+                        }
+                        }
+
+                        <!-- Total por Proyecto -->
+                        <td class="total-cell">
+                            {{ getTotalHoursByProject(project.id) }}
+                        </td>
+                </tr>
+                }
+            </tbody>
+
+            <!-- Pie de Tabla (Totales) -->
+            <tfoot>
+                <tr>
+                    <td colspan="6" class="grand-total-label">Horas Totales (L-V):</td>
+                    <td class="grand-total-cell">{{ totalHours() }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!-- Área de Comentario Global -->
+    <mat-card-content class="global-comment-section">
+        <mat-form-field appearance="outline" class="full-width-input">
+            <mat-label>Comentario General de la Semana</mat-label>
+            <textarea matInput rows="3" [ngModel]="globalComment()" (ngModelChange)="updateGlobalComment($event)"
+                placeholder="Escribe aquí tu resumen semanal..."></textarea>
+            <mat-hint>Este comentario se guarda automáticamente.</mat-hint>
+        </mat-form-field>
+    </mat-card-content>
+
+</mat-card>

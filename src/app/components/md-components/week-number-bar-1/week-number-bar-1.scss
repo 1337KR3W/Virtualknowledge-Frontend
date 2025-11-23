@@ -1,5 +1,3 @@
-/* Estilos para week-number-bar.scss */
-
 .week-bar-card {
     max-width: 500px;
     margin: 16px auto;
@@ -8,7 +6,6 @@
 }
 
 .week-bar-toolbar {
-    /* Fondo limpio, alineado con el tema Material */
     background: var(--mdc-theme-surface, white);
     color: rgba(0, 0, 0, 0.87);
     justify-content: space-between;
@@ -17,7 +14,6 @@
 }
 
 .week-info-text {
-    /* Asegura que el texto esté centrado y sea prominente */
     flex-grow: 1;
     text-align: center;
     font-size: 1.15rem;

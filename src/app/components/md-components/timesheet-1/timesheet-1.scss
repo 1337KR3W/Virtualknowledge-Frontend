@@ -1,0 +1,201 @@
+/* Estilos para timesheet.component.css */
+.timesheet-card {
+    max-width: 1200px;
+    width: 100%;
+    margin: 32px auto;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    /* Usar sombra de elevación de Material */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.timesheet-header {
+    background-color: #3f51b5;
+    /* Color primario de Material */
+    color: white;
+    height: 64px;
+    padding: 0 16px;
+    border-radius: 12px 12px 0 0;
+}
+
+.week-display {
+    padding: 0 16px;
+    font-size: 1rem;
+    font-weight: 500;
+    min-width: 200px;
+    text-align: center;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+/* --- Estilos de la Tabla --- */
+.timesheet-table-container {
+    overflow-x: auto;
+    /* Permite scroll horizontal si es necesario */
+    padding: 16px;
+}
+
+.timesheet-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 700px;
+}
+
+.timesheet-table th,
+.timesheet-table td {
+    border: 1px solid #e0e0e0;
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Encabezados */
+.project-header,
+.total-header {
+    min-width: 150px;
+    text-align: left;
+    position: sticky;
+    /* Fija la columna */
+    left: 0;
+    z-index: 10;
+    background-color: #f5f5f5;
+    font-weight: 600;
+}
+
+.total-header {
+    min-width: 80px;
+    text-align: center;
+}
+
+.day-header {
+    width: 80px;
+    background-color: #f5f5f5;
+    font-weight: 600;
+}
+
+.date-number {
+    font-weight: 400;
+    font-size: 0.8em;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+/* Celdas de Proyectos */
+.project-cell {
+    text-align: left;
+    font-weight: 500;
+    background-color: white;
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    padding: 4px 8px;
+}
+
+.project-id {
+    font-size: 0.8em;
+    color: #9e9e9e;
+}
+
+/* Celdas de Horas */
+.time-entry-cell {
+    background-color: #fafafa;
+    width: 100px;
+    max-width: 100px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 4px;
+    flex-wrap: nowrap;
+}
+
+.hour-input {
+    width: 50px;
+    height: 30px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    -moz-appearance: textfield;
+    /* Ocultar flechas en Firefox */
+}
+
+.hour-input::-webkit-outer-spin-button,
+.hour-input::-webkit-inner-spin-button {
+    /* Ocultar flechas en Chrome, Safari, Edge */
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.hour-input:focus {
+    border-color: #3f51b5;
+    outline: none;
+    box-shadow: 0 0 0 1px #3f51b5;
+}
+
+.comment-button {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0;
+    margin-left: 4px;
+    flex-shrink: 0;
+}
+
+.comment-button .mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: rgba(0, 0, 0, 0.38);
+    /* Gris claro por defecto */
+    transition: color 0.2s;
+}
+
+.comment-button.has-comment .mat-icon {
+    color: #1e88e5;
+    /* Azul para indicar comentario ingresado */
+    font-weight: bold;
+}
+
+.comment-button:hover .mat-icon {
+    color: #3f51b5;
+}
+
+/* Totales */
+.total-cell {
+    font-weight: 500;
+    background-color: #e8eaf6;
+    /* Fondo azul claro */
+    min-width: 80px;
+}
+
+.grand-total-label {
+    text-align: right;
+    font-weight: 600;
+    border: none;
+    background-color: #e0e0e0;
+}
+
+.grand-total-cell {
+    font-weight: 700;
+    font-size: 1.1rem;
+    background-color: #e0e0e0;
+}
+
+.global-comment-section {
+    padding: 16px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.full-width-input {
+    width: 100%;
+}
