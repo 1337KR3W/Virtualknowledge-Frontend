@@ -1,5 +1,6 @@
 # Virtualknowledge-Frontend
-<img width="786" height="727" alt="image" src="https://github.com/user-attachments/assets/8b5c3cb3-ab37-4377-b29b-85fa95289dd1" />
+<img width="780" height="487" alt="image" src="https://github.com/user-attachments/assets/ea73be93-6c61-459f-b292-1c5b2b49d448" />
+
           
 
 
