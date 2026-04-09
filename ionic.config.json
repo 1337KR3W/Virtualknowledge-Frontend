@@ -1,0 +1,7 @@
+{
+  "name": "virtualknowledge",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
