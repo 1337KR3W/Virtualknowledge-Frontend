@@ -1,28 +1,69 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { FileService } from './file.service';
+import { UtilsService } from './utils.service';
+import { isItemStorage } from '../utils/storageUtils';
+import { AppDataModel } from '../models/appData.model';
+import localforage from 'localforage';
 
 @Injectable({ providedIn: 'root' })
 export class PersistenceService {
-  private readonly TOKEN_KEY = 'auth_token';
+  private readonly file = inject(FileService);
+  private readonly utils = inject(UtilsService);
 
-  saveToken(token: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
+  constructor() { }
+
+  async getValue(key: string): Promise<any> {//NUEVO getValue(key: string) con storage
+    try {
+      if (!isItemStorage(key) || this.utils.isVersionWeb()) {
+        const value = localforage.getItem(key);
+        return value ?? null;
+      } else {
+        return await this.file.getValue(key);
+      }
+    } catch (error) {
+      console.error('[PersistenceService][getValue]', error);
+      return null;
+    }
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+  public async setValue(key: string, value: any): Promise<boolean> {
+    try {
+      if (!isItemStorage(key) || this.utils.isVersionWeb()) {
+        await localforage.setItem(key, value);
+        return true;
+      }
+      await this.file.setValue(key, value);
+      return true;
+    } catch (error) {
+      console.error('[PersistenceService][setValue]', error)
+      return false;
+    }
   }
 
-  clearAll(): void {
-    localStorage.clear();
+  public async removeValue(key: string): Promise<boolean> {
+    try {
+      if (!isItemStorage(key) || this.utils.isVersionWeb()) {
+        await localforage.removeItem(key);
+        return true;
+      }
+      await this.file.removeValue(key);
+      return true;
+
+    } catch (error) {
+      console.error('[PersistenceService][removeValue]', error)
+      return false;
+
+    }
   }
 
-  // Aquí podrías añadir métodos para guardar el objeto usuario completo
-  saveData(key: string, value: any): void {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-
-  getData(key: string): any {
-    const data = localStorage.getItem(key);
-    return data ? JSON.parse(data) : null;
+  public async resetValues(): Promise<boolean> {
+    try {
+      await localforage.clear();
+      await this.file.resetValues();
+      return true;
+    } catch (error) {
+      console.error('[PersistenceService][resetValues]', error)
+      return false;
+    }
   }
 }

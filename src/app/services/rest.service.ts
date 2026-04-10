@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { PersistenceService } from './persistence.service';
 import { AbstractService } from './abstract.service';
+import { AuthResponse } from '../models/auth.model';
 
 @Injectable({ providedIn: 'root' })
 export class RestService extends AbstractService {
@@ -35,19 +36,29 @@ export class RestService extends AbstractService {
 
   }
 
-
   async login(username: string, password: string): Promise<any> {
     try {
       const basePath = await this.getPath();
-      console.log('[Rest.login] POST →', `${basePath}authenticate`, { username }); //BORRAR LOG
-
-      return this.makePostRequestWithoutHeaders(`${basePath}authenticate`, {
+      const response = await this.makePostRequestWithoutHeaders(`${basePath}authenticate`, {
         username,
         password
       });
-    } catch (error) {
-      console.error('[restService][login]', error);
-    }
 
+      // Si el login es correcto, guardamos el token en un archivo 'token.json'
+      if (response && response.token) {
+        await this.persistence.setValue('token', response.token);
+        await this.persistence.setValue('userLogged', response.user); // Guardamos el usuario
+      }
+
+      return response;
+    } catch (error) {
+      console.error('[RestService][login]', error);
+      throw error;
+    }
+  }
+
+  async cleanAllData(): Promise<boolean> {
+    this.path = null; // Limpiamos caché de URL
+    return await this.persistence.resetValues(); // Borra todos los .json
   }
 }
