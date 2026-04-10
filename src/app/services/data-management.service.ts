@@ -19,13 +19,14 @@ export class DataManagementService {
     if (!authResponse?.token) {
       throw new Error('LOGIN_ERROR: No token received');
     }
+    const userId = authResponse.id;
 
     // CORRECCIÓN: Usamos el string 'token' (miembro de StorageKey)
     await this.persistence.setValue('token', authResponse.token);
 
     // 2. Carga paralela de datos tras el login
     const [userLogged, version] = await Promise.all([
-      this.loadUserLogged(),
+      this.loadUserLogged(userId),
       this.loadProxyVersion()
     ]);
 
@@ -35,8 +36,8 @@ export class DataManagementService {
   /**
    * Obtiene los datos del perfil del usuario usando el token guardado
    */
-  async loadUserLogged(): Promise<UserDTO> {
-    const user = await this.rest.getUserProfile();
+  async loadUserLogged(userId: number): Promise<UserDTO> {
+    const user = await this.rest.getUserProfile(userId);
     await this.persistence.setValue('userLogged', user);
     return user;
   }

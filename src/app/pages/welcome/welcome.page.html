@@ -2,24 +2,24 @@
   @if (user) {
   <ion-card>
     <ion-item lines="none">
-      <ion-card-title slot="start">Welcome, {{ user.name }}!</ion-card-title>
+      <ion-card-title slot="start">
+        <ion-badge color="secondary">{{ user.role || 'Usuario'}}</ion-badge>
+        {{ user.name }}
+      </ion-card-title>
       <ion-button slot="end" fill="clear" color="danger" (click)="logout()">
         <ion-icon name="log-out-outline"></ion-icon>
       </ion-button>
     </ion-item>
 
-    <ion-card-content>
-      <ion-badge color="secondary">{{ user.role || 'Usuario'}}</ion-badge>
-      <p class="ion-margin-top">Email: <strong>{{ user.email }}</strong></p>
-    </ion-card-content>
   </ion-card>
 
 
-  <ion-button expand="block" fill="solid" color="secondary" (click)="goToProjects()" class="ion-margin-top">
+  <ion-button expand="full" fill="solid" color="secondary" (click)="goToProjects()" class="ion-margin-top">
     <ion-icon name="folder-open-outline" slot="start"></ion-icon>
     MY PROJECTS
   </ion-button>
 
+  <app-calendar></app-calendar>
   }
 
 </ion-content>

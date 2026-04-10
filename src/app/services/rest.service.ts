@@ -47,10 +47,10 @@ export class RestService extends AbstractService {
 
   // --- MÉTODOS DE USUARIO (/user) ---
 
-  async getUserProfile(): Promise<UserDTO> {
+  async getUserProfile(id: number): Promise<UserDTO> { // <-- Añadimos el parámetro id
     const basePath = await this.getPath();
-    // Ya no lleva /auth/, ahora es un recurso de usuario
-    return this.makeGetRequest<UserDTO>(`${basePath}user/profile`);
+    // Ahora la URL llevará el ID al final: /user/profile/1
+    return this.makeGetRequest<UserDTO>(`${basePath}user/profile/${id}`);
   }
 
   // --- MÉTODOS DE SISTEMA (/system) ---
