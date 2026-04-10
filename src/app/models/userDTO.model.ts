@@ -9,5 +9,5 @@ export class UserDTO extends AbstractModel {
     resgistrationDate!: string | Date;
     projects: ProjectDTO[] = [];
     role!: string;
-
+    status!: string;
 }

@@ -1,24 +1,25 @@
-<ion-header>
-  <ion-toolbar>
-
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true" class="ion-padding">
   @if (user) {
   <ion-card>
-    <ion-card-title>¡Hola, {{ user.name }}!
-      <ion-badge color="secondary">{{ user.role || 'Usuario'}}</ion-badge>
-      <ion-button (click)="logout()">
-        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
-
+    <ion-item lines="none">
+      <ion-card-title slot="start">Welcome, {{ user.name }}!</ion-card-title>
+      <ion-button slot="end" fill="clear" color="danger" (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
       </ion-button>
-    </ion-card-title>
+    </ion-item>
 
     <ion-card-content>
-      <p>Has accedido usando tu correo: <strong>{{ user.email }}</strong></p>
+      <ion-badge color="secondary">{{ user.role || 'Usuario'}}</ion-badge>
+      <p class="ion-margin-top">Email: <strong>{{ user.email }}</strong></p>
     </ion-card-content>
   </ion-card>
+
+
+  <ion-button expand="block" fill="solid" color="secondary" (click)="goToProjects()" class="ion-margin-top">
+    <ion-icon name="folder-open-outline" slot="start"></ion-icon>
+    MY PROJECTS
+  </ion-button>
+
   }
 
 </ion-content>

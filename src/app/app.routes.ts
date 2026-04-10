@@ -19,4 +19,9 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/welcome/welcome.page').then(m => m.WelcomePage),
     canActivate: [authGuard]
   },
+  {
+    path: 'projects',
+    loadComponent: () => import('./pages/projects/projects/projects.page').then(m => m.ProjectsPage),
+    canActivate: [authGuard]
+  },
 ];

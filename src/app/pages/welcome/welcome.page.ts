@@ -5,6 +5,7 @@ import { DataManagementService } from 'src/app/services/data-management.service'
 import { UserDTO } from 'src/app/models/userDTO.model';
 import { IonicModule } from "@ionic/angular";
 import { AbstractPage } from '../abstract';
+import { ProjectDTO } from 'src/app/models/projectDTO.model';
 
 @Component({
   selector: 'app-welcome',
@@ -18,19 +19,29 @@ export class WelcomePage extends AbstractPage implements OnInit {
   private readonly dataMgmt = inject(DataManagementService);
 
   public user: UserDTO | null = null;
+
   public appVersion: string = 'Cargando...';
 
   async ngOnInit() {
     this.user = await this.dataMgmt.getValueFromStorage<UserDTO>('userLogged');
-
     const versionData = await this.dataMgmt.getValueFromStorage<any>('lastSync');
     this.appVersion = versionData || '1.0.0';
+  }
+
+  ionViewWillEnter() {
+    // Se ejecuta SIEMPRE que entras a la pantalla, incluso al volver atrás
+    this.dataMgmt.setBackButton(false);
+  }
+
+  async goToProjects() {
+
+    this.nav.navigateForward('projects');
   }
 
   async logout() {
     await this.dataMgmt.logout();
     this.nav.navigateRoot('login');
-    // Aquí podrías añadir la navegación al login
+
   }
 
 }

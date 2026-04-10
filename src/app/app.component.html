@@ -1,13 +1,22 @@
 <ion-app>
+  @if (showLayout) {
   <ion-header>
     <ion-toolbar color="primary">
+      @if (showBack$ | async) {
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="welcome"></ion-back-button>
+      </ion-buttons>
+      }
+
       <ion-title>Virtual Knowledge</ion-title>
     </ion-toolbar>
   </ion-header>
+  }
 
 
-  <ion-router-outlet></ion-router-outlet>
-
+  <ion-content id="main-content">
+    <ion-router-outlet></ion-router-outlet>
+  </ion-content>
 
   <ion-footer>
     <ion-toolbar color="light">

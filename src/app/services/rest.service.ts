@@ -4,6 +4,7 @@ import { PersistenceService } from './persistence.service';
 import { AbstractService } from './abstract.service';
 import { UserDTO } from '../models/userDTO.model';
 import { VersionDTO } from '../models/versionDTO.model';
+import { ProjectDTO } from '../models/projectDTO.model';
 
 @Injectable({ providedIn: 'root' })
 export class RestService extends AbstractService {
@@ -59,6 +60,19 @@ export class RestService extends AbstractService {
     // Coincide con el nuevo SystemController del backend
     return this.makeGetRequest<VersionDTO>(`${basePath}system/version`);
   }
+
+  // --- METODOS DE PROYECTOS (/project) ---
+  async getProjectsByUserId(userId: number): Promise<ProjectDTO[]> {
+    console.log('[REST] Intentando obtener path...');
+    const basePath = await this.getPath();
+    console.log('[REST] Path obtenido:', basePath, 'Lanzando GET...');
+
+    const url = `${basePath}projects/findProjectsByUserId/${userId}`;
+    console.log('[REST] URL final construida:', url);
+
+    return this.makeGetRequest<ProjectDTO[]>(url);
+  }
+
 
   // --- UTILIDADES ---
 
