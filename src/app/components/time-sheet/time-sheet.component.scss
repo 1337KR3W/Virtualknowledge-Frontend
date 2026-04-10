@@ -1,0 +1,36 @@
+.timesheet-container {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--ion-color-light);
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+
+        th {
+            background: var(--ion-color-light);
+            padding: 12px;
+            text-align: center;
+            color: var(--ion-color-medium);
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid var(--ion-color-light);
+        }
+
+        .project-name {
+            text-align: left;
+            font-weight: 500;
+            color: var(--ion-color-dark);
+        }
+
+        .total-value {
+            font-weight: bold;
+            color: var(--ion-color-primary);
+        }
+    }
+}

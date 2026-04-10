@@ -7,13 +7,14 @@ import { IonicModule } from "@ionic/angular";
 import { AbstractPage } from '../abstract';
 import { ProjectDTO } from 'src/app/models/projectDTO.model';
 import { CalendarComponent } from 'src/app/components/calendar/calendar.component';
+import { TimeSheetComponent } from "src/app/components/time-sheet/time-sheet.component";
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.page.html',
   styleUrls: ['./welcome.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule, CalendarComponent]
+  imports: [CommonModule, FormsModule, IonicModule, CalendarComponent, TimeSheetComponent]
 })
 export class WelcomePage extends AbstractPage implements OnInit {
 

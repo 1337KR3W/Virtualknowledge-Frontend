@@ -1,0 +1,28 @@
+<div class="timesheet-container">
+  <table>
+    <thead>
+      <tr>
+        <th class="project-col">PID</th>
+        @for (day of weekDays; track day) {
+        <th>{{ day }}</th>
+        }
+        <th class="total-col">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of projects; track p.name) {
+      <tr>
+        <td class="project-name">{{ p.name }}</td>
+        <td>{{ p.mon }}h</td>
+        <td>{{ p.tue }}h</td>
+        <td>{{ p.wed }}h</td>
+        <td>{{ p.thu }}h</td>
+        <td>{{ p.fri }}h</td>
+        <td>{{ p.sat }}h</td>
+        <td>{{ p.sun }}h</td>
+        <td class="total-value">{{ calculateTotal(p) }}h</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

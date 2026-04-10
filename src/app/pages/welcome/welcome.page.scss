@@ -1,11 +1,31 @@
-.welcome-container {
-    display: flex;
-    flex-direction: column; // Apila los elementos verticalmente
-    gap: 20px; // Define el espacio exacto entre CADA elemento (botón, calendario, etc.)
-    margin-top: 20px; // Espacio separado respecto a la card de arriba
+.user-card {
+    margin-bottom: 30px;
+}
 
-    // Opcional: Asegura que los botones ocupen todo el ancho si no usas expand="block"
-    ion-button {
-        margin: 0; // Limpiamos márgenes internos de Ionic para que mande el 'gap'
+.section-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--ion-color-dark);
+}
+
+.welcome-layout {
+    display: flex;
+    flex-direction: column; // Móvil: Calendario arriba, Tabla abajo
+    gap: 30px;
+
+    @media (min-width: 992px) {
+        // Desktop View
+        flex-direction: row;
+        align-items: flex-start;
+
+        .calendar-section {
+            flex: 0 0 350px; // Tamaño fijo a la IZQUIERDA
+        }
+
+        .timesheet-section {
+            flex: 1; // La tabla se expande a la DERECHA
+            min-width: 0; // Importante para que la tabla no rompa el layout
+        }
     }
 }

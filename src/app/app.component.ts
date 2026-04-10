@@ -10,6 +10,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
+  styleUrls: ['./app.component.scss'],
   imports: [IonicModule, AsyncPipe, CommonModule],
 })
 export class AppComponent {

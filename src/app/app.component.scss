@@ -1,0 +1,29 @@
+.main-header-title {
+    // Copiamos la esencia del estilo del login
+    font-size: 1.2rem; // Tamaño adecuado para header
+    font-weight: 700; // Un poco de grosor para autoridad
+    letter-spacing: -0.5px; // El toque minimalista de juntar un poco las letras
+
+    text-transform: none; // Evitamos que Ionic lo fuerce a mayúsculas si no quieres
+
+    // Opcional: Si quieres que se parezca EXACTAMENTE al login 
+    // pero todo en un color, podemos usar un peso medio
+    font-weight: 800;
+
+
+    span {
+
+
+
+        color: white;
+    }
+
+
+
+
+}
+
+// Ajuste para que el toolbar no se vea "tosco"
+ion-toolbar {
+    --min-height: 60px; // Un poco más de aire para que luzca el título
+}
