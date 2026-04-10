@@ -1,0 +1,11 @@
+.welcome-container {
+    display: flex;
+    flex-direction: column; // Apila los elementos verticalmente
+    gap: 20px; // Define el espacio exacto entre CADA elemento (botón, calendario, etc.)
+    margin-top: 20px; // Espacio separado respecto a la card de arriba
+
+    // Opcional: Asegura que los botones ocupen todo el ancho si no usas expand="block"
+    ion-button {
+        margin: 0; // Limpiamos márgenes internos de Ionic para que mande el 'gap'
+    }
+}

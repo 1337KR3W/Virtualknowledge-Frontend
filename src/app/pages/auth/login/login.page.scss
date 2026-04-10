@@ -1,0 +1,42 @@
+ion-content {
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        min-height: 100%;
+        padding: 20px;
+    }
+
+    .login-wrapper {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .brand-header {
+        text-align: center;
+        margin-bottom: 40px;
+
+        .brand-title {
+            font-size: 2.2rem;
+            letter-spacing: -1px;
+            margin: 0;
+            color: var(--ion-color-dark);
+            font-weight: 800;
+
+            span {
+                color: var(--ion-color-primary);
+            }
+        }
+
+        .brand-subtitle {
+            font-size: 0.85rem;
+            color: var(--ion-color-medium);
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    }
+
+}

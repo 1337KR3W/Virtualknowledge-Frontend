@@ -13,6 +13,7 @@ import { PersistenceService } from 'src/app/services/persistence.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
   standalone: true,
   imports: [IonicModule, ReactiveFormsModule] // Importante para usar los forms de Angular con Ionic
 })
