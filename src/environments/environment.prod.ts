@@ -1,7 +1,9 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8080',
-  urlPrefix: '1337KR3W/$CUSTOMER$/',
-  version: 'app_version_placeholder',
+  appMode: 'production',
+  urlPrefix: 'http://localhost:8080/',
+  apiUrl: 'auth/',
   destPathFiles: '/assets/storageFiles',
+  version: 'verison_placeholder',
+  testEnviroment: null
 };

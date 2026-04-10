@@ -1,53 +1,72 @@
 import { inject, Injectable } from '@angular/core';
 import { RestService } from './rest.service';
 import { PersistenceService } from './persistence.service';
-import { tap } from 'rxjs';
 import { UserDTO } from '../models/userDTO.model';
 import { VersionDTO } from '../models/versionDTO.model';
-import { AppDataModel } from '../models/appData.model';
 
 @Injectable({ providedIn: 'root' })
 export class DataManagementService {
   private readonly rest = inject(RestService);
   private readonly persistence = inject(PersistenceService);
 
-  /**
-   * Login del usuario, guarda el token y carga los datos necesarios para la sesión
-   */
   async login(username: string, password: string): Promise<[UserDTO, VersionDTO]> {
-    console.log('[DM.login] Intentando login con usuario:', username); //BORRAR LOG
-
+    // 1. Login a través de RestService (que usa makePostRequestWithoutHeaders)
     const authResponse = await this.rest.login(username, password);
-    console.log('[DM.login] Respuesta login:', authResponse);
 
     if (!authResponse?.token) {
-      console.error('[DM.login] ERROR: token ausente');
-      throw new Error('LOGIN_ERROR');
+      throw new Error('LOGIN_ERROR: No token received');
     }
 
-    await this.persistence.setValue(AppDataModel.token, authResponse.token);
-    console.log('[DM.login] Token guardado correctamente');
+    // CORRECCIÓN: Usamos el string 'token' (miembro de StorageKey)
+    await this.persistence.setValue('token', authResponse.token);
 
+    // 2. Carga paralela de datos tras el login
     const [userLogged, version] = await Promise.all([
       this.loadUserLogged(),
       this.loadProxyVersion()
     ]);
 
-    console.log('[DM.login] Usuario y versión cargados:', { userLogged, version }); //BORRAR LOG
-
     return [userLogged, version];
   }
 
   /**
-   * Limpia todos los datos de la sesión (Local/Production)
+   * Obtiene los datos del perfil del usuario usando el token guardado
    */
-  async logout(): Promise<void> {
-    // Centralizamos la limpieza a través del RestService
-    const success = await this.rest.cleanAllData();
-    if (success) {
-      console.log('Sesión local borrada correctamente');
-      // Aquí podrías redirigir al login: this.router.navigate(['/login']);
-    }
+  async loadUserLogged(): Promise<UserDTO> {
+    const user = await this.rest.getUserProfile();
+    await this.persistence.setValue('userLogged', user);
+    return user;
   }
 
+  /**
+   * Obtiene la versión del backend
+   */
+  async loadProxyVersion(): Promise<VersionDTO> {
+    const version = await this.rest.getVersion();
+    await this.persistence.setValue('lastSync', new Date().toISOString());
+    return version;
+  }
+
+  async logout(): Promise<void> {
+    await this.rest.cleanAllData();
+  }
+
+
+  async getToken(): Promise<string> {
+    const token = await this.persistence.getValue('token');
+    console.log('[DM.getToken] Token recuperado (ocultado):', token ? 'OK' : 'NULL'); //BORRAR LOG
+    return token;
+  }
+
+  async setValueFromStorage(key: string, value: unknown): Promise<void> {
+    console.log('[DM.setValueFromStorage] Guardando clave:', key, 'valor:', value); //BORRAR LOG
+    await this.persistence.setValue(key, value);
+    console.log('[DM.setValueFromStorage] Guardado OK'); //BORRAR LOG
+  }
+
+  async getValueFromStorage<T>(key: string): Promise<T | null> {
+    const val = await this.persistence.getValue(key);
+    console.log('[DM.getValueFromStorage] Leyendo clave:', key, '→', val); //BORRAR LOG
+    return val;
+  }
 }

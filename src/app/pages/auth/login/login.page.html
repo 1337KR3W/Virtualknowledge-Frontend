@@ -1,11 +1,17 @@
 <ion-content class="ion-padding">
-  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
     <ion-card>
       <ion-card-header>
         <ion-card-title>Virtual Knowledge</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
+
+        <ion-item>
+          <ion-label position="floating">Customer Code</ion-label>
+          <ion-input formControlName="customerCode" type="text"></ion-input>
+        </ion-item>
+
         <ion-item>
           <ion-label position="floating">Email</ion-label>
           <ion-input formControlName="email" type="email"></ion-input>

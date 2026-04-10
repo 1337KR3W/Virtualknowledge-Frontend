@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { NavController } from "@ionic/angular";
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,8 @@ import { firstValueFrom } from 'rxjs';
 export class AbstractService {
 
   private readonly http = inject(HttpClient);
+  protected readonly nav = inject(NavController);
+
 
   protected getHeaders(token?: string): HttpHeaders {
     let headers = new HttpHeaders().set('Accept', 'application/json');

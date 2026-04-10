@@ -8,7 +8,6 @@
         "src/environments/*"
       ]
     },
-    "ignoreDeprecations": "6.0",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "esModuleInterop": true,

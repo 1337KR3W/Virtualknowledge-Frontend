@@ -1,7 +1,11 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080',
-  urlPrefix: '1337KR3W/$CUSTOMER$/',
-  version: 'app_version_placeholder',
+  appMode: 'develop',
+  urlPrefix: 'http://localhost:8080/',
+  apiUrl: '',
   destPathFiles: '/assets/storageFiles',
+  version: 'verison_placeholder',
+  testEnviroment: 'develop',
+  apiKey: 'mi-app-local',
+  apiSecret: 'secreto123'
 };

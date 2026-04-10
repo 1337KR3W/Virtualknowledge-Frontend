@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { FileService } from './file.service';
 import { UtilsService } from './utils.service';
-import { isItemStorage } from '../utils/storageUtils';
-import { AppDataModel } from '../models/appData.model';
+import { isItemStorage } from '../models/appData.model';
 import localforage from 'localforage';
 
 @Injectable({ providedIn: 'root' })
@@ -12,7 +11,7 @@ export class PersistenceService {
 
   constructor() { }
 
-  async getValue(key: string): Promise<any> {//NUEVO getValue(key: string) con storage
+  async getValue(key: string): Promise<any> {
     try {
       if (!isItemStorage(key) || this.utils.isVersionWeb()) {
         const value = localforage.getItem(key);
