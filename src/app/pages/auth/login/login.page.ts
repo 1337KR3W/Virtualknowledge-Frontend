@@ -9,7 +9,6 @@ import { UtilsService } from 'src/app/services/utils.service';
 import { AbstractPage } from '../../abstract';
 import { Credentials } from 'src/app/models/cretendials.model';
 import { PersistenceService } from 'src/app/services/persistence.service';
-import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-login',
