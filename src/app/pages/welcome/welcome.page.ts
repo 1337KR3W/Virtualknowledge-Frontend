@@ -1,20 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { DataManagementService } from 'src/app/services/data-management.service';
+import { UserDTO } from 'src/app/models/userDTO.model';
+import { IonicModule } from "@ionic/angular";
+import { AbstractPage } from '../abstract';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.page.html',
   styleUrls: ['./welcome.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, IonicModule]
 })
-export class WelcomePage implements OnInit {
+export class WelcomePage extends AbstractPage implements OnInit {
 
-  constructor() { }
+  private readonly dataMgmt = inject(DataManagementService);
 
-  ngOnInit() {
+  public user: UserDTO | null = null;
+  public appVersion: string = 'Cargando...';
+
+  async ngOnInit() {
+    this.user = await this.dataMgmt.getValueFromStorage<UserDTO>('userLogged');
+
+    const versionData = await this.dataMgmt.getValueFromStorage<any>('lastSync');
+    this.appVersion = versionData || '1.0.0';
+  }
+
+  async logout() {
+    await this.dataMgmt.logout();
+    this.nav.navigateRoot('login');
+    // Aquí podrías añadir la navegación al login
   }
 
 }

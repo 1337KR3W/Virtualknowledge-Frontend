@@ -8,5 +8,6 @@ export class UserDTO extends AbstractModel {
     password!: string;
     resgistrationDate!: string | Date;
     projects: ProjectDTO[] = [];
+    role!: string;
 
 }

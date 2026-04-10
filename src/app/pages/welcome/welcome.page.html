@@ -1,13 +1,44 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>welcome</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Welcome</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+        <ion-label class="ion-hide-sm-down">Salir</ion-label>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">welcome</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="welcome-container">
+    <ion-card *ngIf="user">
+      <ion-card-header>
+        <ion-card-subtitle>Sesión iniciada correctamente</ion-card-subtitle>
+        <ion-card-title>¡Hola, {{ user.name }}!</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p>Has accedido usando tu correo: <strong>{{ user.email }}</strong></p>
+        <p>Tu rol actual es: <ion-badge color="secondary">{{ user.role || 'Usuario' }}</ion-badge></p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-list lines="none" class="ion-margin-top">
+      <ion-item>
+        <ion-icon name="shield-checkmark-outline" slot="start" color="success"></ion-icon>
+        <ion-label>
+          <h2>Seguridad Doble Capa</h2>
+          <p>API Key + JWT Activos</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="git-branch-outline" slot="start"></ion-icon>
+        <ion-label>
+          <h2>Versión del Sistema</h2>
+          <p>{{ appVersion }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

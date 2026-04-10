@@ -14,7 +14,7 @@ export class PersistenceService {
   async getValue(key: string): Promise<any> {
     try {
       if (!isItemStorage(key) || this.utils.isVersionWeb()) {
-        const value = localforage.getItem(key);
+        const value = await localforage.getItem(key);
         return value ?? null;
       } else {
         return await this.file.getValue(key);
