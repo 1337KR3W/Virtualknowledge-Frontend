@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ProjectTimeRowDTO, TimeEntryDTO, TimeSheetDTO } from 'src/app/models/timeSheetDTO.model';
@@ -7,6 +7,8 @@ import { UtilsService } from 'src/app/services/utils.service';
 import { CommentModalComponent } from '../comment-modal/comment-modal.component';
 import { DataManagementService } from 'src/app/services/data-management.service';
 import { UserDTO } from 'src/app/models/userDTO.model';
+import { TimeStateService } from 'src/app/services/time-state';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-time-sheet',
@@ -15,44 +17,49 @@ import { UserDTO } from 'src/app/models/userDTO.model';
   standalone: true,
   imports: [CommonModule, IonicModule, FormsModule]
 })
-export class TimeSheetComponent implements OnInit {
+export class TimeSheetComponent implements OnInit, OnDestroy {
   private readonly utils = inject(UtilsService);
   private readonly dataMgmt = inject(DataManagementService);
+  public readonly timeState = inject(TimeStateService); // Inyectamos el estado
+
   public user: UserDTO | null = null;
   public currentWeekId: string = '2026-W15';
   public timeSheet: TimeSheetDTO | null = null;
   public weekDays: string[] = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   public globalComment: string | null = '';
-
+  private weekSubscription?: Subscription;
 
   async ngOnInit() {
     // 1. Recuperar usuario logueado
     this.user = await this.dataMgmt.getValueFromStorage<UserDTO>('userLogged');
 
     if (this.user) {
-      await this.loadCurrentWeek();
+      this.weekSubscription = this.timeState.weekId$.subscribe(async (newWeekId) => {
+        console.log('[TS] Detectado cambio de semana en el estado:', newWeekId);
+        await this.loadCurrentWeek(newWeekId);
+      });
     }
   }
 
-  async loadCurrentWeek() {
-    if (!this.user) return;
+  async loadCurrentWeek(weekId: string) {
+    if (!this.user?.id) return;
 
     try {
-      // 1. Cargamos proyectos REALES filtrados por el BACKEND para esta semana
-      const realProjects = await this.dataMgmt.getProjects(this.user.id, this.currentWeekId);
+      // 1. Pedimos proyectos vigentes para ESTA semana específica
+      const filteredProjects = await this.dataMgmt.getProjects(this.user.id, weekId);
 
-      // 2. Creamos el nuevo objeto TimeSheet
-      const newTimeSheet = new TimeSheetDTO(this.currentWeekId);
+      // 2. Cargamos o inicializamos el TimeSheet
+      const savedData = await this.dataMgmt.getTimeSheet(weekId);
 
-      // 3. Mapeamos solo los proyectos que el Backend nos dijo que están vigentes
-      newTimeSheet.rows = realProjects.map(proj => {
-        return new ProjectTimeRowDTO(proj.id.toString(), proj.name);
-      });
-
-      this.timeSheet = newTimeSheet;
-      console.log('[TS] Proyectos vigentes cargados:', this.timeSheet.rows.length);
+      if (savedData && savedData.rows?.length > 0) {
+        this.timeSheet = savedData;
+      } else {
+        const newTS = new TimeSheetDTO(weekId);
+        newTS.rows = filteredProjects.map(p => new ProjectTimeRowDTO(p.id.toString(), p.name));
+        this.timeSheet = newTS;
+      }
     } catch (error) {
-      console.error('[TS] Error al sincronizar con el Backend:', error);
+      console.error('[TS] Error al cargar semana:', error);
     }
   }
 
@@ -90,5 +97,10 @@ export class TimeSheetComponent implements OnInit {
       //this.utils.showToast('Error al conectar con el servidor', 'danger');
       console.error('Error en el guardado:', error);
     }
+  }
+
+  ngOnDestroy() {
+    // Muy importante para evitar fugas de memoria
+    this.weekSubscription?.unsubscribe();
   }
 }

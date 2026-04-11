@@ -109,18 +109,27 @@ export class DataManagementService {
     return val;
   }
 
-  async getProjects(userId: number, weekId: string): Promise<ProjectDTO[]> {
-    console.log(`[DM] Solicitando proyectos para ID: ${userId} en la semana: ${weekId}`);
+  /**
+   * Recupera proyectos. 
+   * @param userId ID del usuario
+   * @param weekId (Opcional) Si se envía, filtra por vigencia. Si no, trae todos.
+   */
+  async getProjects(userId: number, weekId?: string): Promise<ProjectDTO[]> {
     try {
-      const projects = await this.rest.getProjectsByUserIdAndWeek(userId, weekId);
-      return projects;
+      if (weekId && weekId.trim() !== '') {
+        // Llamada al endpoint filtrado (TimeSheet)
+        console.log(`[DM] Cargando proyectos filtrados para la semana: ${weekId}`);
+        return await this.rest.getProjectsByUserIdAndWeek(userId, weekId);
+      } else {
+        // Llamada al endpoint general (Projects Page)
+        console.log(`[DM] Cargando listado histórico de proyectos`);
+        return await this.rest.getProjectsByUserId(userId);
+      }
     } catch (error) {
       console.error('[DM.getProjects] Error al recuperar proyectos:', error);
       throw error;
     }
   }
-
-
 
   setBackButton(value: boolean) {
     this.showBackButton.next(value);

@@ -17,7 +17,7 @@
     }
 
     @for (day of days; track $index) {
-    <div class="day" [class.empty]="day === null">
+    <div class="day" [class.empty]="day === null" [class.selected-week]="isDayInSelectedWeek(day)">
       {{ day }}
     </div>
     }

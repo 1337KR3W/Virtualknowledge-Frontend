@@ -33,14 +33,18 @@ export class ProjectsPage extends AbstractPage implements OnInit, OnDestroy {
     this.dataMgmt.setBackButton(true);
   }
 
+  // projects.page.ts
+
   async loadProjects() {
     if (this.user?.id) {
       try {
-        // Pasamos los dos argumentos que el Service ahora exige
-        this.projects = await this.dataMgmt.getProjects(this.user.id, this.currentWeekId);
-        console.log('[PROJECTS] Lista cargada:', this.projects);
+        // IMPORTANTE: Solo pasamos el ID. 
+        // Al no enviar el segundo parámetro, el Service pedirá TODOS los proyectos al Backend.
+        this.projects = await this.dataMgmt.getProjects(this.user.id);
+
+        console.log('[PROJECTS] Listado histórico cargado:', this.projects.length);
       } catch (error) {
-        console.error('[PROJECTS] Error al cargar:', error);
+        console.error('[PROJECTS] Error al cargar el listado global:', error);
       }
     }
   }

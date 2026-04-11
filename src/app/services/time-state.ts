@@ -1,5 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { addDays, startOfWeek, format, subWeeks, addWeeks } from 'date-fns';
+import { map, Observable } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +10,11 @@ export class TimeStateService {
   // Usamos un Signal para que sea reactivo y eficiente
   public currentReferenceDate = signal<Date>(new Date());
 
-  // Devuelve el ID de la semana (ej: 2024-W15) para el DTO
+  public weekId$: Observable<string> = toObservable(this.currentReferenceDate).pipe(
+    map(date => format(date, "RRRR-'W'II"))
+  );
+
+
   get weekId() {
     return format(this.currentReferenceDate(), "RRRR-'W'II");
   }

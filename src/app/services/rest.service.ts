@@ -68,7 +68,7 @@ export class RestService extends AbstractService {
     const basePath = await this.getPath();
     console.log('[REST] Path obtenido:', basePath, 'Lanzando GET...');
 
-    const url = `${basePath}projects/findProjectsByUserId/${userId}`;
+    const url = `${basePath}projects/user/${userId}`;
     console.log('[REST] URL final construida:', url);
 
     return this.makeGetRequest<ProjectDTO[]>(url);

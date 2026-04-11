@@ -1,58 +1,69 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { chevronBackOutline, chevronForwardOutline } from 'ionicons/icons';
+import { TimeStateService } from 'src/app/services/time-state';
+import { endOfWeek, isWithinInterval, startOfWeek } from 'date-fns';
 @Component({
   selector: 'app-calendar',
+  standalone: true,
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
   imports: [CommonModule, IonicModule]
 })
 export class CalendarComponent implements OnInit {
+  public readonly timeState = inject(TimeStateService);
   public displayMonth: string = '';
   public displayYear: number = 0;
   public days: (number | null)[] = [];
   public weekDays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-
-  private readonly currentDate: Date = new Date();
 
   constructor() {
     addIcons({ chevronBackOutline, chevronForwardOutline });
   }
 
   ngOnInit() {
-    this.generateCalendar();
+    this.timeState.weekId$.subscribe(() => {
+      this.generateCalendar();
+    });
   }
 
   generateCalendar() {
-    const year = this.currentDate.getFullYear();
-    const month = this.currentDate.getMonth();
+    const referenceDate = this.timeState.currentReferenceDate();
+    const year = referenceDate.getFullYear();
+    const month = referenceDate.getMonth();
 
     this.displayYear = year;
-    this.displayMonth = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(this.currentDate);
+    this.displayMonth = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(referenceDate);
 
-    // Primer día del mes y cuántos días tiene
-    const firstDayIndex = new Date(year, month, 1).getDay(); // 0 (Dom) a 6 (Sáb)
+    const firstDayIndex = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    // Limpiamos y rellenamos el array de días
     this.days = [];
-
-    // Rellenar huecos vacíos antes del primer día del mes
     for (let i = 0; i < firstDayIndex; i++) {
       this.days.push(null);
     }
-
-    // Añadir los números de los días
     for (let i = 1; i <= daysInMonth; i++) {
       this.days.push(i);
     }
   }
 
-  changeMonth(offset: number) {
-    this.currentDate.setMonth(this.currentDate.getMonth() + offset);
-    this.generateCalendar();
+  isDayInSelectedWeek(day: number | null): boolean {
+    if (!day) return false;
+
+    const dateToCheck = new Date(this.displayYear, this.timeState.currentReferenceDate().getMonth(), day);
+    const referenceDate = this.timeState.currentReferenceDate();
+
+    const start = startOfWeek(referenceDate, { weekStartsOn: 0 });
+    const end = endOfWeek(referenceDate, { weekStartsOn: 0 });
+
+    return isWithinInterval(dateToCheck, { start, end });
   }
 
+  changeMonth(offset: number) {
+    const newDate = new Date(this.timeState.currentReferenceDate());
+    newDate.setMonth(newDate.getMonth() + offset);
+    this.timeState.currentReferenceDate.set(newDate);
+  }
 }
