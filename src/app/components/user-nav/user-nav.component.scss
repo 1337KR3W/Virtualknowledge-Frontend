@@ -1,3 +1,14 @@
+:host {
+    display: block;
+    margin: 0 !important;
+}
+
+// Si dentro del componente usas un ion-card como contenedor principal:
+ion-card {
+    margin: 0 !important;
+    width: 100%; // Asegura que ocupe todo el ancho de su columna
+}
+
 .user-card {
     margin-bottom: 15px;
 }

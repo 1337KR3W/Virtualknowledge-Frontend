@@ -1,5 +1,15 @@
+:host {
+    display: block;
+    margin: 0 !important;
+}
+
+// Si dentro del componente usas un ion-card como contenedor principal:
+ion-card {
+    margin: 0 !important;
+    width: 100%; // Asegura que ocupe todo el ancho de su columna
+}
+
 .timesheet-container {
-    width: 100%;
     overflow-x: auto;
     background: var(--ion-color-light);
 

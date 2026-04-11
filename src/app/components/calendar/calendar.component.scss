@@ -1,6 +1,17 @@
+:host {
+    display: block;
+    margin: 0 !important;
+}
+
+// Si dentro del componente usas un ion-card como contenedor principal:
+ion-card {
+    margin: 0 !important;
+    width: 100%; // Asegura que ocupe todo el ancho de su columna
+}
+
 .calendar-container {
     background: var(--ion-color-light);
-    padding: 16px;
+    padding: 12px;
 
     .calendar-header {
         display: flex;
@@ -30,8 +41,8 @@
         }
 
         .day {
-            padding: 10px 0;
-            font-size: 1.1em;
+            padding: 12px 0;
+            font-size: 1.2em;
 
             &:hover:not(.empty) {
                 background: var(--ion-color-primary-light, #e0e0e0);
