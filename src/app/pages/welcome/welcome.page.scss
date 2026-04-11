@@ -1,7 +1,3 @@
-.user-card {
-    margin-bottom: 30px;
-}
-
 .section-title {
     font-size: 1.1rem;
     font-weight: bold;
@@ -12,7 +8,7 @@
 .welcome-layout {
     display: flex;
     flex-direction: column; // Móvil: Calendario arriba, Tabla abajo
-    gap: 30px;
+    gap: 15px;
 
     @media (min-width: 992px) {
         // Desktop View

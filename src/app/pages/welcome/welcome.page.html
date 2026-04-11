@@ -1,34 +1,19 @@
 <ion-content [fullscreen]="true" class="ion-padding">
-  @if (user) {
-  <ion-card class="ion-no-margin user-card">
-    <ion-item lines="none">
-      <ion-card-title slot="start">
-        <ion-badge color="primary">{{ user.role || 'Usuario' }}</ion-badge>
-        {{ user.name }}
-      </ion-card-title>
-
-      <ion-buttons slot="end">
-        <ion-button fill="outline" color="primary" (click)="goToProjects()" class="ion-margin-end">
-          <ion-icon name="folder-open-outline" slot="start"></ion-icon>
-          PROJECTS
-        </ion-button>
-        <ion-button fill="clear" color="danger" (click)="logout()">
-          <ion-icon name="log-out-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
-  </ion-card>
+  <app-user-nav></app-user-nav>
 
   <div class="welcome-layout">
 
     <aside class="calendar-section">
+
       <app-calendar></app-calendar>
     </aside>
 
     <section class="timesheet-section">
+      <app-week-bar></app-week-bar>
+
       <app-time-sheet></app-time-sheet>
     </section>
 
   </div>
-  }
+
 </ion-content>

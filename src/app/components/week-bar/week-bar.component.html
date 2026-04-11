@@ -1,0 +1,16 @@
+<ion-card class="ion-no-margin stepper-container">
+  <ion-button fill="clear" (click)="timeState.prevWeek()">
+    <ion-icon name="chevron-back-outline"></ion-icon>
+  </ion-button>
+
+  <div class="week-info" (click)="timeState.goToToday()">
+    <div class="text">
+      <span class="label">{{ timeState.weekId }}</span>
+      <span class="range">{{ getWeekRange() }}</span>
+    </div>
+  </div>
+
+  <ion-button fill="clear" (click)="timeState.nextWeek()">
+    <ion-icon name="chevron-forward-outline"></ion-icon>
+  </ion-button>
+</ion-card>
