@@ -74,6 +74,14 @@ export class RestService extends AbstractService {
     return this.makeGetRequest<ProjectDTO[]>(url);
   }
 
+  async getProjectsByUserIdAndWeek(userId: number, weekId: string): Promise<ProjectDTO[]> {
+    // Ajustamos la URL para que coincida con: /user/{userId}/week/{weekId}
+    const url = `${await this.getPath()}projects/user/${userId}/week/${weekId}`;
+
+    // Usamos el método que ya tengas para peticiones GET (suponiendo que devuelve un Promise)
+    return this.makeGetRequest<ProjectDTO[]>(url);
+  }
+
   // --- MÉTODOS DE TIMESHEET (/timesheet) ---
   async saveTimeSheet(timeSheet: TimeSheetDTO, userId: number): Promise<void> {
     const basePath = await this.getPath();

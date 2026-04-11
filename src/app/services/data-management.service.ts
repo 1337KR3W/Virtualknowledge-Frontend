@@ -109,18 +109,18 @@ export class DataManagementService {
     return val;
   }
 
-  async getProjects(userId: number): Promise<ProjectDTO[]> {
-    console.log('[DM] 4. Solicitando proyectos al RestService para ID:', userId);
+  async getProjects(userId: number, weekId: string): Promise<ProjectDTO[]> {
+    console.log(`[DM] Solicitando proyectos para ID: ${userId} en la semana: ${weekId}`);
     try {
-      const projects = await this.rest.getProjectsByUserId(userId);
-      console.log('[DM] 5. Respuesta del RestService recibida, guardando en persistencia...');
-      await this.persistence.setValue('last_projects_list', projects);
+      const projects = await this.rest.getProjectsByUserIdAndWeek(userId, weekId);
       return projects;
     } catch (error) {
       console.error('[DM.getProjects] Error al recuperar proyectos:', error);
       throw error;
     }
   }
+
+
 
   setBackButton(value: boolean) {
     this.showBackButton.next(value);

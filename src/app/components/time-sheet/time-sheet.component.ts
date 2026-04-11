@@ -37,24 +37,22 @@ export class TimeSheetComponent implements OnInit {
   async loadCurrentWeek() {
     if (!this.user) return;
 
-    // 2. Intentar cargar datos guardados del servidor para esta semana
-    // (Este método aún lo tenemos que pulir, por ahora creamos uno nuevo)
-    const newTimeSheet = new TimeSheetDTO(this.currentWeekId);
-
-    // 3. CARGA DE PROYECTOS REALES
     try {
-      const realProjects = await this.dataMgmt.getProjects(this.user.id);
+      // 1. Cargamos proyectos REALES filtrados por el BACKEND para esta semana
+      const realProjects = await this.dataMgmt.getProjects(this.user.id, this.currentWeekId);
 
-      // Mapeamos los proyectos a las filas del TimeSheet
+      // 2. Creamos el nuevo objeto TimeSheet
+      const newTimeSheet = new TimeSheetDTO(this.currentWeekId);
+
+      // 3. Mapeamos solo los proyectos que el Backend nos dijo que están vigentes
       newTimeSheet.rows = realProjects.map(proj => {
-        // proj.id viene del backend y es lo que necesitamos en el 'pid'
         return new ProjectTimeRowDTO(proj.id.toString(), proj.name);
       });
 
       this.timeSheet = newTimeSheet;
-      console.log('[TS] Proyectos cargados:', this.timeSheet.rows);
+      console.log('[TS] Proyectos vigentes cargados:', this.timeSheet.rows.length);
     } catch (error) {
-      console.error('[TS] Error cargando proyectos:', error);
+      console.error('[TS] Error al sincronizar con el Backend:', error);
     }
   }
 

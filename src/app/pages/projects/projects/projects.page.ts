@@ -18,7 +18,7 @@ import { AbstractPage } from '../../abstract';
 export class ProjectsPage extends AbstractPage implements OnInit, OnDestroy {
 
   private readonly dataMgmt = inject(DataManagementService);
-
+  public currentWeekId: string = '2026-W15';
   public projects: ProjectDTO[] = [];
   public user: UserDTO | null = null;
 
@@ -34,16 +34,14 @@ export class ProjectsPage extends AbstractPage implements OnInit, OnDestroy {
   }
 
   async loadProjects() {
-    // Añadimos un log para ver qué está pasando
     if (this.user?.id) {
       try {
-        this.projects = await this.dataMgmt.getProjects(this.user.id);
+        // Pasamos los dos argumentos que el Service ahora exige
+        this.projects = await this.dataMgmt.getProjects(this.user.id, this.currentWeekId);
         console.log('[PROJECTS] Lista cargada:', this.projects);
       } catch (error) {
         console.error('[PROJECTS] Error al cargar:', error);
       }
-    } else {
-      console.warn('[PROJECTS] No hay ID de usuario disponible');
     }
   }
 
