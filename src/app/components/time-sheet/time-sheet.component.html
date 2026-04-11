@@ -23,8 +23,7 @@
           <div class="cell-content">
             <input type="number" [(ngModel)]="p.days[dayKey.toLowerCase()].hours" min="0" max="24" placeholder="0">
 
-            <ion-button fill="clear" size="small" (click)="openCommentModal(p.days[dayKey.toLowerCase()])"
-              class="comment-btn">
+            <ion-button fill="clear" (click)="openCommentModal(p.days[dayKey.toLowerCase()])" class="comment-btn">
               <ion-icon slot="icon-only" name="create-outline"
                 [color]="p.days[dayKey.toLowerCase()].comment ? 'primary' : 'medium'">
               </ion-icon>
@@ -42,9 +41,9 @@
   <div class="timesheet-footer">
     <div class="global-comment-box">
       <ion-item lines="none" class="custom-textarea">
-        <ion-label position="stacked">Comentario Semanal Global</ion-label>
-        <ion-textarea [(ngModel)]="timeSheet.globalComment"
-          placeholder="Añade notas generales sobre el trabajo de esta semana..." rows="2">
+        <ion-label position="stacked">Weekly comment</ion-label>
+        <ion-textarea [(ngModel)]="timeSheet.globalComment" placeholder="Write a global message for this week here..."
+          rows="2">
         </ion-textarea>
       </ion-item>
     </div>
