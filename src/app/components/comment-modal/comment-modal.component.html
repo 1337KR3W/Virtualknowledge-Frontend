@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Añadir Comentario</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item lines="none" class="comment-input">
+    <ion-textarea [(ngModel)]="comment" rows="6" placeholder="Escribe aquí los detalles del trabajo realizado..."
+      autofocus="true">
+    </ion-textarea>
+  </ion-item>
+
+  <ion-button expand="block" (click)="save()" class="ion-margin-top">
+    Guardar Comentario
+  </ion-button>
+</ion-content>

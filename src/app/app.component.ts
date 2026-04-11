@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 
 import { IonicModule } from "@ionic/angular";
 import { addIcons } from 'ionicons'; // 1. Importar addIcons
-import { globe, logOutOutline, shieldCheckmarkOutline, gitBranchOutline, folderOpenOutline, briefcaseOutline, createOutline } from 'ionicons/icons'; // 2. Importar los iconos específicos
+import { globe, logOutOutline, shieldCheckmarkOutline, gitBranchOutline, folderOpenOutline, briefcaseOutline, createOutline, cloudUploadOutline } from 'ionicons/icons'; // 2. Importar los iconos específicos
 import { DataManagementService } from './services/data-management.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -28,7 +28,8 @@ export class AppComponent {
       'git-branch-outline': gitBranchOutline,
       "folder-open-outline": folderOpenOutline,
       "briefcase-outline": briefcaseOutline,
-      "create-outline": createOutline
+      "create-outline": createOutline,
+      "cloud-upload-outline": cloudUploadOutline
     });
   }
 

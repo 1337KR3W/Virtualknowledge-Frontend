@@ -1,11 +1,39 @@
 import { inject, Injectable } from '@angular/core';
 import { LoadingController, ToastController, Platform } from '@ionic/angular';
-
+import { ModalController } from '@ionic/angular/standalone';
 @Injectable({ providedIn: 'root' })
+
 export class UtilsService {
   private readonly loadingCtrl = inject(LoadingController);
   private readonly toastCtrl = inject(ToastController);
   private readonly platform = inject(Platform);
+  private readonly modalCtrl = inject(ModalController);
+
+  /**
+   * Abre un modal genérico y devuelve los datos al cerrar
+   * @param component El componente que se mostrará
+   * @param componentProps Propiedades que recibe el componente (@Input)
+   * @param css Clase CSS personalizada (opcional)
+   * @param backDrop Si se puede cerrar haciendo clic fuera (default: true)
+   */
+  public async openModal(
+    component: any,
+    componentProps: any,
+    css: string = '',
+    backDrop: boolean = true
+  ): Promise<any> {
+
+    const modal = await this.modalCtrl.create({
+      component,
+      componentProps,
+      cssClass: css,
+      backdropDismiss: backDrop
+    });
+
+    await modal.present();
+    const { data } = await modal.onDidDismiss();
+    return data;
+  }
 
   async showLoading(message: string = 'Cargando...') {
     const loading = await this.loadingCtrl.create({ message });

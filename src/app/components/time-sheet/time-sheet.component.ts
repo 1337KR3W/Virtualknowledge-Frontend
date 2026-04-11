@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ProjectTimeRowDTO, TimeEntryDTO, TimeSheetDTO } from 'src/app/models/timeSheetDTO.model';
+import { UtilsService } from 'src/app/services/utils.service';
+import { CommentModalComponent } from '../comment-modal/comment-modal.component';
 
 @Component({
   selector: 'app-time-sheet',
@@ -12,7 +14,7 @@ import { ProjectTimeRowDTO, TimeEntryDTO, TimeSheetDTO } from 'src/app/models/ti
   imports: [CommonModule, IonicModule, FormsModule]
 })
 export class TimeSheetComponent implements OnInit {
-
+  private readonly utils = inject(UtilsService);
 
   public timeSheet: TimeSheetDTO;
   public weekDays: string[] = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
@@ -37,13 +39,17 @@ export class TimeSheetComponent implements OnInit {
   }
 
   async openCommentModal(dayEntry: TimeEntryDTO) {
-    console.log('Abriendo comentario para la celda:', dayEntry);
+    // Abrimos el modal pasando el comentario actual como prop
+    const updatedComment = await this.utils.openModal(
+      CommentModalComponent,
+      { comment: dayEntry.comment },
+      'small-modal' // Clase CSS opcional para que no ocupe toda la pantalla en Web
+    );
 
-    // De momento, podemos usar un prompt simple de JS para probar la funcionalidad
-    // hasta que creemos el modal de Ionic real
-    const newComment = prompt('Escribe un comentario:', dayEntry.comment);
-    if (newComment !== null) {
-      dayEntry.comment = newComment;
+    // Si el usuario guardó algo (updatedComment no es undefined), actualizamos el DTO
+    if (updatedComment !== undefined) {
+      dayEntry.comment = updatedComment;
+      console.log('Comentario actualizado con éxito');
     }
   }
 
