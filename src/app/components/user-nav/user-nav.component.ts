@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { IonicModule } from "@ionic/angular";
 import { UserDTO } from 'src/app/models/userDTO.model';
 import { AbstractPage } from 'src/app/pages/abstract';
@@ -11,6 +11,8 @@ import { DataManagementService } from 'src/app/services/data-management.service'
   imports: [IonicModule],
 })
 export class UserNavComponent extends AbstractPage implements OnInit {
+
+
 
   private readonly dataMgmt = inject(DataManagementService);
 

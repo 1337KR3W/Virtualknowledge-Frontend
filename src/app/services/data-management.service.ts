@@ -12,24 +12,19 @@ export class DataManagementService {
   private readonly persistence = inject(PersistenceService);
   public showBackButton = new BehaviorSubject<boolean>(false);
 
-  async login(username: string, password: string): Promise<[UserDTO, VersionDTO]> {
-
-    const authResponse = await this.rest.login(username, password);
-
+  /**
+   * LOGIN
+   */
+  async login(email: string, password: string): Promise<[UserDTO, VersionDTO]> {
+    const authResponse = await this.rest.login(email, password);
     if (!authResponse?.token) {
       throw new Error('LOGIN_ERROR: No token received');
     }
-    const userId = authResponse.id;
-
-    // CORRECCIÓN: Usamos el string 'token' (miembro de StorageKey)
     await this.persistence.setValue('token', authResponse.token);
-
-    // 2. Carga paralela de datos tras el login
     const [userLogged, version] = await Promise.all([
-      this.loadUserLogged(userId),
+      this.loadUserLogged(authResponse.id),
       this.loadProxyVersion()
     ]);
-
     return [userLogged, version];
   }
 
@@ -38,6 +33,7 @@ export class DataManagementService {
    */
   async loadUserLogged(userId: number): Promise<UserDTO> {
     const user = await this.rest.getUserProfile(userId);
+    console.log('[DM] Usuario cargado con roles:', user.roles);
     await this.persistence.setValue('userLogged', user);
     return user;
   }
