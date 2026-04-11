@@ -5,6 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { ProjectTimeRowDTO, TimeEntryDTO, TimeSheetDTO } from 'src/app/models/timeSheetDTO.model';
 import { UtilsService } from 'src/app/services/utils.service';
 import { CommentModalComponent } from '../comment-modal/comment-modal.component';
+import { DataManagementService } from 'src/app/services/data-management.service';
+import { UserDTO } from 'src/app/models/userDTO.model';
 
 @Component({
   selector: 'app-time-sheet',
@@ -15,27 +17,45 @@ import { CommentModalComponent } from '../comment-modal/comment-modal.component'
 })
 export class TimeSheetComponent implements OnInit {
   private readonly utils = inject(UtilsService);
+  private readonly dataMgmt = inject(DataManagementService);
+  public user: UserDTO | null = null;
+  public currentWeekId: string = '2026-W15';
+  public timeSheet: TimeSheetDTO | null = null;
+  public weekDays: string[] = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  public globalComment: string | null = '';
 
-  public timeSheet: TimeSheetDTO;
-  public weekDays: string[] = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
-  constructor() {
-    this.timeSheet = new TimeSheetDTO('2026-W15');
+
+  async ngOnInit() {
+    // 1. Recuperar usuario logueado
+    this.user = await this.dataMgmt.getValueFromStorage<UserDTO>('userLogged');
+
+    if (this.user) {
+      await this.loadCurrentWeek();
+    }
   }
 
-  ngOnInit(): void {
-    this.loadMockData();
-  }
+  async loadCurrentWeek() {
+    if (!this.user) return;
 
-  private loadMockData() {
-    // Ejemplo de cómo añadirías filas usando las clases
-    const row1 = new ProjectTimeRowDTO('P-101', 'Web App Pro');
-    row1.days.mon.hours = 8;
-    row1.days.mon.comment = 'Fixing CORS issues';
+    // 2. Intentar cargar datos guardados del servidor para esta semana
+    // (Este método aún lo tenemos que pulir, por ahora creamos uno nuevo)
+    const newTimeSheet = new TimeSheetDTO(this.currentWeekId);
 
-    const row2 = new ProjectTimeRowDTO('P-202', 'API Rest Dev');
-    row2.days.wed.hours = 4;
+    // 3. CARGA DE PROYECTOS REALES
+    try {
+      const realProjects = await this.dataMgmt.getProjects(this.user.id);
 
-    this.timeSheet.rows.push(row1, row2);
+      // Mapeamos los proyectos a las filas del TimeSheet
+      newTimeSheet.rows = realProjects.map(proj => {
+        // proj.id viene del backend y es lo que necesitamos en el 'pid'
+        return new ProjectTimeRowDTO(proj.id.toString(), proj.name);
+      });
+
+      this.timeSheet = newTimeSheet;
+      console.log('[TS] Proyectos cargados:', this.timeSheet.rows);
+    } catch (error) {
+      console.error('[TS] Error cargando proyectos:', error);
+    }
   }
 
   async openCommentModal(dayEntry: TimeEntryDTO) {
@@ -53,8 +73,24 @@ export class TimeSheetComponent implements OnInit {
     }
   }
 
-  saveTimeSheet() {
+  async saveTimeSheet() {
+    if (!this.timeSheet) return;
 
-    console.log('Objeto listo para el Backend:', this.timeSheet);
+    try {
+      // 1. Mostramos un cargando (opcional)
+      //await this.utils.showLoading('Guardando reporte...');
+
+      // 2. Enviamos el objeto al DataManagement
+      await this.dataMgmt.saveTimeSheet(this.timeSheet);
+
+      // 3. Notificamos al usuario
+      //await this.utils.dismissLoading();
+      //this.utils.showToast('Reporte guardado con éxito', 'success');
+
+    } catch (error) {
+      //await this.utils.dismissLoading();
+      //this.utils.showToast('Error al conectar con el servidor', 'danger');
+      console.error('Error en el guardado:', error);
+    }
   }
 }

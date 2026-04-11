@@ -1,8 +1,10 @@
+@if (timeSheet) {
+
 <ion-card class="timesheet-container">
   <table>
     <thead>
       <tr>
-        <th class="project-col">PID / Proyecto</th>
+        <th class="project-col">Projects</th>
         @for (day of weekDays; track day) {
         <th>{{ day }}</th>
         }
@@ -13,17 +15,18 @@
       @for (p of timeSheet.rows; track p.pid) {
       <tr>
         <td class="project-name">
-
-          <div class="p-name-text">{{ p.projectName }} - {{p.pid }}</div>
+          <div class="p-name-text">{{p.pid }} - {{ p.projectName }}</div>
         </td>
 
-        @for (dayKey of ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']; track dayKey) {
+        @for (dayKey of weekDays; track dayKey) {
         <td class="hour-cell">
           <div class="cell-content">
-            <input type="number" [(ngModel)]="p.days[dayKey].hours" min="0" max="24" placeholder="0">
+            <input type="number" [(ngModel)]="p.days[dayKey.toLowerCase()].hours" min="0" max="24" placeholder="0">
 
-            <ion-button fill="clear" size="small" (click)="openCommentModal(p.days[dayKey])" class="comment-btn">
-              <ion-icon slot="icon-only" name="create-outline" [color]="p.days[dayKey].comment ? 'primary' : 'medium'">
+            <ion-button fill="clear" size="small" (click)="openCommentModal(p.days[dayKey.toLowerCase()])"
+              class="comment-btn">
+              <ion-icon slot="icon-only" name="create-outline"
+                [color]="p.days[dayKey.toLowerCase()].comment ? 'primary' : 'medium'">
               </ion-icon>
             </ion-button>
           </div>
@@ -54,3 +57,10 @@
     </div>
   </div>
 </ion-card>
+
+} @else {
+<div class="ion-text-center ion-padding">
+  <ion-spinner name="crescent"></ion-spinner>
+  <p>Cargando reporte semanal...</p>
+</div>
+}

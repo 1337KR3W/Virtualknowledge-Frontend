@@ -5,6 +5,7 @@ import { UserDTO } from '../models/userDTO.model';
 import { VersionDTO } from '../models/versionDTO.model';
 import { ProjectDTO } from '../models/projectDTO.model';
 import { BehaviorSubject } from 'rxjs';
+import { TimeSheetDTO } from '../models/timeSheetDTO.model';
 
 @Injectable({ providedIn: 'root' })
 export class DataManagementService {
@@ -45,6 +46,44 @@ export class DataManagementService {
     const version = await this.rest.getVersion();
     await this.persistence.setValue('lastSync', new Date().toISOString());
     return version;
+  }
+
+  /**
+ * Envía el TimeSheet al backend y actualiza la caché local
+ */
+  async saveTimeSheet(timeSheet: TimeSheetDTO): Promise<void> {
+    try {
+      const user = await this.getValueFromStorage<UserDTO>('userLogged');
+      if (!user) throw new Error('No user logged in');
+
+      console.log('[DM] Guardando TimeSheet para la semana:', timeSheet.weekId);
+
+      await this.rest.saveTimeSheet(timeSheet, user.id);
+
+      // Opcional: Guardar en persistencia local por si el usuario refresca
+      await this.persistence.setValue(`timesheet_${timeSheet.weekId}`, timeSheet);
+
+    } catch (error) {
+      console.error('[DM.saveTimeSheet] Error al guardar:', error);
+      throw error;
+    }
+  }
+
+  /**
+ * Obtiene la semana de trabajo. Primero intenta el servidor, si falla busca en local.
+ */
+  async getTimeSheet(weekId: string): Promise<TimeSheetDTO> {
+    const user = await this.getValueFromStorage<UserDTO>('userLogged');
+    if (!user) throw new Error('No user logged');
+
+    try {
+      const data = await this.rest.getTimeSheetByWeek(weekId, user.id);
+      return data || new TimeSheetDTO(weekId);
+    } catch (error) {
+      console.warn('[DM] No se pudo recuperar del servidor, buscando en local...', error);
+      const localData = await this.getValueFromStorage<TimeSheetDTO>(`timesheet_${weekId}`);
+      return localData || new TimeSheetDTO(weekId);
+    }
   }
 
   async logout(): Promise<void> {

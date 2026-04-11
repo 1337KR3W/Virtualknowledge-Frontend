@@ -5,6 +5,7 @@ import { AbstractService } from './abstract.service';
 import { UserDTO } from '../models/userDTO.model';
 import { VersionDTO } from '../models/versionDTO.model';
 import { ProjectDTO } from '../models/projectDTO.model';
+import { TimeSheetDTO } from '../models/timeSheetDTO.model';
 
 @Injectable({ providedIn: 'root' })
 export class RestService extends AbstractService {
@@ -73,6 +74,26 @@ export class RestService extends AbstractService {
     return this.makeGetRequest<ProjectDTO[]>(url);
   }
 
+  // --- MÉTODOS DE TIMESHEET (/timesheet) ---
+  async saveTimeSheet(timeSheet: TimeSheetDTO, userId: number): Promise<void> {
+    const basePath = await this.getPath();
+
+    // Enriquecemos el objeto con el userId antes de enviar
+    // (Aunque lo ideal es sacarlo del token en el back, esto asegura la carga)
+    const payload = {
+      weekId: timeSheet.weekId,
+      globalComment: timeSheet.globalComment,
+      rows: timeSheet.rows,
+      userId: userId // <--- Este campo debe existir en tu TimeSheetRequestDTO.java
+    };
+
+    return this.makePostRequest(`${basePath}timesheet/save`, payload);
+  }
+
+  async getTimeSheetByWeek(weekId: string, userId: number): Promise<TimeSheetDTO> {
+    const basePath = await this.getPath();
+    return this.makeGetRequest<TimeSheetDTO>(`${basePath}timesheet/week/${weekId}/user/${userId}`);
+  }
 
   // --- UTILIDADES ---
 
