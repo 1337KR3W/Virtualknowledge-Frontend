@@ -2,7 +2,7 @@
   <table>
     <thead>
       <tr>
-        <th class="project-col">PID</th>
+        <th class="project-col">PID / Proyecto</th>
         @for (day of weekDays; track day) {
         <th>{{ day }}</th>
         }
@@ -10,19 +10,47 @@
       </tr>
     </thead>
     <tbody>
-      @for (p of projects; track p.name) {
+      @for (p of timeSheet.rows; track p.pid) {
       <tr>
-        <td class="project-name">{{ p.name }}</td>
-        <td>{{ p.mon }}h</td>
-        <td>{{ p.tue }}h</td>
-        <td>{{ p.wed }}h</td>
-        <td>{{ p.thu }}h</td>
-        <td>{{ p.fri }}h</td>
-        <td>{{ p.sat }}h</td>
-        <td>{{ p.sun }}h</td>
-        <td class="total-value">{{ calculateTotal(p) }}h</td>
+        <td class="project-name">
+          <span class="pid-badge">{{ p.pid }}</span>
+          <div class="p-name-text">{{ p.projectName }}</div>
+        </td>
+
+        @for (dayKey of ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']; track dayKey) {
+        <td class="hour-cell">
+          <div class="cell-content">
+            <input type="number" [(ngModel)]="p.days[dayKey].hours" min="0" max="24" placeholder="0">
+
+            <ion-button fill="clear" size="small" (click)="openCommentModal(p.days[dayKey])" class="comment-btn">
+              <ion-icon slot="icon-only" name="create-outline" [color]="p.days[dayKey].comment ? 'primary' : 'medium'">
+              </ion-icon>
+            </ion-button>
+          </div>
+        </td>
+        }
+
+        <td class="total-value">{{ p.totalHours }}h</td>
       </tr>
       }
     </tbody>
   </table>
+
+  <div class="timesheet-footer">
+    <div class="global-comment-box">
+      <ion-item lines="none" class="custom-textarea">
+        <ion-label position="stacked">Comentario Semanal Global</ion-label>
+        <ion-textarea [(ngModel)]="timeSheet.globalComment"
+          placeholder="Añade notas generales sobre el trabajo de esta semana..." rows="2">
+        </ion-textarea>
+      </ion-item>
+    </div>
+
+    <div class="actions-bar">
+      <ion-button expand="block" color="primary" (click)="saveTimeSheet()">
+        <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+        Mandar reporte semanal
+      </ion-button>
+    </div>
+  </div>
 </div>
