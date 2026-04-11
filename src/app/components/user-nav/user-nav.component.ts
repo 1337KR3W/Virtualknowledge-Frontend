@@ -12,8 +12,6 @@ import { DataManagementService } from 'src/app/services/data-management.service'
 })
 export class UserNavComponent extends AbstractPage implements OnInit {
 
-
-
   private readonly dataMgmt = inject(DataManagementService);
 
   public user: UserDTO | null = null;

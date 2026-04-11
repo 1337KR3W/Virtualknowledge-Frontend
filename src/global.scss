@@ -41,7 +41,7 @@
     flex-direction: column;
     height: 100vh;
     width: 100vw;
-    overflow: hidden; // Evita scroll doble
+    overflow: hidden;
 }
 
 .main-content {
@@ -49,7 +49,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    overflow: hidden; // El scroll lo manejará el ion-content de cada página
+    overflow: hidden;
 
     ion-router-outlet {
         display: block;
@@ -58,7 +58,6 @@
     }
 }
 
-// global.scss
 .small-modal {
     --width: 500px;
     --height: 400px;

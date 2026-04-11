@@ -18,9 +18,7 @@ export class DataManagementService {
    */
   async login(email: string, password: string): Promise<[UserDTO, VersionDTO]> {
     const authResponse = await this.rest.login(email, password);
-    if (!authResponse?.token) {
-      throw new Error('LOGIN_ERROR: No token received');
-    }
+    if (!authResponse?.token) { throw new Error('LOGIN_ERROR: No token received'); }
     await this.persistence.setValue('token', authResponse.token);
     const [userLogged, version] = await Promise.all([
       this.loadUserLogged(authResponse.id),
@@ -60,7 +58,6 @@ export class DataManagementService {
 
       await this.rest.saveTimeSheet(timeSheet, user.id);
 
-      // Opcional: Guardar en persistencia local por si el usuario refresca
       await this.persistence.setValue(`timesheet_${timeSheet.weekId}`, timeSheet);
 
     } catch (error) {
@@ -110,20 +107,19 @@ export class DataManagementService {
   }
 
   /**
-   * Recupera proyectos. 
-   * @param userId ID del usuario
+   * Recupera proyectos de forma segura.
+   * Ya no necesita userId porque el Backend lo extrae del JWT.
    * @param weekId (Opcional) Si se envía, filtra por vigencia. Si no, trae todos.
    */
-  async getProjects(userId: number, weekId?: string): Promise<ProjectDTO[]> {
+  async getProjects(weekId?: string): Promise<ProjectDTO[]> {
     try {
       if (weekId && weekId.trim() !== '') {
-        // Llamada al endpoint filtrado (TimeSheet)
         console.log(`[DM] Cargando proyectos filtrados para la semana: ${weekId}`);
-        return await this.rest.getProjectsByUserIdAndWeek(userId, weekId);
+        return await this.rest.getProjectsByUserIdAndWeek(weekId);
       } else {
-        // Llamada al endpoint general (Projects Page)
+
         console.log(`[DM] Cargando listado histórico de proyectos`);
-        return await this.rest.getProjectsByUserId(userId);
+        return await this.rest.getProjectsByUserId();
       }
     } catch (error) {
       console.error('[DM.getProjects] Error al recuperar proyectos:', error);

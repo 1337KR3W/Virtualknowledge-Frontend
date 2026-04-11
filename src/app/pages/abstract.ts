@@ -8,7 +8,6 @@ export class AbstractPage {
     protected readonly nav = inject(NavController);
     protected readonly menuCtrl = inject(MenuController);
     protected readonly dataManagement = inject(DataManagementService);
-    //protected readonly translateService = inject(TranslateService);
 
     public languages: { [key: string]: string } = {};
 

@@ -1,7 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { IonicModule } from "@ionic/angular";
 import { ProjectDTO } from 'src/app/models/projectDTO.model';
 import { DataManagementService } from 'src/app/services/data-management.service';
@@ -33,14 +32,10 @@ export class ProjectsPage extends AbstractPage implements OnInit, OnDestroy {
     this.dataMgmt.setBackButton(true);
   }
 
-  // projects.page.ts
-
   async loadProjects() {
     if (this.user?.id) {
       try {
-        // IMPORTANTE: Solo pasamos el ID. 
-        // Al no enviar el segundo parámetro, el Service pedirá TODOS los proyectos al Backend.
-        this.projects = await this.dataMgmt.getProjects(this.user.id);
+        this.projects = await this.dataMgmt.getProjects();
 
         console.log('[PROJECTS] Listado histórico cargado:', this.projects.length);
       } catch (error) {

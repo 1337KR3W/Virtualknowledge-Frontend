@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs';
 export class TimeSheetComponent implements OnInit, OnDestroy {
   private readonly utils = inject(UtilsService);
   private readonly dataMgmt = inject(DataManagementService);
-  public readonly timeState = inject(TimeStateService); // Inyectamos el estado
+  public readonly timeState = inject(TimeStateService);
 
   public user: UserDTO | null = null;
   public currentWeekId: string = '2026-W15';
@@ -30,7 +30,6 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
   private weekSubscription?: Subscription;
 
   async ngOnInit() {
-    // 1. Recuperar usuario logueado
     this.user = await this.dataMgmt.getValueFromStorage<UserDTO>('userLogged');
 
     if (this.user) {
@@ -42,36 +41,37 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
   }
 
   async loadCurrentWeek(weekId: string) {
-    if (!this.user?.id) return;
-
     try {
-      // 1. Pedimos proyectos vigentes para ESTA semana específica
-      const filteredProjects = await this.dataMgmt.getProjects(this.user.id, weekId);
-
-      // 2. Cargamos o inicializamos el TimeSheet
+      const activeProjects = await this.dataMgmt.getProjects(weekId);
       const savedData = await this.dataMgmt.getTimeSheet(weekId);
+      const finalTS = new TimeSheetDTO(weekId);
 
-      if (savedData && savedData.rows?.length > 0) {
-        this.timeSheet = savedData;
-      } else {
-        const newTS = new TimeSheetDTO(weekId);
-        newTS.rows = filteredProjects.map(p => new ProjectTimeRowDTO(p.id.toString(), p.name));
-        this.timeSheet = newTS;
-      }
+      finalTS.rows = activeProjects.map(project => {
+
+        const existingRow = savedData?.rows?.find(r => r.pid === project.id.toString());
+
+        if (existingRow) {
+          return existingRow;
+        } else {
+          return new ProjectTimeRowDTO(project.id.toString(), project.name);
+        }
+      });
+
+      this.timeSheet = finalTS;
+      this.currentWeekId = weekId;
+
     } catch (error) {
       console.error('[TS] Error al cargar semana:', error);
     }
   }
 
   async openCommentModal(dayEntry: TimeEntryDTO) {
-    // Abrimos el modal pasando el comentario actual como prop
     const updatedComment = await this.utils.openModal(
       CommentModalComponent,
       { comment: dayEntry.comment },
-      'small-modal' // Clase CSS opcional para que no ocupe toda la pantalla en Web
+      'small-modal'
     );
 
-    // Si el usuario guardó algo (updatedComment no es undefined), actualizamos el DTO
     if (updatedComment !== undefined) {
       dayEntry.comment = updatedComment;
       console.log('Comentario actualizado con éxito');
@@ -82,25 +82,14 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
     if (!this.timeSheet) return;
 
     try {
-      // 1. Mostramos un cargando (opcional)
-      //await this.utils.showLoading('Guardando reporte...');
-
-      // 2. Enviamos el objeto al DataManagement
       await this.dataMgmt.saveTimeSheet(this.timeSheet);
-
-      // 3. Notificamos al usuario
-      //await this.utils.dismissLoading();
-      //this.utils.showToast('Reporte guardado con éxito', 'success');
-
+      console.log('Semana guardada con éxito');
     } catch (error) {
-      //await this.utils.dismissLoading();
-      //this.utils.showToast('Error al conectar con el servidor', 'danger');
       console.error('Error en el guardado:', error);
     }
   }
 
   ngOnDestroy() {
-    // Muy importante para evitar fugas de memoria
     this.weekSubscription?.unsubscribe();
   }
 }

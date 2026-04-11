@@ -15,7 +15,7 @@ import { PersistenceService } from 'src/app/services/persistence.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonicModule, ReactiveFormsModule] // Importante para usar los forms de Angular con Ionic
+  imports: [IonicModule, ReactiveFormsModule]
 })
 export class LoginPage extends AbstractPage {
   private readonly fb = inject(FormBuilder);
@@ -50,14 +50,11 @@ export class LoginPage extends AbstractPage {
 
   private async handleOnlineLogin() {
     await this.dataMgmt.login(this.loginForm.value.email, this.loginForm.value.password);
-
-    // 2. Encriptar y guardar credenciales para futuras sesiones
     await this.encryptAndSaveCredentials(
       this.loginForm.value.customerCode,
       this.loginForm.value.email,
       this.loginForm.value.password);
 
-    // 3. Verificar y navegar
     const credentialsEncrypted: Credentials | null = await this.dataMgmt.getValueFromStorage('credentials');
 
     if (credentialsEncrypted) {
@@ -76,7 +73,6 @@ export class LoginPage extends AbstractPage {
       this.encrypt.encode(user),
       this.encrypt.encode(password)
     );
-    // Simplemente esperamos a que el servicio termine de guardar
     await this.dataMgmt.setValueFromStorage('credentials', credentials);
   }
 }

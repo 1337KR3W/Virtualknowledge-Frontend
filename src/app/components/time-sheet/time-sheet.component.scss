@@ -29,7 +29,7 @@ ion-card {
         }
 
         td {
-            padding: 8px; // Reducimos un poco el padding para que respire mejor
+            padding: 8px;
             text-align: center;
             border-bottom: 1px solid rgba(var(--ion-color-medium-rgb), 0.1);
         }
@@ -83,10 +83,10 @@ ion-card {
                 --padding-start: 0;
                 --padding-end: 0;
                 margin: 0;
-                height: 24px; // Controlamos el tamaño del contenedor del botón
+                height: 24px;
 
                 ion-icon {
-                    font-size: 1.4rem; // Icono más grande como pediste
+                    font-size: 1.4rem;
                 }
             }
         }

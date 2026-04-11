@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 
 import { IonicModule } from "@ionic/angular";
-import { addIcons } from 'ionicons'; // 1. Importar addIcons
+import { addIcons } from 'ionicons';
 import { globe, logOutOutline, shieldCheckmarkOutline, gitBranchOutline, folderOpenOutline, briefcaseOutline, createOutline, cloudUploadOutline, calendarNumberOutline } from 'ionicons/icons'; // 2. Importar los iconos específicos
 import { DataManagementService } from './services/data-management.service';
 import { NavigationEnd, Router } from '@angular/router';
@@ -35,16 +35,15 @@ export class AppComponent {
   }
 
   ionViewWillEnter() {
-    // Se ejecuta SIEMPRE que entras a la pantalla, incluso al volver atrás
     this.dataMgmt.setBackButton(false);
   }
 
   initializeApp() {
-    // Escuchamos los cambios de ruta
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
-      // Si la ruta NO es 'login', mostramos el layout
+
       this.showLayout = !event.urlAfterRedirects.includes('login');
     });
   }

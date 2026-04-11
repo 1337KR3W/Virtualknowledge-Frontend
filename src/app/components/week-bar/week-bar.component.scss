@@ -3,21 +3,18 @@
     margin: 0 !important;
 }
 
-// Si dentro del componente usas un ion-card como contenedor principal:
 ion-card {
     margin: 0 !important;
-    width: 100%; // Asegura que ocupe todo el ancho de su columna
-
+    width: 100%;
 }
 
 .stepper-container {
     display: flex;
     align-items: center;
-    justify-content: center; // Lo centramos para que luzca en la columna
+    justify-content: center;
     padding: 10px;
     margin-bottom: 15px;
     background: var(--ion-color-light);
-
 
     .week-info {
         display: flex;

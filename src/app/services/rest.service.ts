@@ -26,10 +26,8 @@ export class RestService extends AbstractService {
       baseUrl = baseUrl.replace('$CUSTOMER$', customer);
     }
 
-    // Unimos el prefijo con la URL de la API del environment
     let finalUrl = baseUrl + environment.apiUrl;
 
-    // Regex para limpiar dobles slashes evitando romper el http://
     this.path = finalUrl.replace(/([^:]\/)\/+/g, "$1");
 
     return this.path;
@@ -39,7 +37,6 @@ export class RestService extends AbstractService {
 
   async login(email: string, password: string): Promise<any> {
     const basePath = await this.getPath();
-    // Importante: El login SIEMPRE cuelga de /auth/
     return this.makePostRequestWithoutHeaders(`${basePath}auth/login`, {
       email,
       password
@@ -50,7 +47,6 @@ export class RestService extends AbstractService {
 
   async getUserProfile(id: number): Promise<UserDTO> { //
     const basePath = await this.getPath();
-    // Ahora la URL llevará el ID al final: /user/profile/1
     return this.makeGetRequest<UserDTO>(`${basePath}user/profile/${id}`);
   }
 
@@ -62,37 +58,40 @@ export class RestService extends AbstractService {
     return this.makeGetRequest<VersionDTO>(`${basePath}system/version`);
   }
 
-  // --- METODOS DE PROYECTOS (/project) ---
-  async getProjectsByUserId(userId: number): Promise<ProjectDTO[]> {
-    console.log('[REST] Intentando obtener path...');
+  // --- METODOS DE PROYECTOS (/projects) ---
+
+  /**
+   * USADO POR: ProjectsPage (Listado Histórico)
+   * Llama a: /projects/my-projects
+   */
+  async getProjectsByUserId(): Promise<ProjectDTO[]> {
     const basePath = await this.getPath();
-    console.log('[REST] Path obtenido:', basePath, 'Lanzando GET...');
+    const url = `${basePath}projects/my-projects`;
 
-    const url = `${basePath}projects/user/${userId}`;
-    console.log('[REST] URL final construida:', url);
-
+    console.log('[REST] Obteniendo listado histórico personal:', url);
     return this.makeGetRequest<ProjectDTO[]>(url);
   }
 
-  async getProjectsByUserIdAndWeek(userId: number, weekId: string): Promise<ProjectDTO[]> {
-    // Ajustamos la URL para que coincida con: /user/{userId}/week/{weekId}
-    const url = `${await this.getPath()}projects/user/${userId}/week/${weekId}`;
+  /**
+   * USADO POR: TimeSheetComponent (Reporte Semanal)
+   * Llama a: /projects/my-projects/week/{weekId}
+   */
+  async getProjectsByUserIdAndWeek(weekId: string): Promise<ProjectDTO[]> {
+    const basePath = await this.getPath();
+    const url = `${basePath}projects/my-projects/week/${weekId}`;
 
-    // Usamos el método que ya tengas para peticiones GET (suponiendo que devuelve un Promise)
+    console.log('[REST] Obteniendo proyectos vigentes para la semana:', weekId);
     return this.makeGetRequest<ProjectDTO[]>(url);
   }
 
   // --- MÉTODOS DE TIMESHEET (/timesheet) ---
   async saveTimeSheet(timeSheet: TimeSheetDTO, userId: number): Promise<void> {
     const basePath = await this.getPath();
-
-    // Enriquecemos el objeto con el userId antes de enviar
-    // (Aunque lo ideal es sacarlo del token en el back, esto asegura la carga)
     const payload = {
       weekId: timeSheet.weekId,
       globalComment: timeSheet.globalComment,
       rows: timeSheet.rows,
-      userId: userId // <--- Este campo debe existir en tu TimeSheetRequestDTO.java
+      userId: userId
     };
 
     return this.makePostRequest(`${basePath}timesheet/save`, payload);
@@ -100,11 +99,10 @@ export class RestService extends AbstractService {
 
   async getTimeSheetByWeek(weekId: string, userId: number): Promise<TimeSheetDTO> {
     const basePath = await this.getPath();
-    return this.makeGetRequest<TimeSheetDTO>(`${basePath}timesheet/week/${weekId}/user/${userId}`);
+    return this.makeGetRequest<TimeSheetDTO>(`${basePath}timesheet/my-timesheet/${weekId}`);
   }
 
   // --- UTILIDADES ---
-
   async cleanAllData(): Promise<boolean> {
     this.path = null;
     return await this.persistence.resetValues();

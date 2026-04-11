@@ -1,7 +1,6 @@
 import { AbstractModel } from "./abstract.model";
 import { ProjectDTO } from "./projectDTO.model";
 
-
 export class UserDTO extends AbstractModel {
     name!: string;
     email!: string;

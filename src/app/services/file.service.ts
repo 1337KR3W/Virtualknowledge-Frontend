@@ -4,13 +4,11 @@ import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class FileService {
-    // Carpeta donde se guardarán los JSON (definida en tu environment)
     private readonly storagePath: string;
     private readonly directory = Directory.Data;
     private readonly extension = '.json';
 
     constructor() {
-        // Normalizamos la ruta del environment: 'assets/storageFiles' -> 'storageFiles'
         this.storagePath = this.normalizePath(environment.destPathFiles);
     }
 
@@ -27,7 +25,7 @@ export class FileService {
             });
             return JSON.parse(data as string) as T;
         } catch (err) {
-            // Si el archivo no existe, devolvemos null en lugar de lanzar error
+
             return null;
         }
     }
@@ -96,13 +94,13 @@ export class FileService {
                 recursive: true,
             });
         } catch (error) {
-            // El directorio ya existe, no hacemos nada
+
         }
     }
 
     private normalizePath(path: string): string {
         if (!path) return 'storage';
-        let p = path.replace(/^\/?assets\/?/, ''); // Quitamos 'assets' si viene en el string
+        let p = path.replace(/^\/?assets\/?/, '');
         if (p.startsWith('/')) p = p.slice(1);
         if (p.endsWith('/')) p = p.slice(0, -1);
         return p;
