@@ -1,46 +1,40 @@
-<ion-header>
-    <ion-toolbar color="primary">
-        <ion-buttons slot="start">
-            <ion-back-button defaultHref="welcome"></ion-back-button>
-        </ion-buttons>
-        <ion-title>Registrar Nuevo Usuario</ion-title>
-    </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
 
-<ion-content class="ion-padding">
-    <ion-card>
-        <ion-card-content>
-            <form (ngSubmit)="onRegister()">
-                <ion-item>
-                    <ion-label position="stacked">Nombre Completo</ion-label>
-                    <ion-input [(ngModel)]="userData.name" name="name" type="text" required></ion-input>
-                </ion-item>
+    <div class="register-container">
+        <ion-card>
+            <ion-card-content>
+                <form (ngSubmit)="onRegister()">
+                    <ion-item>
+                        <ion-label position="stacked">Full Name</ion-label>
+                        <ion-input [(ngModel)]="newUser.name" name="name" type="text" required></ion-input>
+                    </ion-item>
 
-                <ion-item>
-                    <ion-label position="stacked">Correo Electrónico</ion-label>
-                    <ion-input [(ngModel)]="userData.email" name="email" type="email" required></ion-input>
-                </ion-item>
+                    <ion-item>
+                        <ion-label position="stacked">Email</ion-label>
+                        <ion-input [(ngModel)]="newUser.email" name="email" type="email" required></ion-input>
+                    </ion-item>
 
-                <ion-item>
-                    <ion-label position="stacked">Contraseña Provisional</ion-label>
-                    <ion-input [(ngModel)]="userData.password" name="password" type="password" required></ion-input>
-                </ion-item>
+                    <ion-item>
+                        <ion-label position="stacked">Password</ion-label>
+                        <ion-input [(ngModel)]="newUser.password" name="password" type="password" required></ion-input>
+                    </ion-item>
 
-                <ion-item>
-                    <ion-label position="stacked">Rol del Usuario</ion-label>
-                    <ion-select [(ngModel)]="userData.role" name="role">
-                        <ion-select-option value="ROLE_USER">Usuario estándar</ion-select-option>
-                        <ion-select-option value="ROLE_ADMIN">Administrador</ion-select-option>
-                    </ion-select>
-                </ion-item>
+                    <ion-item>
+                        <ion-label position="stacked">Role</ion-label>
+                        <ion-select [ngModel]="newUser.roles[0]" (ngModelChange)="newUser.roles = [$event]" name="role">
+                            <ion-select-option value="ROLE_USER">ROLE_USER</ion-select-option>
+                            <ion-select-option value="ROLE_ADMIN">ROLE_ADMIN</ion-select-option>
+                        </ion-select>
+                    </ion-item>
 
-                <div class="ion-margin-top">
-                    <ion-button expand="block" type="submit"
-                        [disabled]="!userData.name || !userData.email || !userData.password">
-                        Crear Usuario
-                    </ion-button>
-                </div>
-            </form>
-        </ion-card-content>
-    </ion-card>
+                    <div class="ion-margin-top">
+                        <ion-button expand="block" type="submit"
+                            [disabled]="!newUser.name || !newUser.email || !newUser.password">
+                            CREATE USER
+                        </ion-button>
+                    </div>
+                </form>
+            </ion-card-content>
+        </ion-card>
+    </div>
 </ion-content>

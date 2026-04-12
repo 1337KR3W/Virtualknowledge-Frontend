@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { DataManagementService } from 'src/app/services/data-management.service';
 import { AbstractPage } from 'src/app/pages/abstract';
+import { UserDTO } from 'src/app/models/userDTO.model';
 
 @Component({
     selector: 'app-register',
@@ -14,18 +15,22 @@ import { AbstractPage } from 'src/app/pages/abstract';
 })
 export class RegisterPage extends AbstractPage {
     private readonly dataMgmt = inject(DataManagementService);
+    public newUser = new UserDTO();
 
-    // Modelo del formulario
-    public userData = {
-        name: '',
-        email: '',
-        password: '',
-        role: 'ROLE_USER' // Valor por defecto
-    };
+    constructor() {
+        super();
+        // Inicializamos valores por defecto necesarios para el registro
+        this.newUser.name = '';
+        this.newUser.email = '';
+        this.newUser.password = '';
+        this.newUser.roles = ['USER']; // Por defecto
+        this.newUser.status = 'ACTIVE';
+        this.newUser.projects = [];
+    }
 
     async onRegister() {
         try {
-            await this.dataMgmt.createNewUser(this.userData);
+            await this.dataMgmt.createNewUser(this.newUser);
             // Si todo va bien, mostramos mensaje y volvemos atrás
             console.log('Usuario creado con éxito');
             this.nav.back();

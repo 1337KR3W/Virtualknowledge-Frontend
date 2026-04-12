@@ -22,7 +22,7 @@ export class DataManagementService {
     if (!authResponse?.token) { throw new Error('LOGIN_ERROR: No token received'); }
     await this.persistence.setValue('token', authResponse.token);
     const roles: string[] = authResponse.roles || [];
-    const isAdmin = roles.includes('ADMIN');
+    const isAdmin = roles.includes('ROLE_ADMIN');
     this.isAdmin$.next(isAdmin);
     await this.persistence.setValue('isAdmin', isAdmin);
 
@@ -35,6 +35,11 @@ export class DataManagementService {
 
   async createNewUser(userData: any): Promise<void> {
     try {
+      const isAdmin = await this.persistence.getValue('isAdmin');
+      const token = await this.persistence.getValue('token');
+
+      console.log('[DEBUG] ¿Soy Admin según storage?:', isAdmin);
+      console.log('[DEBUG] Token que se va a enviar:', token?.substring(0, 20) + '...');
       await this.rest.registerUser(userData);
     } catch (error) {
       console.error('[DM] Error creating user:', error);

@@ -5,7 +5,7 @@ export class UserDTO extends AbstractModel {
     name!: string;
     email!: string;
     password!: string;
-    resgistrationDate!: string | Date;
+    registrationDate!: string | Date;
     projects: ProjectDTO[] = [];
     roles!: string[];
     status!: string;
