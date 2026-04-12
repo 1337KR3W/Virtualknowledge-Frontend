@@ -5,7 +5,7 @@ import { IonicModule } from "@ionic/angular";
 import { ProjectDTO } from 'src/app/models/projectDTO.model';
 import { DataManagementService } from 'src/app/services/data-management.service';
 import { UserDTO } from 'src/app/models/userDTO.model';
-import { AbstractPage } from '../../abstract';
+import { AbstractPage } from '../abstract';
 
 @Component({
   selector: 'app-projects',

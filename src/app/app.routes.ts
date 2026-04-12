@@ -21,7 +21,13 @@ export const routes: Routes = [
   },
   {
     path: 'projects',
-    loadComponent: () => import('./pages/projects/projects/projects.page').then(m => m.ProjectsPage),
+    loadComponent: () => import('./pages/projects/projects.page').then(m => m.ProjectsPage),
     canActivate: [authGuard]
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage),
+    canActivate: [authGuard],
+    data: { role: 'ROLE_ADMIN' }
   },
 ];

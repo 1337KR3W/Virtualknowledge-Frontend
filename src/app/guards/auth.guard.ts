@@ -1,6 +1,6 @@
-import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
-import { DataManagementService } from '../services/data-management.service';
+import { inject } from "@angular/core";
+import { CanActivateFn, Router } from "@angular/router";
+import { DataManagementService } from "../services/data-management.service";
 
 export const authGuard: CanActivateFn = async (route, state) => {
     const dataMgmt = inject(DataManagementService);
@@ -8,11 +8,25 @@ export const authGuard: CanActivateFn = async (route, state) => {
 
     const token = await dataMgmt.getToken();
 
-    if (token) {
-        return true;
-    } else {
-        //console.warn('[AuthGuard] Denied access: token not found.');
+    if (!token) {
         router.navigate(['/login']);
         return false;
     }
+
+    const expectedRole = route.data['role'];
+
+    if (expectedRole === 'ROLE_ADMIN') {
+        // LEER DIRECTAMENTE DEL STORAGE para evitar el delay del Observable
+        const isAdmin = await dataMgmt.getValueFromStorage<boolean>('isAdmin');
+
+        console.log('[AuthGuard] Validando acceso ADMIN. Valor en storage:', isAdmin);
+
+        if (!isAdmin) {
+            console.warn('[AuthGuard] Acceso denegado: Se requiere rol ADMIN');
+            router.navigate(['/welcome']);
+            return false;
+        }
+    }
+
+    return true;
 };

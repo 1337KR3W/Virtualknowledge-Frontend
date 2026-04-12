@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 
 import { IonicModule } from "@ionic/angular";
 import { addIcons } from 'ionicons';
-import { globe, logOutOutline, shieldCheckmarkOutline, gitBranchOutline, folderOpenOutline, briefcaseOutline, createOutline, cloudUploadOutline, calendarNumberOutline } from 'ionicons/icons'; // 2. Importar los iconos específicos
+import { globe, logOutOutline, shieldCheckmarkOutline, gitBranchOutline, folderOpenOutline, briefcaseOutline, createOutline, cloudUploadOutline, calendarNumberOutline, personAddOutline } from 'ionicons/icons'; // 2. Importar los iconos específicos
 import { DataManagementService } from './services/data-management.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -30,7 +30,8 @@ export class AppComponent {
       "briefcase-outline": briefcaseOutline,
       "create-outline": createOutline,
       "cloud-upload-outline": cloudUploadOutline,
-      "calendar-number-outline": calendarNumberOutline
+      "calendar-number-outline": calendarNumberOutline,
+      "person-add-outline": personAddOutline
     });
   }
 
@@ -39,7 +40,7 @@ export class AppComponent {
   }
 
   initializeApp() {
-
+    this.dataMgmt.checkAdminStatus();
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {

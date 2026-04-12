@@ -102,6 +102,11 @@ export class RestService extends AbstractService {
     return this.makeGetRequest<TimeSheetDTO>(`${basePath}timesheet/my-timesheet/${weekId}`);
   }
 
+  async registerUser(userData: any): Promise<any> {
+    const basePath = await this.getPath();
+    return this.makePostRequest(`${basePath}user/admin/register`, userData);
+  }
+
   // --- UTILIDADES ---
   async cleanAllData(): Promise<boolean> {
     this.path = null;

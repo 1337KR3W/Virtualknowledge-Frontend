@@ -12,6 +12,7 @@ export class DataManagementService {
   private readonly rest = inject(RestService);
   private readonly persistence = inject(PersistenceService);
   public showBackButton = new BehaviorSubject<boolean>(false);
+  public isAdmin$ = new BehaviorSubject<boolean>(false);
 
   /**
    * LOGIN
@@ -20,11 +21,30 @@ export class DataManagementService {
     const authResponse = await this.rest.login(email, password);
     if (!authResponse?.token) { throw new Error('LOGIN_ERROR: No token received'); }
     await this.persistence.setValue('token', authResponse.token);
+    const roles: string[] = authResponse.roles || [];
+    const isAdmin = roles.includes('ADMIN');
+    this.isAdmin$.next(isAdmin);
+    await this.persistence.setValue('isAdmin', isAdmin);
+
     const [userLogged, version] = await Promise.all([
       this.loadUserLogged(authResponse.id),
       this.loadProxyVersion()
     ]);
     return [userLogged, version];
+  }
+
+  async createNewUser(userData: any): Promise<void> {
+    try {
+      await this.rest.registerUser(userData);
+    } catch (error) {
+      console.error('[DM] Error creating user:', error);
+      throw error;
+    }
+  }
+
+  async checkAdminStatus(): Promise<void> {
+    const isAdmin = await this.persistence.getValue('isAdmin');
+    this.isAdmin$.next(!!isAdmin);
   }
 
   /**
@@ -84,6 +104,7 @@ export class DataManagementService {
   }
 
   async logout(): Promise<void> {
+    this.isAdmin$.next(false)
     await this.rest.cleanAllData();
   }
 

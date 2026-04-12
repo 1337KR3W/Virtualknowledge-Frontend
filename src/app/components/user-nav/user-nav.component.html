@@ -4,15 +4,24 @@
     <ion-card-title slot="start">
       {{ user.name }}
     </ion-card-title>
+
     <ion-badge color="primary">
-      {{ user.roles}}
+      {{ user.roles }}
     </ion-badge>
+
     <ion-buttons slot="end">
-      <ion-button fill="outline" color="primary" (click)="goToProjects()" class="ion-margin-end">
-        <ion-icon name="folder-open-outline" slot="start"></ion-icon>
+      @if (isAdmin$) {
+      <ion-button fill="outline" color="success" (click)="goToRegister()" class="ion-margin-end">
+        <ion-icon name="person-add-outline" slot="icon-only"></ion-icon>
       </ion-button>
+      }
+
+      <ion-button fill="outline" color="primary" (click)="goToProjects()" class="ion-margin-end">
+        <ion-icon name="folder-open-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+
       <ion-button fill="clear" color="danger" (click)="logout()">
-        <ion-icon name="log-out-outline"></ion-icon>
+        <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-item>
