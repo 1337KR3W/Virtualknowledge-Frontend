@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { IonicModule } from "@ionic/angular";
 import { UserDTO } from 'src/app/models/userDTO.model';
@@ -8,7 +9,7 @@ import { DataManagementService } from 'src/app/services/data-management.service'
   selector: 'app-user-nav',
   templateUrl: './user-nav.component.html',
   styleUrls: ['./user-nav.component.scss'],
-  imports: [IonicModule],
+  imports: [IonicModule, AsyncPipe],
 })
 export class UserNavComponent extends AbstractPage implements OnInit {
 

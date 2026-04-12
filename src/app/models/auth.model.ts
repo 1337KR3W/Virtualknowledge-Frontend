@@ -6,8 +6,3 @@ export interface LoginRequest {
     email: string;
     password?: string;
 }
-
-export interface SsoRequest {
-    apiKey: string;
-    apiSecret: string;
-}

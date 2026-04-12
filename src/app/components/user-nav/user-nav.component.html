@@ -10,7 +10,7 @@
     </ion-badge>
 
     <ion-buttons slot="end">
-      @if (isAdmin$) {
+      @if ((isAdmin$ | async) === true) {
       <ion-button fill="outline" color="success" (click)="goToRegister()" class="ion-margin-end">
         <ion-icon name="person-add-outline" slot="icon-only"></ion-icon>
       </ion-button>

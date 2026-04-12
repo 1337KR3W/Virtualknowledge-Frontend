@@ -6,6 +6,4 @@ export const environment = {
   destPathFiles: '/assets/storageFiles',
   version: 'verison_placeholder',
   testEnviroment: 'develop',
-  apiKey: 'mi-app-local',
-  apiSecret: 'secreto123'
 };

@@ -9,6 +9,7 @@ import { DataManagementService } from 'src/app/services/data-management.service'
 import { UserDTO } from 'src/app/models/userDTO.model';
 import { TimeStateService } from 'src/app/services/time-state';
 import { Subscription } from 'rxjs';
+import { ProjectDTO } from 'src/app/models/projectDTO.model';
 
 @Component({
   selector: 'app-time-sheet',
@@ -42,26 +43,34 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
 
   async loadCurrentWeek(weekId: string) {
     try {
-      const activeProjects = await this.dataMgmt.getProjects(weekId);
-      const savedData = await this.dataMgmt.getTimeSheet(weekId);
+      // Inicializamos un objeto limpio por defecto
       const finalTS = new TimeSheetDTO(weekId);
 
+      // Obtenemos proyectos (si falla o no hay, devolvemos array vacío)
+      let activeProjects: ProjectDTO[] = [];
+      try {
+        activeProjects = await this.dataMgmt.getProjects(weekId) || [];
+      } catch (e) {
+        console.warn('[TS] El usuario no tiene proyectos activos aún.', e);
+        activeProjects = [];
+      }
+
+      const savedData = await this.dataMgmt.getTimeSheet(weekId);
+
+      // Mapeamos filas solo si hay proyectos
       finalTS.rows = activeProjects.map(project => {
-
         const existingRow = savedData?.rows?.find(r => r.pid === project.id.toString());
-
-        if (existingRow) {
-          return existingRow;
-        } else {
-          return new ProjectTimeRowDTO(project.id.toString(), project.name);
-        }
+        return existingRow ? existingRow : new ProjectTimeRowDTO(project.id.toString(), project.name);
       });
 
+      // IMPORTANTE: Asignamos el objeto siempre para quitar el spinner
       this.timeSheet = finalTS;
       this.currentWeekId = weekId;
 
     } catch (error) {
-      console.error('[TS] Error al cargar semana:', error);
+      console.error('[TS] Error crítico al cargar semana:', error);
+      // Incluso en error crítico, inicializamos algo para no dejar el loading infinito
+      this.timeSheet = new TimeSheetDTO(weekId);
     }
   }
 
