@@ -1,8 +1,8 @@
 {
   "name": "virtualknowledge",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "version": "0.1.0",
+  "author": "Pepe Rojas",
+  "homepage": "https://1337kr3w.github.io/portfolio",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -67,5 +67,5 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.9.0"
   },
-  "description": "An Ionic project"
+  "description": "The Virtual Knowledge task manager is a SaaS that provides a platform for companies to access and manage assigned projects by users."
 }
