@@ -59,8 +59,28 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
 
       // Mapeamos filas solo si hay proyectos
       finalTS.rows = activeProjects.map(project => {
-        const existingRow = savedData?.rows?.find(r => r.pid === project.id.toString());
-        return existingRow ? existingRow : new ProjectTimeRowDTO(project.id.toString(), project.name);
+        const existingRow = savedData?.rows?.find(r => Number(r.pid) === project.id);
+
+        if (existingRow) {
+          // Si el proyecto existe en la BD, nos aseguramos de rellenar los días que Java no envió
+          const diasSemanales = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+          if (!existingRow.days) {
+            existingRow.days = {};
+          }
+
+          diasSemanales.forEach(dia => {
+            if (!existingRow.days[dia]) {
+              // Si Java no devolvió este día, le metemos un 0 por defecto para que no falle el HTML
+              existingRow.days[dia] = new TimeEntryDTO(0, '');
+            }
+          });
+
+          return existingRow;
+        } else {
+          // Si es un proyecto completamente nuevo en la semana, usamos el constructor limpio con ceros
+          return new ProjectTimeRowDTO(project.id, project.name);
+        }
       });
 
       // IMPORTANTE: Asignamos el objeto siempre para quitar el spinner
