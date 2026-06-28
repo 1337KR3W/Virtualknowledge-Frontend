@@ -168,7 +168,8 @@ export class DataManagementService {
 
   async createDepartment(name: string): Promise<void> {
     try {
-      await this.rest.createDepartment(name);
+      await this.rest.createDepartment({ name });
+
       console.log(`[DM] Departamento '${name}' creado correctamente.`);
     } catch (error) {
       console.error('[DM.createDepartment] Error al crear departamento:', error);
