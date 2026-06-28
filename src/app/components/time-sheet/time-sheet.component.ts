@@ -98,6 +98,11 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
     }
   }
 
+  public async refreshCurrentWeek() {
+    console.log('[TS] Forzando recarga de proyectos y horas...');
+    await this.loadCurrentWeek(this.currentWeekId);
+  }
+
   ngOnDestroy() {
     this.weekSubscription?.unsubscribe();
   }

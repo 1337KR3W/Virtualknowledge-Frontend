@@ -39,4 +39,8 @@ export class RegisterPage extends AbstractPage {
             // Aquí podrías añadir una alerta de Ionic para el usuario
         }
     }
+
+    public goBack() {
+        this.nav.navigateRoot('welcome', { animated: true, animationDirection: 'back' })//null, { animate: true, direction: 'back' }
+    }
 }
