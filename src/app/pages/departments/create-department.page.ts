@@ -19,6 +19,10 @@ export class CreateDepartmentPage extends AbstractPage {
 
     public departmentName: string = '';
 
+    ionViewWillEnter() {
+        this.dataMgmt.setBackButton(true);
+    }
+
     async onCreateDepartment() {
         if (!this.departmentName || this.departmentName.trim() === '') {
             this.showToast('El nombre del departamento es obligatorio.', 'warning');

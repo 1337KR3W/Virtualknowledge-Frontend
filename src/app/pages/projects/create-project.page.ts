@@ -32,6 +32,10 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
         userId: null as number | null
     };
 
+    ionViewWillEnter() {
+        this.dataMgmt.setBackButton(true);
+    }
+
     async ngOnInit() {
         try {
             this.departments = await this.dataMgmt.getDepartments();

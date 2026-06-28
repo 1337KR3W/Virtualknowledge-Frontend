@@ -28,7 +28,7 @@ export class UserNavComponent extends AbstractPage implements OnInit {
   }
 
   async goToRegister() {
-    this.nav.navigateForward('register');
+    this.nav.navigateForward('admin/register');
   }
 
   async goToCreateDepartment() {
