@@ -32,13 +32,13 @@ export const routes: Routes = [
   },
   {
     path: 'admin/create-department',
-    loadComponent: () => import('./pages/admin/create-department/create-department.page').then(m => m.CreateDepartmentPage),
+    loadComponent: () => import('./pages/departments/create-department.page').then(m => m.CreateDepartmentPage),
     canActivate: [authGuard],
     data: { role: 'ROLE_ADMIN' }
   },
   {
     path: 'admin/create-project',
-    loadComponent: () => import('./pages/admin/create-project/create-project.page').then(m => m.CreateProjectPage),
+    loadComponent: () => import('./pages/projects/create-project.page').then(m => m.CreateProjectPage),
     canActivate: [authGuard],
     data: { role: 'ROLE_ADMIN' }
   }

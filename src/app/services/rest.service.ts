@@ -94,4 +94,14 @@ export class RestService extends AbstractService {
     const basePath = await this.getPath();
     return this.makePostRequest(`${basePath}departments`, departmentData);
   }
+
+  async getUsersByDepartment(departmentId: number): Promise<UserDTO[]> {
+    const basePath = await this.getPath();
+    return this.makeGetRequest<UserDTO[]>(`${basePath}user/admin/department/${departmentId}`);
+  }
+
+  async createProject(projectData: any): Promise<any> {
+    const basePath = await this.getPath();
+    return this.makePostRequest(`${basePath}projects/admin/create`, projectData);
+  }
 }
