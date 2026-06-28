@@ -19,11 +19,10 @@ export class RegisterPage extends AbstractPage {
 
     constructor() {
         super();
-        // Inicializamos valores por defecto necesarios para el registro
         this.newUser.name = '';
         this.newUser.email = '';
         this.newUser.password = '';
-        this.newUser.roles = ['USER']; // Por defecto
+        this.newUser.roles = ['USER'];
         this.newUser.status = 'ACTIVE';
         this.newUser.projects = [];
     }
@@ -31,16 +30,16 @@ export class RegisterPage extends AbstractPage {
     async onRegister() {
         try {
             await this.dataMgmt.createNewUser(this.newUser);
-            // Si todo va bien, mostramos mensaje y volvemos atrás
+
             console.log('Usuario creado con éxito');
             this.nav.back();
         } catch (error) {
             console.error('Error al registrar usuario', error);
-            // Aquí podrías añadir una alerta de Ionic para el usuario
+
         }
     }
 
     public goBack() {
-        this.nav.navigateRoot('welcome', { animated: true, animationDirection: 'back' })//null, { animate: true, direction: 'back' }
+        this.nav.navigateRoot('welcome', { animated: true, animationDirection: 'back' })
     }
 }

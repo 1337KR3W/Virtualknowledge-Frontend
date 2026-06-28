@@ -40,7 +40,6 @@ export class RestService extends AbstractService {
 
   async getVersion(): Promise<VersionDTO> {
     const basePath = await this.getPath();
-    // Coincide con el nuevo SystemController del backend
     return this.makeGetRequest<VersionDTO>(`${basePath}system/version`);
   }
 

@@ -188,7 +188,6 @@ export class DataManagementService {
 
   async createProject(projectData: { name: string; description: string; startDate: string; endDate?: string; userId: number; departmentId: number }): Promise<void> {
     try {
-      // Mapeamos al formato que espera la entidad en el Backend
       const payload = {
         name: projectData.name,
         description: projectData.description,

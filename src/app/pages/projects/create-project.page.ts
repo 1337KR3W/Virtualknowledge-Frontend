@@ -18,11 +18,9 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
     private readonly dataMgmt = inject(DataManagementService);
     private readonly toastCtrl = inject(ToastController);
 
-    // Catálogos dinámicos
     public departments: any[] = [];
     public filteredUsers: UserDTO[] = [];
 
-    // Modelo del formulario
     public projectData = {
         name: '',
         description: '',
@@ -44,9 +42,8 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
         }
     }
 
-    // Evento que se dispara al cambiar de departamento
     async onDepartmentChange() {
-        this.projectData.userId = null; // Reseteamos el usuario seleccionado
+        this.projectData.userId = null;
         this.filteredUsers = [];
 
         if (this.projectData.departmentId) {
