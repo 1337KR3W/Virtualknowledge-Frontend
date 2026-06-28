@@ -25,9 +25,21 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'register',
+    path: 'admin/register',
     loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage),
     canActivate: [authGuard],
     data: { role: 'ROLE_ADMIN' }
   },
+  {
+    path: 'admin/create-department',
+    loadComponent: () => import('./pages/admin/create-department/create-department.page').then(m => m.CreateDepartmentPage),
+    canActivate: [authGuard],
+    data: { role: 'ROLE_ADMIN' }
+  },
+  {
+    path: 'admin/create-project',
+    loadComponent: () => import('./pages/admin/create-project/create-project.page').then(m => m.CreateProjectPage),
+    canActivate: [authGuard],
+    data: { role: 'ROLE_ADMIN' }
+  }
 ];

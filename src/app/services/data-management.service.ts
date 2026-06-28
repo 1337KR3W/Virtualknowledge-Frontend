@@ -156,4 +156,23 @@ export class DataManagementService {
   setBackButton(value: boolean) {
     this.showBackButton.next(value);
   }
+
+  async getDepartments(): Promise<any[]> {
+    try {
+      return await this.rest.getDepartments();
+    } catch (error) {
+      console.error('[DM.getDepartments] Error al traer departamentos:', error);
+      throw error;
+    }
+  }
+
+  async createDepartment(name: string): Promise<void> {
+    try {
+      await this.rest.createDepartment(name);
+      console.log(`[DM] Departamento '${name}' creado correctamente.`);
+    } catch (error) {
+      console.error('[DM.createDepartment] Error al crear departamento:', error);
+      throw error;
+    }
+  }
 }

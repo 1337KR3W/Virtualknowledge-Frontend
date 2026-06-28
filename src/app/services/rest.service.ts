@@ -84,4 +84,14 @@ export class RestService extends AbstractService {
     this.path = null;
     return await this.persistence.resetValues();
   }
+
+  async getDepartments(): Promise<any[]> {
+    const basePath = await this.getPath();
+    return this.makeGetRequest<any[]>(`${basePath}departments`);
+  }
+
+  async createDepartment(departmentData: any): Promise<any> {
+    const basePath = await this.getPath();
+    return this.makePostRequest(`${basePath}departments`, departmentData);
+  }
 }
