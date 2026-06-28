@@ -11,6 +11,14 @@
 
     <ion-buttons slot="end">
       @if ((isAdmin$ | async) === true) {
+      <ion-button fill="outline" color="secondary" (click)="goToCreateDepartment()" class="ion-margin-end">
+        <ion-icon name="business-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="outline" color="tertiary" (click)="goToCreateProject()" class="ion-margin-end">
+        <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+
       <ion-button fill="outline" color="success" (click)="goToRegister()" class="ion-margin-end">
         <ion-icon name="person-add-outline" slot="icon-only"></ion-icon>
       </ion-button>
