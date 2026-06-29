@@ -8,14 +8,22 @@
         @for (day of weekDays; track day) {
         <th>{{ day }}</th>
         }
-        <th class="total-col">Total</th>
+        <th rowspan="2" class="total-col">Total</th>
+      </tr>
+      <tr class="sub-headers-row">
+        <th class="department-subtitle">Departments</th>
+        @for (date of weekDates; track date) {
+        <th class="date-subtitle">{{ date }}</th>
+        }
       </tr>
     </thead>
+
     <tbody>
       @for (p of timeSheet.rows; track p.pid) {
       <tr>
         <td class="project-name">
-          <div class="p-name-text">{{p.pid }} - {{ p.projectName }}</div>
+          <div class="p-name-text">{{ p.pid }} - {{ p.projectName }}</div>
+          <div class="p-dept-text">{{ $any(p).departmentName || 'General' }}</div>
         </td>
 
         @for (dayKey of weekDays; track dayKey) {
