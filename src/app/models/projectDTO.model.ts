@@ -6,4 +6,6 @@ export class ProjectDTO extends AbstractModel {
     startDate!: string | Date;
     endDate!: string | Date;
     userId!: number;
+    departmentId?: number;
+    departmentName?: string;
 }

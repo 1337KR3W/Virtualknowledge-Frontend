@@ -13,7 +13,10 @@ export class AbstractService {
 
 
   protected getHeaders(token?: string): HttpHeaders {
-    let headers = new HttpHeaders().set('Accept', 'application/json');
+    let headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json');
+
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DataManagementService } from 'src/app/services/data-management.service';
@@ -20,6 +20,8 @@ export class WelcomePage extends AbstractPage implements OnInit {
 
   private readonly dataMgmt = inject(DataManagementService);
 
+  @ViewChild(TimeSheetComponent) timeSheetComponent!: TimeSheetComponent;
+
   public appVersion: string = 'Cargando...';
 
   async ngOnInit() {
@@ -29,8 +31,10 @@ export class WelcomePage extends AbstractPage implements OnInit {
 
   ionViewWillEnter() {
     this.dataMgmt.setBackButton(false);
+
+    if (this.timeSheetComponent) {
+      this.timeSheetComponent.refreshCurrentWeek();
+    }
   }
-
-
 
 }

@@ -6,21 +6,21 @@ export class TimeEntryDTO {
 }
 
 export class ProjectTimeRowDTO {
-    public pid: string;
+    public pid: number;
     public projectName: string;
     public days: { [key: string]: TimeEntryDTO };
 
-    constructor(pid: string, projectName: string) {
+    constructor(pid: number, projectName: string) {
         this.pid = pid;
         this.projectName = projectName;
         this.days = {
-            mon: new TimeEntryDTO(),
-            tue: new TimeEntryDTO(),
-            wed: new TimeEntryDTO(),
-            thu: new TimeEntryDTO(),
-            fri: new TimeEntryDTO(),
-            sat: new TimeEntryDTO(),
-            sun: new TimeEntryDTO()
+            mon: new TimeEntryDTO(0, ''),
+            tue: new TimeEntryDTO(0, ''),
+            wed: new TimeEntryDTO(0, ''),
+            thu: new TimeEntryDTO(0, ''),
+            fri: new TimeEntryDTO(0, ''),
+            sat: new TimeEntryDTO(0, ''),
+            sun: new TimeEntryDTO(0, '')
         };
     }
 

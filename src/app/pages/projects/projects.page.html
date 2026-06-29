@@ -1,12 +1,18 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Assigned Projects</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="ion-padding">
   <ion-card>
 
     <ion-list lines="inset">
-      <ion-list-header>
-        <ion-label>
-          <h2>My projects</h2>
-        </ion-label>
-      </ion-list-header>
 
       @for (project of projects; track project.id) {
       <ion-item button>
@@ -14,6 +20,11 @@
         <ion-label>
           <h2 class="ion-text-uppercase"><b>{{ project.name }}</b></h2>
           <p>{{ project.description }}</p>
+          @if (project.departmentName) {
+          <ion-badge color="secondary" style="margin-top: 5px;">{{ project.departmentName }}</ion-badge>
+          }
+
+          <br>
           <ion-note color="medium" style="font-size: 0.8em;">ID: {{ project.id }}</ion-note>
         </ion-label>
       </ion-item>

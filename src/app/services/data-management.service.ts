@@ -156,4 +156,50 @@ export class DataManagementService {
   setBackButton(value: boolean) {
     this.showBackButton.next(value);
   }
+
+  async getDepartments(): Promise<any[]> {
+    try {
+      return await this.rest.getDepartments();
+    } catch (error) {
+      console.error('[DM.getDepartments] Error al traer departamentos:', error);
+      throw error;
+    }
+  }
+
+  async createDepartment(name: string): Promise<void> {
+    try {
+      await this.rest.createDepartment({ name });
+
+      console.log(`[DM] Departamento '${name}' creado correctamente.`);
+    } catch (error) {
+      console.error('[DM.createDepartment] Error al crear departamento:', error);
+      throw error;
+    }
+  }
+
+  async getUsersByDepartment(departmentId: number): Promise<UserDTO[]> {
+    try {
+      return await this.rest.getUsersByDepartment(departmentId);
+    } catch (error) {
+      console.error('[DM.getUsersByDepartment] Error al recuperar usuarios:', error);
+      throw error;
+    }
+  }
+
+  async createProject(projectData: { name: string; description: string; startDate: string; endDate?: string; userId: number; departmentId: number }): Promise<void> {
+    try {
+      const payload = {
+        name: projectData.name,
+        description: projectData.description,
+        startDate: projectData.startDate,
+        endDate: projectData.endDate || null,
+        user: { id: projectData.userId },
+        department: { id: projectData.departmentId }
+      };
+      await this.rest.createProject(payload);
+    } catch (error) {
+      console.error('[DM.createProject] Error al crear proyecto:', error);
+      throw error;
+    }
+  }
 }
