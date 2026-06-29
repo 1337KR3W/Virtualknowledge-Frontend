@@ -202,4 +202,14 @@ export class DataManagementService {
       throw error;
     }
   }
+
+  async downloadWeeklyTimesheetPdf(weekId: string): Promise<Blob> {
+    try {
+      console.log('[DM] Solicitando generación de informe semanal en PDF:', weekId);
+      return await this.rest.getWeeklyTimesheetPdf(weekId);
+    } catch (error) {
+      console.error('[DM.downloadWeeklyTimesheetPdf] Error al procesar el documento:', error);
+      throw error;
+    }
+  }
 }
