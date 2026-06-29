@@ -35,6 +35,8 @@ ion-card {
                 padding: 0px 12px 10px 12px; // Quitamos espacio superior para pegarlo al encabezado principal
                 text-transform: none; // Evitamos mayúsculas automáticas en las fechas si no se desea
                 letter-spacing: normal;
+
+
             }
 
             .department-subtitle {
@@ -43,7 +45,7 @@ ion-card {
                 font-weight: bold;
                 opacity: 0.8;
                 padding-left: 16px; // Sincronizado con el alineado del nombre del proyecto
-                text-align: left;
+                text-align: center;
             }
 
             .date-subtitle {
@@ -60,20 +62,30 @@ ion-card {
         }
 
         td {
-            padding: 8px;
+            padding: 4px; // Reducimos el padding general de la celda
+            vertical-align: middle; // Fuerza que todo se centre
             text-align: center;
             border-bottom: 1px solid rgba(var(--ion-color-medium-rgb), 0.1);
         }
 
+        .project-entry-div {
+            height: 45px;
+            gap: 4px;
+        }
+
         // --- CASILLAS DE PROYECTOS Y DEPARTAMENTOS ---
         .project-name {
+
             text-align: left;
             padding-left: 16px;
             display: flex;
             flex-direction: column; // Apila los textos verticalmente
             justify-content: center;
+            vertical-align: middle;
+
 
             .p-name-text {
+
                 font-weight: 600;
                 color: var(--ion-color-dark);
             }
@@ -82,22 +94,24 @@ ion-card {
                 font-weight: normal;
                 font-size: 0.75rem;
                 color: var(--ion-color-medium);
-                margin-top: 4px; // <- SEPARACIÓN EXACTA ENTRE PROYECTO Y DEPARTAMENTO
+                margin-top: 6px;
             }
         }
 
         /* --- CELDAS DE HORAS --- */
         .hour-cell {
             .cell-content {
+
                 display: flex;
-                flex-direction: row;
-                align-items: center;
+                justify-content: center; // Centramos horizontalmente
+                align-items: center; // Centramos verticalmente
                 gap: 4px;
+                min-width: 80px;
             }
 
             input {
-                width: 40px;
-                height: 40px;
+                width: 50px;
+                height: 45px;
                 text-align: center;
                 border: 2px solid var(--ion-color-light-shade, #d7d8da);
                 border-radius: 8px;

@@ -22,14 +22,18 @@
       @for (p of timeSheet.rows; track p.pid) {
       <tr>
         <td class="project-name">
-          <div class="p-name-text">{{ p.pid }} - {{ p.projectName }}</div>
-          <div class="p-dept-text">{{ $any(p).departmentName || 'General' }}</div>
+          <div class="project-entry-div">
+            <div class="p-name-text">{{ p.pid }} - {{ p.projectName }}</div>
+            <div class="p-dept-text">{{ $any(p).departmentName || 'General' }}</div>
+          </div>
+
         </td>
 
         @for (dayKey of weekDays; track dayKey) {
         <td class="hour-cell">
           <div class="cell-content">
-            <input type="number" [(ngModel)]="p.days[dayKey.toLowerCase()].hours" min="0" max="24" placeholder="0">
+            <input type="number" [(ngModel)]="p.days[dayKey.toLowerCase()].hours" min="0" max="24" step="0.5"
+              placeholder="0">
 
             <ion-button fill="clear" (click)="openCommentModal(p.days[dayKey.toLowerCase()])" class="comment-btn">
               <ion-icon slot="icon-only" name="create-outline"
@@ -40,7 +44,7 @@
         </td>
         }
 
-        <td class="total-value">{{ p.totalHours }}h</td>
+        <td class="total-value">{{ totalProjectHours(p) }}h</td>
       </tr>
       }
     </tbody>

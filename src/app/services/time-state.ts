@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { format, subWeeks, addWeeks } from 'date-fns';
-import { map, Observable } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
@@ -11,7 +11,8 @@ export class TimeStateService {
   public currentReferenceDate = signal<Date>(new Date());
 
   public weekId$: Observable<string> = toObservable(this.currentReferenceDate).pipe(
-    map(date => format(date, "RRRR-'W'II"))
+    map(date => format(date, "RRRR-'W'II")),
+    filter(weekId => weekId !== null && weekId.includes('-W'))
   );
 
 

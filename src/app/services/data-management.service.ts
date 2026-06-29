@@ -95,6 +95,10 @@ export class DataManagementService {
  * Obtiene la semana de trabajo. Primero intenta el servidor, si falla busca en local.
  */
   async getTimeSheet(weekId: string): Promise<TimeSheetDTO> {
+    if (!weekId || weekId.trim() === '' || !weekId.includes('-W')) {
+      console.warn('[DM] Intento de carga con ID inválido, abortando:', weekId);
+      return new TimeSheetDTO(weekId || 'N/A');
+    }
     const user = await this.getValueFromStorage<UserDTO>('userLogged');
     if (!user) throw new Error('No user logged');
 

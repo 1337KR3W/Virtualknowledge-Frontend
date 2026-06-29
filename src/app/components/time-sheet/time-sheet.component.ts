@@ -24,7 +24,7 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
   public readonly timeState = inject(TimeStateService);
 
   public user: UserDTO | null = null;
-  public currentWeekId: string = '2026-W15';
+  public currentWeekId: string = '';
   public timeSheet: TimeSheetDTO | null = null;
   public weekDays: string[] = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   public weekDates: string[] = [];
@@ -36,80 +36,64 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
     this.user = await this.dataMgmt.getValueFromStorage<UserDTO>('userLogged');
 
     if (this.user) {
-      // Usamos switchMap para cancelar peticiones previas si cambia la semana rápido
-      this.weekSubscription = this.timeState.weekId$.pipe(
-        switchMap(async (newWeekId) => {
-          console.log('[TS] Nueva semana procesando:', newWeekId);
-          await this.loadCurrentWeek(newWeekId);
-          return newWeekId;
-        })
-      ).subscribe();
+      this.weekSubscription = this.timeState.weekId$.subscribe(async (newWeekId) => {
+        // Si la carga actual ya es igual a la nueva, no hacemos nada para evitar duplicados
+        if (newWeekId === this.currentWeekId) return;
+
+        this.currentWeekId = newWeekId;
+        await this.loadCurrentWeek(newWeekId);
+      });
     }
   }
 
   async loadCurrentWeek(weekId: string) {
+    if (!weekId || weekId.length < 5) return;
+
     try {
       this.calculateWeekDates(weekId);
-      // Inicializamos un objeto limpio por defecto
       const finalTS = new TimeSheetDTO(weekId);
 
-      // Obtenemos proyectos (si falla o no hay, devolvemos array vacío)
-      let activeProjects: ProjectDTO[] = [];
-      try {
-        activeProjects = await this.dataMgmt.getProjects(weekId) || [];
-      } catch (e) {
-        console.warn('[TS] El usuario no tiene proyectos activos aún.', e);
-        activeProjects = [];
-      }
+      // Lista de días estándar
+      const diasSemanales = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
+      let activeProjects: ProjectDTO[] = await this.dataMgmt.getProjects(weekId) || [];
       const savedData = await this.dataMgmt.getTimeSheet(weekId);
-      console.log('--- DEPURACIÓN FRONTEND ---');
-      console.log('Datos recibidos:', savedData);
-      console.log('Filas recibidas:', savedData?.rows);
-      console.log('Comentario recibido:', savedData?.globalComment);
 
-      // 🛠️ CORRECCIÓN 1: Extraemos y asignamos el comentario global recuperado de la Base de Datos
       this.globalComment = savedData?.globalComment || '';
-      finalTS.globalComment = this.globalComment; // Lo acoplamos también al DTO general si tu modelo lo requiere
+      finalTS.globalComment = this.globalComment;
 
-      // Mapeamos filas solo si hay proyectos
       finalTS.rows = activeProjects.map(project => {
         const existingRow = savedData?.rows?.find(r => Number(r.pid) === project.id);
 
+        // Creamos una fila base (ya sea a partir de la existente o una nueva)
+        let rowToUse: ProjectTimeRowDTO;
+
         if (existingRow) {
-          // Si el proyecto existe en la BD, nos aseguramos de rellenar los días que Java no envió
-          const diasSemanales = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-
-          if (!existingRow.days) {
-            existingRow.days = {};
-          }
-
-          diasSemanales.forEach(dia => {
-            if (!existingRow.days[dia]) {
-              // Si Java no devolvió este día, le metemos un 0 por defecto para que no falle el HTML
-              existingRow.days[dia] = new TimeEntryDTO(0, '');
-            }
-          });
-
-          (existingRow as any).departmentName = (project as any).departmentName || (project as any).department || 'General';
-
-          return existingRow;
+          rowToUse = existingRow;
+          if (!rowToUse.days) rowToUse.days = {};
         } else {
-          const newRow = new ProjectTimeRowDTO(project.id, project.name);
-          (newRow as any).departmentName = (project as any).departmentName || (project as any).department || 'General';
-          // Si es un proyecto completamente nuevo en la semana, usamos el constructor limpio con ceros
-          return newRow;
+          // CORRECCIÓN AQUÍ: Inicializamos el objeto con un mapa vacío
+          rowToUse = new ProjectTimeRowDTO(project.id, project.name);
         }
+
+        // Aseguramos que los 7 días existan SIEMPRE
+        diasSemanales.forEach(dia => {
+          if (!rowToUse.days[dia]) {
+            rowToUse.days[dia] = new TimeEntryDTO(0, '');
+          }
+        });
+
+        // Asignamos departamento
+        (rowToUse as any).departmentName = (project as any).departmentName || (project as any).department || 'General';
+
+        return rowToUse;
       });
 
-      // IMPORTANTE: Asignamos el objeto siempre para quitar el spinner
       this.timeSheet = finalTS;
       this.currentWeekId = weekId;
 
     } catch (error) {
       console.error('[TS] Error crítico al cargar semana:', error);
-      this.globalComment = ''; // Limpiamos en caso de error sutil
-      // Incluso en error crítico, inicializamos algo para no dejar el loading infinito
       this.timeSheet = new TimeSheetDTO(weekId);
     }
   }
@@ -209,6 +193,17 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
     } finally {
       this.isDownloadingPdf = false;
     }
+  }
+
+  public totalProjectHours(row: ProjectTimeRowDTO): number {
+    if (!row.days) return 0;
+
+    // Obtenemos los valores de los días y sumamos
+    return Object.values(row.days).reduce((sum, entry) => {
+      // Nos aseguramos de tratar el valor como número, por si viene como string
+      const horas = Number(entry.hours) || 0;
+      return sum + horas;
+    }, 0);
   }
 
   ngOnDestroy() {
