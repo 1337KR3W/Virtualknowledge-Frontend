@@ -29,6 +29,7 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
   public weekDays: string[] = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   public globalComment: string | null = '';
   private weekSubscription?: Subscription;
+  public isDownloadingPdf: boolean = false;
 
   async ngOnInit() {
     this.user = await this.dataMgmt.getValueFromStorage<UserDTO>('userLogged');
@@ -121,6 +122,34 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
   public async refreshCurrentWeek() {
     console.log('[TS] Forzando recarga de proyectos y horas...');
     await this.loadCurrentWeek(this.currentWeekId);
+  }
+
+  async downloadWeeklyPdf() {
+    if (!this.timeSheet || this.isDownloadingPdf) return;
+
+    try {
+      this.isDownloadingPdf = true;
+      console.log('[TS] Descargando reporte en PDF para la semana activa:', this.currentWeekId);
+
+      // Con el cambio en abstract, esto será obligatoriamente un Blob puro
+      const blob: Blob = await this.dataMgmt.downloadWeeklyTimesheetPdf(this.currentWeekId);
+
+      const blobUrl = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = blobUrl;
+      anchor.download = `timesheet_${this.currentWeekId}.pdf`;
+
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+
+      window.URL.revokeObjectURL(blobUrl);
+      console.log('[TS] Archivo PDF procesado por el cliente con éxito.');
+    } catch (error) {
+      console.error('[TS] Error al procesar la exportación del PDF:', error);
+    } finally {
+      this.isDownloadingPdf = false;
+    }
   }
 
   ngOnDestroy() {

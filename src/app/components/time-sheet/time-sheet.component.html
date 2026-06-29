@@ -53,6 +53,11 @@
         <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
         GUARDAR reporte semanal
       </ion-button>
+
+      <ion-button (click)="downloadWeeklyPdf()" color="medium" [disabled]="isDownloadingPdf" style="flex: 1;">
+        <ion-icon [name]="isDownloadingPdf ? 'refresh-outline' : 'download-outline'" slot="start"></ion-icon>
+        {{ isDownloadingPdf ? 'Generando...' : 'EXPORTAR PDF' }}
+      </ion-button>
     </div>
   </div>
 </ion-card>
