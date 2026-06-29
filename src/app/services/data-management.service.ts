@@ -95,6 +95,10 @@ export class DataManagementService {
  * Obtiene la semana de trabajo. Primero intenta el servidor, si falla busca en local.
  */
   async getTimeSheet(weekId: string): Promise<TimeSheetDTO> {
+    if (!weekId || weekId.trim() === '' || !weekId.includes('-W')) {
+      console.warn('[DM] Intento de carga con ID inválido, abortando:', weekId);
+      return new TimeSheetDTO(weekId || 'N/A');
+    }
     const user = await this.getValueFromStorage<UserDTO>('userLogged');
     if (!user) throw new Error('No user logged');
 
@@ -199,6 +203,16 @@ export class DataManagementService {
       await this.rest.createProject(payload);
     } catch (error) {
       console.error('[DM.createProject] Error al crear proyecto:', error);
+      throw error;
+    }
+  }
+
+  async downloadWeeklyTimesheetPdf(weekId: string): Promise<Blob> {
+    try {
+      console.log('[DM] Solicitando generación de informe semanal en PDF:', weekId);
+      return await this.rest.getWeeklyTimesheetPdf(weekId);
+    } catch (error) {
+      console.error('[DM.downloadWeeklyTimesheetPdf] Error al procesar el documento:', error);
       throw error;
     }
   }

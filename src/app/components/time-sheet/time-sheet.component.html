@@ -8,20 +8,32 @@
         @for (day of weekDays; track day) {
         <th>{{ day }}</th>
         }
-        <th class="total-col">Total</th>
+        <th rowspan="2" class="total-col">Total</th>
+      </tr>
+      <tr class="sub-headers-row">
+        <th class="department-subtitle">Departments</th>
+        @for (date of weekDates; track date) {
+        <th class="date-subtitle">{{ date }}</th>
+        }
       </tr>
     </thead>
+
     <tbody>
       @for (p of timeSheet.rows; track p.pid) {
       <tr>
         <td class="project-name">
-          <div class="p-name-text">{{p.pid }} - {{ p.projectName }}</div>
+          <div class="project-entry-div">
+            <div class="p-name-text">{{ p.pid }} - {{ p.projectName }}</div>
+            <div class="p-dept-text">{{ $any(p).departmentName || 'General' }}</div>
+          </div>
+
         </td>
 
         @for (dayKey of weekDays; track dayKey) {
         <td class="hour-cell">
           <div class="cell-content">
-            <input type="number" [(ngModel)]="p.days[dayKey.toLowerCase()].hours" min="0" max="24" placeholder="0">
+            <input type="number" [(ngModel)]="p.days[dayKey.toLowerCase()].hours" min="0" max="24" step="0.5"
+              placeholder="0">
 
             <ion-button fill="clear" (click)="openCommentModal(p.days[dayKey.toLowerCase()])" class="comment-btn">
               <ion-icon slot="icon-only" name="create-outline"
@@ -32,7 +44,7 @@
         </td>
         }
 
-        <td class="total-value">{{ p.totalHours }}h</td>
+        <td class="total-value">{{ totalProjectHours(p) }}h</td>
       </tr>
       }
     </tbody>
@@ -52,6 +64,11 @@
       <ion-button expand="full" color="primary" (click)="saveTimeSheet()">
         <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
         GUARDAR reporte semanal
+      </ion-button>
+
+      <ion-button (click)="downloadWeeklyPdf()" color="medium" [disabled]="isDownloadingPdf" style="flex: 1;">
+        <ion-icon [name]="isDownloadingPdf ? 'refresh-outline' : 'download-outline'" slot="start"></ion-icon>
+        {{ isDownloadingPdf ? 'Generando...' : 'EXPORTAR PDF' }}
       </ion-button>
     </div>
   </div>

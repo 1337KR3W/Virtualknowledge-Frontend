@@ -94,4 +94,34 @@ export class AbstractService {
     const headers = this.getHeaders(token);
     return await firstValueFrom(this.http.put<T>(url, formData, { headers }));
   }
+
+  protected async makeGetBlobRequest(url: string, token?: string): Promise<Blob> {
+    const headers = this.getHeaders(token);
+    try {
+      const response = await firstValueFrom(
+        this.http.get(url, {
+          headers: headers.set('Accept', 'application/pdf'),
+          responseType: 'blob',
+          observe: 'response'
+        })
+      ) as any;
+
+      console.log('[ABSTRACT LOG] HTTP Status:', response?.status);
+
+      // Si el servidor responde con un 204, detenemos el flujo con un error controlado
+      if (response?.status === 204) {
+        throw new Error('No hay datos disponibles para generar el PDF de esta semana.');
+      }
+
+      const blobBody = response?.body;
+      if (!blobBody || !(blobBody instanceof Blob)) {
+        throw new Error('El servidor no devolvió un archivo binario válido.');
+      }
+
+      return blobBody;
+    } catch (err: any) {
+      console.error('[ABSTRACT] Error en la tubería Blob:', err.message || err);
+      throw err;
+    }
+  }
 }

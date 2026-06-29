@@ -103,4 +103,11 @@ export class RestService extends AbstractService {
     const basePath = await this.getPath();
     return this.makePostRequest(`${basePath}projects/admin/create`, projectData);
   }
+
+  async getWeeklyTimesheetPdf(weekId: string): Promise<Blob> {
+    const basePath = await this.getPath();
+    const url = `${basePath}pdf/timesheet/${weekId}`;
+    console.log('[REST] Solicitando descarga binaria de PDF:', url);
+    return this.makeGetBlobRequest(url);
+  }
 }

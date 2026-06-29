@@ -30,7 +30,7 @@ export class ProjectTimeRowDTO {
 }
 export class TimeSheetDTO {
     public weekId: string;
-    public globalComment: string;
+    public globalComment: string | null;
     public rows: ProjectTimeRowDTO[];
     public updatedAt: Date;
 
