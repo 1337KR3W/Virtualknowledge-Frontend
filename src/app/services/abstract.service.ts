@@ -94,4 +94,16 @@ export class AbstractService {
     const headers = this.getHeaders(token);
     return await firstValueFrom(this.http.put<T>(url, formData, { headers }));
   }
+
+  protected async makeGetBlobRequest(url: string, token?: string): Promise<Blob> {
+    const headers = this.getHeaders(token);
+    try {
+      return await firstValueFrom(
+        this.http.get(url, { headers, responseType: 'blob' })
+      );
+    } catch (err: any) {
+      console.error('[ABSTRACT] Error en la petición Blob:', err);
+      throw err;
+    }
+  }
 }
