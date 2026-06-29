@@ -8,7 +8,7 @@ import { CommentModalComponent } from '../comment-modal/comment-modal.component'
 import { DataManagementService } from 'src/app/services/data-management.service';
 import { UserDTO } from 'src/app/models/userDTO.model';
 import { TimeStateService } from 'src/app/services/time-state';
-import { Subscription, switchMap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ProjectDTO } from 'src/app/models/projectDTO.model';
 
 @Component({
@@ -37,7 +37,6 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
 
     if (this.user) {
       this.weekSubscription = this.timeState.weekId$.subscribe(async (newWeekId) => {
-        // Si la carga actual ya es igual a la nueva, no hacemos nada para evitar duplicados
         if (newWeekId === this.currentWeekId) return;
 
         this.currentWeekId = newWeekId;
@@ -53,7 +52,6 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
       this.calculateWeekDates(weekId);
       const finalTS = new TimeSheetDTO(weekId);
 
-      // Lista de días estándar
       const diasSemanales = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
       let activeProjects: ProjectDTO[] = await this.dataMgmt.getProjects(weekId) || [];
@@ -65,25 +63,21 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
       finalTS.rows = activeProjects.map(project => {
         const existingRow = savedData?.rows?.find(r => Number(r.pid) === project.id);
 
-        // Creamos una fila base (ya sea a partir de la existente o una nueva)
         let rowToUse: ProjectTimeRowDTO;
 
         if (existingRow) {
           rowToUse = existingRow;
           if (!rowToUse.days) rowToUse.days = {};
         } else {
-          // CORRECCIÓN AQUÍ: Inicializamos el objeto con un mapa vacío
           rowToUse = new ProjectTimeRowDTO(project.id, project.name);
         }
 
-        // Aseguramos que los 7 días existan SIEMPRE
         diasSemanales.forEach(dia => {
           if (!rowToUse.days[dia]) {
             rowToUse.days[dia] = new TimeEntryDTO(0, '');
           }
         });
 
-        // Asignamos departamento
         (rowToUse as any).departmentName = (project as any).departmentName || (project as any).department || 'General';
 
         return rowToUse;
@@ -100,38 +94,33 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
 
   private calculateWeekDates(weekId: string) {
     try {
-      // Extraemos año y número de semana de cadenas tipo "2026-W27"
       const parts = weekId.split('-W');
       const year = parseInt(parts[0], 10);
       const week = parseInt(parts[1], 10);
 
-      // Calculamos el primer día del año
       const firstDayOfYear = new Date(year, 0, 1);
       const daysOffset = (week - 1) * 7;
 
-      // Obtenemos el lunes de esa semana según el estándar ISO
       const isoMonday = new Date(year, 0, 1 + daysOffset);
       const dayOfWeek = isoMonday.getDay();
       const dayDiff = isoMonday.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
       const mondayDate = new Date(isoMonday.setDate(dayDiff));
 
-      // Como tu tabla empieza en Domingo (SUN), restamos 1 día al lunes base
       const currentDay = new Date(mondayDate);
       currentDay.setDate(mondayDate.getDate() - 1);
 
       this.weekDates = [];
-      // Rellenamos el array recorriendo de Domingo a Sábado (7 iteraciones)
       for (let i = 0; i < 7; i++) {
         const y = currentDay.getFullYear();
         const m = String(currentDay.getMonth() + 1).padStart(2, '0');
         const d = String(currentDay.getDate()).padStart(2, '0');
 
         this.weekDates.push(`${y}/${m}/${d}`);
-        currentDay.setDate(currentDay.getDate() + 1); // Avanzar un día
+        currentDay.setDate(currentDay.getDate() + 1);
       }
     } catch (err) {
       console.error('[TS] Error parseando fechas de la semana, usando fallback.', err);
-      // Fallback seguro en caso de formato no válido para que la app no explote
+
       this.weekDates = Array(7).fill('----/--/--');
     }
   }
@@ -174,7 +163,6 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
       this.isDownloadingPdf = true;
       console.log('[TS] Descargando reporte en PDF para la semana activa:', this.currentWeekId);
 
-      // El backend recibe el ID y genera el PDF buscando los datos persistidos
       const blob: Blob = await this.dataMgmt.downloadWeeklyTimesheetPdf(this.currentWeekId);
 
       const blobUrl = window.URL.createObjectURL(blob);
@@ -198,9 +186,8 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
   public totalProjectHours(row: ProjectTimeRowDTO): number {
     if (!row.days) return 0;
 
-    // Obtenemos los valores de los días y sumamos
     return Object.values(row.days).reduce((sum, entry) => {
-      // Nos aseguramos de tratar el valor como número, por si viene como string
+
       const horas = Number(entry.hours) || 0;
       return sum + horas;
     }, 0);
