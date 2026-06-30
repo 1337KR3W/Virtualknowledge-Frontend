@@ -39,6 +39,15 @@ export class UserNavComponent extends AbstractPage implements OnInit {
     this.nav.navigateForward('admin/create-project');
   }
 
+  public getDisplayRole(): string {
+    if (!this.user || !this.user.roles || this.user.roles.length === 0) {
+      return '';
+    }
+    // Asumiendo que roles es un array de strings, tomamos el primero
+    const role = Array.isArray(this.user.roles) ? this.user.roles[0] : this.user.roles;
+    return role.replace('ROLE_', '');
+  }
+
   async logout() {
     await this.dataMgmt.logout();
     this.nav.navigateRoot('login');

@@ -1,16 +1,25 @@
 @if (user) {
 <ion-card class="ion-no-margin user-card">
   <ion-item lines="none">
+
+
     <ion-card-title slot="start">
+      <ion-badge color="primary">
+        {{ getDisplayRole() }}
+      </ion-badge>
       {{ user.name }}
     </ion-card-title>
 
-    <ion-badge color="primary">
-      {{ user.roles }}
-    </ion-badge>
+    <ion-button fill="clear" color="primary" class="ion-margin-end">
+      <ion-icon name="settings-outline" slot="icon-only"></ion-icon>
+    </ion-button>
 
     <ion-buttons slot="end">
       @if ((isAdmin$ | async) === true) {
+      <ion-button fill="outline" color="success" (click)="goToRegister()" class="ion-margin-end">
+        <ion-icon name="person-add-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+
       <ion-button fill="outline" color="secondary" (click)="goToCreateDepartment()" class="ion-margin-end">
         <ion-icon name="business-outline" slot="icon-only"></ion-icon>
       </ion-button>
@@ -18,13 +27,9 @@
       <ion-button fill="outline" color="tertiary" (click)="goToCreateProject()" class="ion-margin-end">
         <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
       </ion-button>
-
-      <ion-button fill="outline" color="success" (click)="goToRegister()" class="ion-margin-end">
-        <ion-icon name="person-add-outline" slot="icon-only"></ion-icon>
-      </ion-button>
       }
 
-      <ion-button fill="outline" color="primary" (click)="goToProjects()" class="ion-margin-end">
+      <ion-button fill="clear" color="primary" (click)="goToProjects()" class="ion-margin-end">
         <ion-icon name="folder-open-outline" slot="icon-only"></ion-icon>
       </ion-button>
 
