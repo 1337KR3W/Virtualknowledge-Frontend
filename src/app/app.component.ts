@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 
 import { IonicModule } from "@ionic/angular";
 import { addIcons } from 'ionicons';
-import { globe, logOutOutline, shieldCheckmarkOutline, gitBranchOutline, folderOpenOutline, briefcaseOutline, createOutline, cloudUploadOutline, calendarNumberOutline, personAddOutline, businessOutline, addCircleOutline, arrowBackOutline, saveOutline, refreshOutline, downloadOutline } from 'ionicons/icons'; // 2. Importar los iconos específicos
+import { globe, logOutOutline, shieldCheckmarkOutline, gitBranchOutline, folderOpenOutline, briefcaseOutline, createOutline, cloudUploadOutline, calendarNumberOutline, personAddOutline, businessOutline, addCircleOutline, arrowBackOutline, saveOutline, refreshOutline, downloadOutline, settingsOutline } from 'ionicons/icons'; // 2. Importar los iconos específicos
 import { DataManagementService } from './services/data-management.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -37,7 +37,8 @@ export class AppComponent {
       "arrow-back-outline": arrowBackOutline,
       "save-outline": saveOutline,
       "refresh-outline": refreshOutline,
-      "download-outline": downloadOutline
+      "download-outline": downloadOutline,
+      "settings-outline": settingsOutline
 
     });
   }
