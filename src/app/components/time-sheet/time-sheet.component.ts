@@ -141,13 +141,10 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
   async saveTimeSheet() {
     if (!this.timeSheet) return;
 
-    // AÑADE ESTOS LOGS:
     console.log('[DEBUG] Objeto timeSheet antes de guardar:', this.timeSheet);
     console.log('[DEBUG] Comentario dentro del objeto:', this.timeSheet.globalComment);
 
     try {
-      // Quitamos la línea de sincronización manual si ya usas ngModel
-      // this.timeSheet.globalComment = this.globalComment || ""; 
 
       await this.dataMgmt.saveTimeSheet(this.timeSheet);
       console.log('Semana guardada con éxito');

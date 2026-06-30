@@ -10,6 +10,13 @@
       </div>
 
       <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+        @if (authError) {
+        <div class="auth-error-banner">
+          {{authError}}
+        </div>
+        }
+
         <ion-card class="ion-no-margin">
           <ion-card-content>
             <ion-item>
