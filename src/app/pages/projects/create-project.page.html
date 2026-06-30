@@ -49,7 +49,8 @@
 
                 <ion-item class="ion-margin-bottom" style="border: 1px solid #ccc; border-radius: 8px;"
                     [disabled]="!projectData.departmentId">
-                    <ion-select label="Assign Worker" labelPlacement="floating" [(ngModel)]="projectData.userId">
+                    <ion-select label="Assign Worker" labelPlacement="floating" [(ngModel)]="projectData.userIds"
+                        multiple="true">
                         @for (user of filteredUsers; track user.id) {
                         <ion-select-option [value]="user.id">{{ user.firstName }} {{ user.lastName }} ({{ user.email
                             }})</ion-select-option>

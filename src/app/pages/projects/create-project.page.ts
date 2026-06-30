@@ -27,7 +27,7 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
         startDate: '',
         endDate: '',
         departmentId: null as number | null,
-        userId: null as number | null
+        userIds: [] as number[] | []
     };
 
     ionViewWillEnter() {
@@ -43,7 +43,7 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
     }
 
     async onDepartmentChange() {
-        this.projectData.userId = null;
+        this.projectData.userIds = [];
         this.filteredUsers = [];
 
         if (this.projectData.departmentId) {
@@ -56,10 +56,11 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
     }
 
     async onCreateProject() {
-        const { name, description, startDate, departmentId, userId } = this.projectData;
+        const { name, description, startDate, departmentId, userIds } = this.projectData;
 
-        if (!name || !description || !startDate || !departmentId || !userId) {
-            this.showToast('Todos los campos excepto la fecha de fin son obligatorios.', 'warning');
+
+        if (!name || !description || !startDate || !departmentId) {
+            this.showToast('Todos los campos son obligatorios.', 'warning');
             return;
         }
 
@@ -69,8 +70,8 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
                 description,
                 startDate,
                 endDate: this.projectData.endDate || undefined,
-                departmentId,
-                userId
+                departmentId: departmentId!,
+                userIds: userIds || []
             });
 
             this.showToast('Proyecto creado exitosamente.', 'success');

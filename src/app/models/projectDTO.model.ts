@@ -5,7 +5,7 @@ export class ProjectDTO extends AbstractModel {
     description!: string;
     startDate!: string | Date;
     endDate!: string | Date;
-    userId!: number;
+    userIds!: number[] | [];
     departmentId?: number;
     departmentName?: string;
 }

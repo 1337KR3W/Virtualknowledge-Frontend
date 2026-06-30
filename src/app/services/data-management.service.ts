@@ -190,15 +190,23 @@ export class DataManagementService {
     }
   }
 
-  async createProject(projectData: { name: string; description: string; startDate: string; endDate?: string; userId: number; departmentId: number }): Promise<void> {
+  async createProject(projectData: {
+    name: string;
+    description: string;
+    startDate: string;
+    endDate?: string;
+    userIds: number[];
+    departmentId: number
+  }): Promise<void> {
     try {
+
       const payload = {
         name: projectData.name,
         description: projectData.description,
         startDate: projectData.startDate,
         endDate: projectData.endDate || null,
-        user: { id: projectData.userId },
-        department: { id: projectData.departmentId }
+        userIds: projectData.userIds,
+        departmentId: projectData.departmentId
       };
       await this.rest.createProject(payload);
     } catch (error) {
