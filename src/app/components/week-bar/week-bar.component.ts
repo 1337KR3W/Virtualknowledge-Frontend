@@ -14,8 +14,8 @@ export class WeekBarComponent {
   public timeState = inject(TimeStateService);
 
   getWeekRange(): string {
-    const start = startOfWeek(this.timeState.currentReferenceDate(), { weekStartsOn: 1 });
-    const end = endOfWeek(this.timeState.currentReferenceDate(), { weekStartsOn: 1 });
+    const start = startOfWeek(this.timeState.currentReferenceDate(), { weekStartsOn: 0 });
+    const end = endOfWeek(this.timeState.currentReferenceDate(), { weekStartsOn: 0 });
     return `${format(start, 'dd MMM', { locale: es })} - ${format(end, 'dd MMM', { locale: es })}`;
   }
 
