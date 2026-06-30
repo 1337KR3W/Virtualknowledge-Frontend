@@ -19,7 +19,8 @@ export class RegisterPage extends AbstractPage {
 
     constructor() {
         super();
-        this.newUser.name = '';
+        this.newUser.firstName = '';
+        this.newUser.lastName = '';
         this.newUser.email = '';
         this.newUser.password = '';
         this.newUser.roles = ['USER'];

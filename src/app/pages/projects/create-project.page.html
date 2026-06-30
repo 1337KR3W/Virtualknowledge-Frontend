@@ -51,7 +51,8 @@
                     [disabled]="!projectData.departmentId">
                     <ion-select label="Assign Worker" labelPlacement="floating" [(ngModel)]="projectData.userId">
                         @for (user of filteredUsers; track user.id) {
-                        <ion-select-option [value]="user.id">{{ user.name }} ({{ user.email }})</ion-select-option>
+                        <ion-select-option [value]="user.id">{{ user.firstName }} {{ user.lastName }} ({{ user.email
+                            }})</ion-select-option>
                         } @empty {
                         <ion-select-option [disabled]="true">No workers in this department</ion-select-option>
                         }

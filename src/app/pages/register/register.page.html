@@ -16,8 +16,13 @@
             <ion-card-content>
                 <form (ngSubmit)="onRegister()">
                     <ion-item>
-                        <ion-label position="stacked">Full Name</ion-label>
-                        <ion-input [(ngModel)]="newUser.name" name="name" type="text" required></ion-input>
+                        <ion-label position="stacked">First Name</ion-label>
+                        <ion-input [(ngModel)]="newUser.firstName" name="firstName" type="text" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="stacked">Last Name</ion-label>
+                        <ion-input [(ngModel)]="newUser.lastName" name="lastName" type="text" required></ion-input>
                     </ion-item>
 
                     <ion-item>
@@ -40,7 +45,7 @@
 
                     <div class="ion-margin-top">
                         <ion-button expand="block" type="submit"
-                            [disabled]="!newUser.name || !newUser.email || !newUser.password">
+                            [disabled]="!newUser.firstName || !newUser.lastName || !newUser.email || !newUser.password">
                             CREATE USER
                         </ion-button>
                     </div>
