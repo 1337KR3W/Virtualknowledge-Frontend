@@ -5,6 +5,7 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { DataManagementService } from 'src/app/services/data-management.service';
 import { UserDTO } from 'src/app/models/userDTO.model';
 import { AbstractPage } from '../abstract';
+import { ProjectDTO } from 'src/app/models/projectDTO.model';
 
 @Component({
     selector: 'app-create-project',
@@ -58,25 +59,31 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
     async onCreateProject() {
         const { name, description, startDate, departmentId, userIds } = this.projectData;
 
-
+        // Validación básica
         if (!name || !description || !startDate || !departmentId) {
-            this.showToast('Todos los campos son obligatorios.', 'warning');
+            this.showToast('Debes proporcionar nombre, descripcion, fecha de inicio y departamento.', 'warning');
             return;
         }
 
         try {
-            await this.dataMgmt.createProject({
-                name,
-                description,
-                startDate,
-                endDate: this.projectData.endDate || undefined,
-                departmentId: departmentId!,
-                userIds: userIds || []
-            });
+            // 1. Instanciamos el modelo ProjectDTO
+            const newProject = new ProjectDTO();
+
+            // 2. Mapeamos los datos del formulario al modelo
+            newProject.name = name;
+            newProject.description = description;
+            newProject.startDate = startDate;
+            newProject.endDate = this.projectData.endDate || null; // O null para que sea consistente
+            newProject.departmentId = departmentId;
+            newProject.userIds = userIds || [];
+
+            // 3. Enviamos el DTO al servicio
+            await this.dataMgmt.createProject(newProject);
 
             this.showToast('Proyecto creado exitosamente.', 'success');
             this.goBack();
         } catch (error) {
+            console.error('[CreateProjectPage] Error:', error);
             this.showToast('Error al crear el proyecto.', 'danger');
         }
     }

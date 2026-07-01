@@ -99,9 +99,9 @@ export class RestService extends AbstractService {
     return this.makeGetRequest<UserDTO[]>(`${basePath}user/admin/department/${departmentId}`);
   }
 
-  async createProject(projectData: any): Promise<any> {
+  async createProject(project: ProjectDTO): Promise<void> {
     const basePath = await this.getPath();
-    return this.makePostRequest(`${basePath}projects/admin/create`, projectData);
+    await this.makePostRequest(`${basePath}projects/admin/create`, project);
   }
 
   async getWeeklyTimesheetPdf(weekId: string): Promise<Blob> {
@@ -109,5 +109,20 @@ export class RestService extends AbstractService {
     const url = `${basePath}pdf/timesheet/${weekId}`;
     console.log('[REST] Solicitando descarga binaria de PDF:', url);
     return this.makeGetBlobRequest(url);
+  }
+
+  async getAllProjectsAdmin(): Promise<ProjectDTO[]> {
+    const basePath = await this.getPath();
+    return this.makeGetRequest<ProjectDTO[]>(`${basePath}projects/admin/all`);
+  }
+
+  async updateProject(id: number, project: ProjectDTO): Promise<void> {
+    const basePath = await this.getPath();
+    await this.makePutRequest(`${basePath}projects/admin/edit/${id}`, project);
+  }
+
+  async deleteProject(id: number): Promise<void> {
+    const basePath = await this.getPath();
+    await this.makeDeleteRequest(`${basePath}projects/admin/delete/${id}`);
   }
 }

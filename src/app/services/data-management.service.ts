@@ -190,27 +190,37 @@ export class DataManagementService {
     }
   }
 
-  async createProject(projectData: {
-    name: string;
-    description: string;
-    startDate: string;
-    endDate?: string;
-    userIds: number[];
-    departmentId: number
-  }): Promise<void> {
+  async createProject(project: ProjectDTO): Promise<void> {
     try {
-
-      const payload = {
-        name: projectData.name,
-        description: projectData.description,
-        startDate: projectData.startDate,
-        endDate: projectData.endDate || null,
-        userIds: projectData.userIds,
-        departmentId: projectData.departmentId
-      };
-      await this.rest.createProject(payload);
+      await this.rest.createProject(project);
     } catch (error) {
       console.error('[DM.createProject] Error al crear proyecto:', error);
+      throw error;
+    }
+  }
+  async getAllProjectsAdmin(): Promise<ProjectDTO[]> {
+    try {
+      return await this.rest.getAllProjectsAdmin();
+    } catch (error) {
+      console.error('[DM.getAllProjectsAdmin] Error:', error);
+      throw error;
+    }
+  }
+
+  async updateProject(id: number, project: ProjectDTO): Promise<void> {
+    try {
+      await this.rest.updateProject(id, project);
+    } catch (error) {
+      console.error(`[DM.updateProject] Error al editar proyecto ${id}:`, error);
+      throw error;
+    }
+  }
+
+  async deleteProject(id: number): Promise<void> {
+    try {
+      await this.rest.deleteProject(id);
+    } catch (error) {
+      console.error(`[DM.deleteProject] Error al borrar proyecto ${id}:`, error);
       throw error;
     }
   }
@@ -224,4 +234,5 @@ export class DataManagementService {
       throw error;
     }
   }
+
 }
