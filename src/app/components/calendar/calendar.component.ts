@@ -17,7 +17,7 @@ export class CalendarComponent implements OnInit {
   public displayMonth: string = '';
   public displayYear: number = 0;
   public days: (number | null)[] = [];
-  public weekDays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+  public weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   constructor() {
     addIcons({ chevronBackOutline, chevronForwardOutline });
@@ -35,7 +35,7 @@ export class CalendarComponent implements OnInit {
     const month = referenceDate.getMonth();
 
     this.displayYear = year;
-    this.displayMonth = new Intl.DateTimeFormat('es-ES', { month: 'long' }).format(referenceDate);
+    this.displayMonth = new Intl.DateTimeFormat('en-EN', { month: 'long' }).format(referenceDate);
 
     const firstDayIndex = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
