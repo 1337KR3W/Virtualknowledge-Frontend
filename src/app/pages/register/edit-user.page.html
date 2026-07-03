@@ -1,0 +1,72 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="goBack()">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Edit User</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <div class="form-container">
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>User Details</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+                <form (ngSubmit)="saveChanges()">
+
+                    <ion-item>
+                        <ion-input label="First Name" labelPlacement="floating" [(ngModel)]="user.firstName"
+                            name="firstName" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-input label="Last Name" labelPlacement="floating" [(ngModel)]="user.lastName"
+                            name="lastName" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-input label="Email" labelPlacement="floating" [(ngModel)]="user.email" name="email"
+                            type="email" required></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="stacked">Department</ion-label>
+                        <ion-select [(ngModel)]="user.departmentId" [compareWith]="compareWith" name="departmentId">
+                            @for (dept of allDepartments; track dept.id) {
+                            <ion-select-option [value]="dept.id">{{ dept.name }}</ion-select-option>
+                            }
+                        </ion-select>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="stacked">Role</ion-label>
+                        <ion-select [(ngModel)]="user.roleId" [compareWith]="compareWith" name="roleId">
+                            <ion-select-option [value]="1">USER</ion-select-option>
+                            <ion-select-option [value]="2">ADMIN</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="floating">Status</ion-label>
+                        <ion-select [(ngModel)]="user.status" name="status">
+                            <ion-select-option value="ACTIVE">ACTIVE</ion-select-option>
+                            <ion-select-option value="INACTIVE">INACTIVE</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+
+                    <div class="ion-margin-top">
+                        <ion-button expand="block" type="submit">
+                            SAVE CHANGES
+                        </ion-button>
+                    </div>
+
+                </form>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>
