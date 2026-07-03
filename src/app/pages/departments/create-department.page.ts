@@ -45,7 +45,6 @@ export class CreateDepartmentPage extends AbstractPage {
         };
 
         try {
-            console.log('Creando departamento:', departmentRequest);
             await this.dataMgmt.createDepartment(departmentRequest);
 
             this.showToast('Department created successfully.', 'success');

@@ -24,7 +24,6 @@ export class DepartmentsPage extends AbstractPage implements OnInit, OnDestroy {
     async ngOnInit() {
 
         this.user = await this.dataMgmt.getValueFromStorage<UserResponseDTO>('userLogged');
-        console.log('[DEPARTMENTS] Usuario recuperado:', this.user);
         await this.loadDepartments();
     }
 
@@ -35,7 +34,6 @@ export class DepartmentsPage extends AbstractPage implements OnInit, OnDestroy {
     async loadDepartments() {
         try {
             this.departments = await this.dataMgmt.getDepartments();
-            console.log('[DEPARTMENTS] Departamentos cargados:', this.departments);
         } catch (error) {
             console.error('[DEPARTMENTS] Error al cargar los departamentos:', error);
         }

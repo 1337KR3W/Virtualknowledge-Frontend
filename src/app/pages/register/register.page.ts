@@ -46,7 +46,6 @@ export class RegisterPage extends AbstractPage implements OnInit {
 
         try {
             await this.dataMgmt.createNewUser(this.newUser);
-            console.log('User created successfully');
             this.showToast('User registered successfully', 'success');
             this.nav.back();
         } catch (error) {

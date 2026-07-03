@@ -92,7 +92,7 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
       this.globalComment = this.timeSheet.globalComment;
       this.currentWeekId = weekId;
     } catch (error) {
-      console.error('[TS] Error al cargar semana:', error);
+      console.error('[TS] Error loading week:', error);
       this.timeSheet = this.createEmptyTimeSheet(weekId);
     }
   }
@@ -124,7 +124,7 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
         currentDay.setDate(currentDay.getDate() + 1);
       }
     } catch (err) {
-      console.error('[TS] Error parseando fechas de la semana, usando fallback.', err);
+      console.error('[TS] Error parsing week dates, using fallback.', err);
 
       this.weekDates = Array(7).fill('----/--/--');
     }
@@ -139,7 +139,6 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
 
     if (updatedComment !== undefined) {
       dayEntry.comment = updatedComment;
-      console.log('Comentario actualizado con éxito');
     }
   }
 
@@ -148,14 +147,13 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
     try {
       this.timeSheet.globalComment = this.globalComment;
       await this.dataMgmt.saveTimeSheet(this.timeSheet);
-      this.utils.showToast('Semana guardada con éxito', 'success');
+      this.utils.showToast('Week saved successfully', 'success');
     } catch (error) {
-      console.error('Error en el guardado:', error);
+      console.error('Error in saving week:', error);
     }
   }
 
   public async refreshCurrentWeek() {
-    console.log('[TS] Forzando recarga de proyectos y horas...');
     await this.loadCurrentWeek(this.currentWeekId);
   }
 
@@ -164,23 +162,17 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
 
     try {
       this.isDownloadingPdf = true;
-      console.log('[TS] Descargando reporte en PDF para la semana activa:', this.currentWeekId);
-
       const blob: Blob = await this.dataMgmt.downloadWeeklyTimesheetPdf(this.currentWeekId);
-
       const blobUrl = window.URL.createObjectURL(blob);
       const anchor = document.createElement('a');
       anchor.href = blobUrl;
       anchor.download = `timesheet_${this.currentWeekId}.pdf`;
-
       document.body.appendChild(anchor);
       anchor.click();
       document.body.removeChild(anchor);
-
       window.URL.revokeObjectURL(blobUrl);
-      console.log('[TS] Archivo PDF procesado por el cliente con éxito.');
     } catch (error) {
-      console.error('[TS] Error al procesar la exportación del PDF:', error);
+      console.error('[TS] Error processing PDF export:', error);
     } finally {
       this.isDownloadingPdf = false;
     }

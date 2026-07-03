@@ -53,14 +53,12 @@ export class RestService extends AbstractService {
   async getProjectsByUserId(): Promise<ProjectResponseDTO[]> {
     const basePath = await this.getPath();
     const url = `${basePath}projects/my-projects`;
-    console.log('[REST] Obteniendo listado histórico personal:', url);
     return this.makeGetRequest<ProjectResponseDTO[]>(url);
   }
 
   async getProjectsByUserIdAndWeek(weekId: string): Promise<ProjectResponseDTO[]> {
     const basePath = await this.getPath();
     const url = `${basePath}projects/my-projects/week/${weekId}`;
-    console.log('[REST] Obteniendo proyectos vigentes para la semana:', weekId);
     return this.makeGetRequest<ProjectResponseDTO[]>(url);
   }
 
@@ -128,7 +126,6 @@ export class RestService extends AbstractService {
   async updateDepartment(id: number, departmentData: any): Promise<void> {
     const basePath = await this.getPath();
     const finalUrl = `${basePath}departments/${id}`;
-    console.log("URL final construida:", finalUrl);
     await this.makePutRequest(finalUrl, departmentData);
   }
 
@@ -145,7 +142,6 @@ export class RestService extends AbstractService {
   async getWeeklyTimesheetPdf(weekId: string): Promise<Blob> {
     const basePath = await this.getPath();
     const url = `${basePath}pdf/timesheet/${weekId}`;
-    console.log('[REST] Solicitando descarga binaria de PDF:', url);
     return this.makeGetBlobRequest(url);
   }
 

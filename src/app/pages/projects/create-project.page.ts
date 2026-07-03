@@ -67,14 +67,12 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
     }
 
     async onDepartmentChange() {
-        console.log('[DEBUG] Valor de departmentId:', this.projectData.departmentId);
 
         this.filteredUsers = [];
 
         if (this.projectData.departmentId) {
             try {
                 const result = await this.dataMgmt.getUsersByDepartment(this.projectData.departmentId);
-                console.log('[DEBUG] Respuesta del servicio:', result);
 
                 if (Array.isArray(result)) {
                     this.filteredUsers = result;

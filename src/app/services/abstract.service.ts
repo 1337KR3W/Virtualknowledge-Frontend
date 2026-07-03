@@ -102,8 +102,6 @@ export class AbstractService {
         })
       ) as any;
 
-      console.log('[ABSTRACT LOG] HTTP Status:', response?.status);
-
       if (response?.status === 204) {
         throw new Error('No hay datos disponibles para generar el PDF de esta semana.');
       }

@@ -24,7 +24,6 @@ export class ProjectsPage extends AbstractPage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.user = await this.dataMgmt.getValueFromStorage<UserResponseDTO>('userLogged');
-    console.log('[PROJECTS] Usuario recuperado:', this.user);
     await this.loadProjects();
   }
 
@@ -35,7 +34,6 @@ export class ProjectsPage extends AbstractPage implements OnInit, OnDestroy {
   async loadProjects() {
     try {
       this.projects = await this.dataMgmt.getProjects();
-      console.log('[PROJECTS] Listado de proyectos cargado:', this.projects.length);
     } catch (error) {
       console.error('[PROJECTS] Error al cargar el listado de proyectos:', error);
     }

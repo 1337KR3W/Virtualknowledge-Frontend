@@ -48,9 +48,6 @@ export class EditProjectPage extends AbstractPage implements OnInit {
                     ? projectData.userIds.map(uid => Number(uid))
                     : []
             };
-
-            console.log("Datos cargados. DeptId:", this.project.departmentId, "UserIds:", this.project.userIds);
-
             this.isInitialLoad = false;
         } catch (error) {
             console.error(error);

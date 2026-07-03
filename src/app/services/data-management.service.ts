@@ -17,7 +17,6 @@ export class DataManagementService {
 
   async login(email: string, password: string): Promise<[UserResponseDTO, VersionDTO]> {
     const authResponse = await this.rest.login(email, password);
-    console.log('[DEBUG] AuthResponse recibido:', authResponse);
 
     if (!authResponse?.token) { throw new Error('LOGIN_ERROR: No token received'); }
     if (!authResponse.id) {
@@ -29,9 +28,6 @@ export class DataManagementService {
 
     const role = String(authResponse.role || '');
     const isAdmin = role.includes('ROLE_ADMIN');
-
-    console.log('[DEBUG] Rol detectado para isAdmin:', role);
-    console.log('[DEBUG] ¿Resultado es Admin?:', isAdmin);
 
     this.isAdmin$.next(isAdmin);
     await this.persistence.setValue('isAdmin', isAdmin);
@@ -46,11 +42,6 @@ export class DataManagementService {
 
   async createNewUser(userData: any): Promise<void> {
     try {
-      const isAdmin = await this.persistence.getValue('isAdmin');
-      const token = await this.persistence.getValue('token');
-
-      console.log('[DEBUG] ¿Soy Admin según storage?:', isAdmin);
-      console.log('[DEBUG] Token que se va a enviar:', token?.substring(0, 20) + '...');
       await this.rest.registerUser(userData);
     } catch (error) {
       console.error('[DM] Error creating user:', error);
@@ -60,13 +51,11 @@ export class DataManagementService {
 
   async checkAdminStatus(): Promise<void> {
     const isAdmin = await this.persistence.getValue('isAdmin');
-    console.log('[DEBUG] Valor recuperado de persistencia:', isAdmin);
     this.isAdmin$.next(!!isAdmin);
   }
 
   async loadUserLogged(userId: number): Promise<UserResponseDTO> {
     const user = await this.rest.getUserProfile(userId);
-    console.log('[DM] Usuario cargado con roles:', user.roleName);
     await this.persistence.setValue('userLogged', user);
     return user;
   }
@@ -83,10 +72,7 @@ export class DataManagementService {
       const user = await this.getValueFromStorage<UserResponseDTO>('userLogged');
       if (!user) throw new Error('No user logged in');
 
-      console.log('[DM] Guardando TimeSheet para la semana:', timeSheet.weekId);
-
       await this.rest.saveTimeSheet(timeSheet, user.id);
-
       await this.persistence.setValue(`timesheet_${timeSheet.weekId}`, timeSheet);
 
     } catch (error) {
@@ -131,19 +117,15 @@ export class DataManagementService {
 
   async getToken(): Promise<string> {
     const token = await this.persistence.getValue('token');
-    console.log('[DM.getToken] Token recuperado (ocultado):', token ? 'OK' : 'NULL'); //BORRAR LOG
     return token;
   }
 
   async setValueFromStorage(key: string, value: unknown): Promise<void> {
-    console.log('[DM.setValueFromStorage] Guardando clave:', key, 'valor:', value); //BORRAR LOG
     await this.persistence.setValue(key, value);
-    console.log('[DM.setValueFromStorage] Guardado OK'); //BORRAR LOG
   }
 
   async getValueFromStorage<T>(key: string): Promise<T | null> {
     const val = await this.persistence.getValue(key);
-    console.log('[DM.getValueFromStorage] Leyendo clave:', key, '→', val); //BORRAR LOG
     return val;
   }
 
@@ -160,11 +142,8 @@ export class DataManagementService {
   async getProjects(weekId?: string): Promise<ProjectResponseDTO[]> {
     try {
       if (weekId && weekId.trim() !== '') {
-        console.log(`[DM] Cargando proyectos filtrados para la semana: ${weekId}`);
         return await this.rest.getProjectsByUserIdAndWeek(weekId);
       } else {
-
-        console.log(`[DM] Cargando listado histórico de proyectos`);
         return await this.rest.getProjectsByUserId();
       }
     } catch (error) {
@@ -175,7 +154,6 @@ export class DataManagementService {
 
   async getProjectById(id: number): Promise<ProjectRequestDTO> {
     try {
-      console.log(`[DM] Solicitando proyecto con ID: ${id}`);
       return await this.rest.getProjectById(id);
     } catch (error) {
       console.error(`[DM.getProjectById] Error al recuperar el proyecto ${id}:`, error);
@@ -185,7 +163,6 @@ export class DataManagementService {
 
   async getUserById(id: number): Promise<UserResponseDTO> {
     try {
-      console.log(`[DM] Solicitando usuario con ID: ${id}`);
       return await this.rest.getUserById(id);
     } catch (error) {
       console.error(`[DM.getUserById] Error al recuperar el usuario ${id}:`, error);
@@ -299,7 +276,6 @@ export class DataManagementService {
 
   async downloadWeeklyTimesheetPdf(weekId: string): Promise<Blob> {
     try {
-      console.log('[DM] Solicitando generación de informe semanal en PDF:', weekId);
       return await this.rest.getWeeklyTimesheetPdf(weekId);
     } catch (error) {
       console.error('[DM.downloadWeeklyTimesheetPdf] Error al procesar el documento:', error);
