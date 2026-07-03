@@ -2,10 +2,10 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from "@ionic/angular";
-import { ProjectDTO } from 'src/app/models/projectDTO.model';
 import { DataManagementService } from 'src/app/services/data-management.service';
-import { UserDTO } from 'src/app/models/userDTO.model';
 import { AbstractPage } from '../abstract';
+import { ProjectResponseDTO } from 'src/app/models/projectDTO.model';
+import { UserResponseDTO } from 'src/app/models/userDTO.model';
 
 @Component({
   selector: 'app-projects',
@@ -17,13 +17,13 @@ import { AbstractPage } from '../abstract';
 export class ProjectsPage extends AbstractPage implements OnInit, OnDestroy {
 
   private readonly dataMgmt = inject(DataManagementService);
-  public currentWeekId: string = '2026-W15';
-  public projects: ProjectDTO[] = [];
-  public user: UserDTO | null = null;
 
+  public currentWeekId: string = '2026-W15';
+  public projects: ProjectResponseDTO[] = [];
+  public user: UserResponseDTO | null = null;
 
   async ngOnInit() {
-    this.user = await this.dataMgmt.getValueFromStorage<UserDTO>('userLogged');
+    this.user = await this.dataMgmt.getValueFromStorage<UserResponseDTO>('userLogged');
     console.log('[PROJECTS] Usuario recuperado:', this.user);
     await this.loadProjects();
   }
@@ -33,23 +33,19 @@ export class ProjectsPage extends AbstractPage implements OnInit, OnDestroy {
   }
 
   async loadProjects() {
-    if (this.user?.id) {
-      try {
-        this.projects = await this.dataMgmt.getProjects();
-
-        console.log('[PROJECTS] Listado histórico cargado:', this.projects.length);
-      } catch (error) {
-        console.error('[PROJECTS] Error al cargar el listado global:', error);
-      }
+    try {
+      this.projects = await this.dataMgmt.getProjects();
+      console.log('[PROJECTS] Listado de proyectos cargado:', this.projects.length);
+    } catch (error) {
+      console.error('[PROJECTS] Error al cargar el listado de proyectos:', error);
     }
   }
 
   public goBack() {
-    this.nav.navigateRoot('welcome', { animated: true, animationDirection: 'back' })//null, { animate: true, direction: 'back' }
+    this.nav.navigateRoot('welcome', { animated: true, animationDirection: 'back' });
   }
 
   ngOnDestroy() {
     this.dataMgmt.setBackButton(false);
   }
-
 }
