@@ -2,16 +2,16 @@ import { Component, inject } from '@angular/core';
 
 import { IonicModule } from "@ionic/angular";
 import { addIcons } from 'ionicons';
-import { globe, logOutOutline, shieldCheckmarkOutline, gitBranchOutline, folderOpenOutline, briefcaseOutline, createOutline, cloudUploadOutline, calendarNumberOutline, personAddOutline, businessOutline, addCircleOutline, arrowBackOutline, saveOutline, refreshOutline, downloadOutline, settingsOutline } from 'ionicons/icons'; // 2. Importar los iconos específicos
+import { globe, logOutOutline, shieldCheckmarkOutline, gitBranchOutline, folderOpenOutline, briefcaseOutline, createOutline, cloudUploadOutline, calendarNumberOutline, personAddOutline, businessOutline, addCircleOutline, arrowBackOutline, saveOutline, refreshOutline, downloadOutline, settingsOutline, listOutline, trashOutline, documentTextOutline, personOutline, menuOutline } from 'ionicons/icons'; // 2. Importar los iconos específicos
 import { DataManagementService } from './services/data-management.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [IonicModule, AsyncPipe, CommonModule],
+  imports: [IonicModule, CommonModule],
 })
 export class AppComponent {
   private readonly dataMgmt = inject(DataManagementService);
@@ -38,7 +38,12 @@ export class AppComponent {
       "save-outline": saveOutline,
       "refresh-outline": refreshOutline,
       "download-outline": downloadOutline,
-      "settings-outline": settingsOutline
+      "settings-outline": settingsOutline,
+      "list-outline": listOutline,
+      "trash-outline": trashOutline,
+      "document-text-outline": documentTextOutline,
+      "person-outline": personOutline,
+      "menu-outline": menuOutline
 
     });
   }
