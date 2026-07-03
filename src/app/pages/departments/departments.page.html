@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="goBack()">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Assigned Departments</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <div class="form-container">
+        <ion-card>
+            <ion-list lines="inset">
+                @for (department of departments; track department.id) {
+                <ion-item button>
+                    <ion-icon name="business-outline" slot="start" color="primary"></ion-icon>
+                    <ion-label>
+                        <ion-badge color="secondary"><b>{{ department.name }}</b></ion-badge>
+                        <br>
+                        <ion-note color="medium" style="font-size: 0.8em;">ID: {{ department.id }}</ion-note>
+                    </ion-label>
+                </ion-item>
+                } @empty {
+                <ion-item lines="none">
+                    <ion-label color="medium" class="ion-text-center">
+                        No se encontraron departamentos para este usuario.
+                    </ion-label>
+                </ion-item>
+                }
+            </ion-list>
+        </ion-card>
+    </div>
+</ion-content>
