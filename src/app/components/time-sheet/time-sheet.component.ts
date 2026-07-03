@@ -2,14 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { ProjectTimeRowDTO, TimeEntryDTO, TimeSheetDTO } from 'src/app/models/timeSheetDTO.model';
 import { UtilsService } from 'src/app/services/utils.service';
 import { CommentModalComponent } from '../comment-modal/comment-modal.component';
 import { DataManagementService } from 'src/app/services/data-management.service';
-import { UserDTO } from 'src/app/models/userDTO.model';
 import { TimeStateService } from 'src/app/services/time-state';
 import { Subscription } from 'rxjs';
-import { ProjectDTO } from 'src/app/models/projectDTO.model';
+import { UserResponseDTO } from 'src/app/models/userDTO.model';
+import { ProjectTimeRowDTO, TimeEntryDTO, TimeSheetResponseDTO } from 'src/app/models/timeSheetDTO.model';
+import { ProjectResponseDTO } from 'src/app/models/projectDTO.model';
+
 
 @Component({
   selector: 'app-time-sheet',
@@ -23,17 +24,34 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
   private readonly dataMgmt = inject(DataManagementService);
   public readonly timeState = inject(TimeStateService);
 
-  public user: UserDTO | null = null;
+  public user: UserResponseDTO | null = null;
   public currentWeekId: string = '';
-  public timeSheet: TimeSheetDTO | null = null;
+  public timeSheet: TimeSheetResponseDTO | null = null;
   public weekDays: string[] = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   public weekDates: string[] = [];
   public globalComment: string | null = '';
   private weekSubscription?: Subscription;
   public isDownloadingPdf: boolean = false;
 
+  private createEmptyEntry(): TimeEntryDTO { return { hours: 0, comment: '' }; }
+
+  private createEmptyRow(pid: number, projectName: string): ProjectTimeRowDTO {
+    return {
+      pid,
+      projectName,
+      days: {
+        sun: this.createEmptyEntry(), mon: this.createEmptyEntry(), tue: this.createEmptyEntry(),
+        wed: this.createEmptyEntry(), thu: this.createEmptyEntry(), fri: this.createEmptyEntry(), sat: this.createEmptyEntry()
+      }
+    };
+  }
+
+  private createEmptyTimeSheet(weekId: string): TimeSheetResponseDTO {
+    return { weekId, globalComment: '', rows: [], updatedAt: new Date().toISOString() };
+  }
+
   async ngOnInit() {
-    this.user = await this.dataMgmt.getValueFromStorage<UserDTO>('userLogged');
+    this.user = await this.dataMgmt.getValueFromStorage<UserResponseDTO>('userLogged');
 
     if (this.user) {
       this.weekSubscription = this.timeState.weekId$.subscribe(async (newWeekId) => {
@@ -50,45 +68,32 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
 
     try {
       this.calculateWeekDates(weekId);
-      const finalTS = new TimeSheetDTO(weekId);
-
       const diasSemanales = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
-      let activeProjects: ProjectDTO[] = await this.dataMgmt.getProjects(weekId) || [];
+      const activeProjects: ProjectResponseDTO[] = await this.dataMgmt.getProjects(weekId) || [];
       const savedData = await this.dataMgmt.getTimeSheet(weekId);
 
-      this.globalComment = savedData?.globalComment || '';
-      finalTS.globalComment = this.globalComment;
-
-      finalTS.rows = activeProjects.map(project => {
+      const rows: ProjectTimeRowDTO[] = activeProjects.map(project => {
         const existingRow = savedData?.rows?.find(r => Number(r.pid) === project.id);
-
-        let rowToUse: ProjectTimeRowDTO;
-
-        if (existingRow) {
-          rowToUse = existingRow;
-          if (!rowToUse.days) rowToUse.days = {};
-        } else {
-          rowToUse = new ProjectTimeRowDTO(project.id, project.name);
-        }
+        let rowToUse = existingRow ? { ...existingRow } : this.createEmptyRow(project.id, project.name);
 
         diasSemanales.forEach(dia => {
-          if (!rowToUse.days[dia]) {
-            rowToUse.days[dia] = new TimeEntryDTO(0, '');
-          }
+          if (!rowToUse.days[dia]) rowToUse.days[dia] = this.createEmptyEntry();
         });
-
-        (rowToUse as any).departmentName = (project as any).departmentName || (project as any).department || 'General';
-
         return rowToUse;
       });
 
-      this.timeSheet = finalTS;
+      this.timeSheet = {
+        weekId,
+        globalComment: savedData?.globalComment || '',
+        rows: rows,
+        updatedAt: new Date().toISOString()
+      };
+      this.globalComment = this.timeSheet.globalComment;
       this.currentWeekId = weekId;
-
     } catch (error) {
-      console.error('[TS] Error crítico al cargar semana:', error);
-      this.timeSheet = new TimeSheetDTO(weekId);
+      console.error('[TS] Error al cargar semana:', error);
+      this.timeSheet = this.createEmptyTimeSheet(weekId);
     }
   }
 
@@ -140,14 +145,10 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
 
   async saveTimeSheet() {
     if (!this.timeSheet) return;
-
-    console.log('[DEBUG] Objeto timeSheet antes de guardar:', this.timeSheet);
-    console.log('[DEBUG] Comentario dentro del objeto:', this.timeSheet.globalComment);
-
     try {
-
+      this.timeSheet.globalComment = this.globalComment;
       await this.dataMgmt.saveTimeSheet(this.timeSheet);
-      console.log('Semana guardada con éxito');
+      this.utils.showToast('Semana guardada con éxito', 'success');
     } catch (error) {
       console.error('Error en el guardado:', error);
     }
@@ -186,15 +187,8 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
   }
 
   public totalProjectHours(row: ProjectTimeRowDTO): number {
-    if (!row.days) return 0;
-
-    return Object.values(row.days).reduce((sum, entry) => {
-
-      const horas = Number(entry.hours) || 0;
-      return sum + horas;
-    }, 0);
+    return Object.values(row.days).reduce((sum, entry) => sum + (Number(entry.hours) || 0), 0);
   }
-
   ngOnDestroy() {
     this.weekSubscription?.unsubscribe();
   }
