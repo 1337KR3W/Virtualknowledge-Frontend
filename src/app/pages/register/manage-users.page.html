@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="goBack()">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Users Management</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="form-container">
+        <ion-card>
+            <ion-list lines="inset">
+
+                @for (u of users; track u.id) {
+
+                <ion-item>
+                    <ion-icon name="person-outline" slot="start" color="primary"></ion-icon>
+                    <ion-label>
+
+                        <h2 class="ion-text-uppercase"><b>{{ u.firstName }} {{ u.lastName }}</b></h2>
+                        <p>{{ u.email }}</p>
+                        @if (u.departmentId) {
+                        <ion-badge color="secondary" style="margin-top: 5px;">{{ u.departmentName }}</ion-badge>
+                        }
+                        <br>
+
+                        <ion-note color="medium" style="font-size: 0.8em;">ID: {{ u.id }}</ion-note>
+                    </ion-label>
+
+                    <ion-buttons>
+                        <ion-button (click)="editUser(u)"><ion-icon name="create-outline"></ion-icon></ion-button>
+                        <ion-button color="danger" (click)="deleteUser(u.id!)"><ion-icon
+                                name="trash-outline"></ion-icon></ion-button>
+                    </ion-buttons>
+                </ion-item>
+                }
+            </ion-list>
+        </ion-card>
+    </div>
+</ion-content>
