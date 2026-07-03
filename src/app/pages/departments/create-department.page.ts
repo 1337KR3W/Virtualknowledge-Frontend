@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { DataManagementService } from 'src/app/services/data-management.service';
 import { AbstractPage } from '../abstract';
+import { UserResponseDTO } from 'src/app/models/userDTO.model';
+import { DepartmentRequestDTO } from 'src/app/models/departmentDTO.model';
 
 @Component({
     selector: 'app-create-department',
@@ -18,9 +20,17 @@ export class CreateDepartmentPage extends AbstractPage {
     private readonly toastCtrl = inject(ToastController);
 
     public departmentName: string = '';
+    public allUsers: UserResponseDTO[] = [];
+    public selectedUserIds: number[] = [];
 
-    ionViewWillEnter() {
+    async ionViewWillEnter() {
         this.dataMgmt.setBackButton(true);
+
+        try {
+            this.allUsers = await this.dataMgmt.getAllUsers();
+        } catch (error) {
+            this.showToast('Error al cargar la lista de usuarios.', 'danger');
+        }
     }
 
     async onCreateDepartment() {
@@ -29,10 +39,17 @@ export class CreateDepartmentPage extends AbstractPage {
             return;
         }
 
+        // Creamos el objeto plano que cumple con la interfaz DepartmentRequestDTO
+        const departmentRequest: DepartmentRequestDTO = {
+            name: this.departmentName.trim(),
+            userIds: this.selectedUserIds
+        };
+
         try {
-            await this.dataMgmt.createDepartment(this.departmentName.trim());
+            console.log('Creando departamento:', departmentRequest);
+            await this.dataMgmt.createDepartment(departmentRequest);
+
             this.showToast('Departamento creado correctamente.', 'success');
-            this.departmentName = '';
             this.goBack();
         } catch (error) {
             this.showToast('Error al crear el departamento. Puede que ya exista.', 'danger');

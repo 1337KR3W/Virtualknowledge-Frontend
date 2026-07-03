@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar>
         <ion-buttons slot="start">
             <ion-button (click)="goBack()">
                 <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
@@ -9,26 +9,39 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-    <ion-card>
-        <ion-card-header>
-            <ion-card-title>New Department Information</ion-card-title>
-        </ion-card-header>
+<ion-content>
+    <div class="form-container">
+        <ion-card>
+            <ion-card-header>
+                <ion-card-title>New department details:</ion-card-title>
+            </ion-card-header>
 
-        <ion-card-content>
-            <ion-list lines="none">
-                <ion-item class="ion-margin-bottom" style="border: 1px solid #ccc; border-radius: 8px;">
-                    <ion-icon name="business-outline" slot="start" color="medium"></ion-icon>
-                    <ion-input label="Department Name" labelPlacement="floating" type="text"
-                        [(ngModel)]="departmentName" placeholder="e.g. Marketing, Human Resources">
-                    </ion-input>
-                </ion-item>
-            </ion-list>
+            <ion-card-content>
+                <ion-list>
+                    <ion-item class="ion-margin-bottom">
+                        <ion-icon name="business-outline" slot="start" color="medium"></ion-icon>
+                        <ion-input label="Department Name" labelPlacement="floating" type="text"
+                            [(ngModel)]="departmentName" placeholder="e.g. Marketing, Human Resources">
+                        </ion-input>
+                    </ion-item>
 
-            <ion-button expand="block" color="success" (click)="onCreateDepartment()" class="ion-margin-top">
-                <ion-icon slot="start" name="save-outline"></ion-icon>
-                Save Department
-            </ion-button>
-        </ion-card-content>
-    </ion-card>
+                    <ion-item>
+                        <ion-label position="stacked">Assigned Users</ion-label>
+                        <ion-select [(ngModel)]="selectedUserIds" multiple="true" placeholder="Seleccionar usuarios">
+                            @for (u of allUsers; track u.id) {
+                            <ion-select-option [value]="u.id">
+                                {{ u.firstName }} {{ u.lastName }}
+                            </ion-select-option>
+                            }
+                        </ion-select>
+                    </ion-item>
+                </ion-list>
+
+                <ion-button expand="block" color="primary" (click)="onCreateDepartment()" class="ion-margin-top">
+                    <ion-icon slot="start" name="save-outline"></ion-icon>
+                    Save Department
+                </ion-button>
+            </ion-card-content>
+        </ion-card>
+    </div>
 </ion-content>
