@@ -1,7 +1,10 @@
-import { AbstractModel } from "./abstract.model";
+export interface DepartmentRequestDTO {
+    name: string;
+    userIds: number[];
+}
 
-export class DepartmentDTO extends AbstractModel {
-    name!: string;
-    userIds?: number[];
-
+export interface DepartmentResponseDTO {
+    id: number;
+    name: string;
+    userIds: number[];
 }

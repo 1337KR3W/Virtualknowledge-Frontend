@@ -1,7 +1,7 @@
-import { UserDTO } from "./userDTO.model";
+import { UserResponseDTO } from "./userDTO.model";
 
 export class AppDataModel {
-    public userLogged: UserDTO | null = null;
+    public userLogged: UserResponseDTO | null = null;
     public token: string | null = null;
     public language: 'es' | 'en' = 'es';
     public appMode: 'develop' | 'production' = 'develop';

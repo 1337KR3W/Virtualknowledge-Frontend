@@ -6,7 +6,9 @@ export interface UserResponseDTO {
     registrationDate: string;
     status: string;
     departmentId: number;
+    departmentName?: string;
     roleName: string;
+    roleId: number;
 }
 
 export interface UserRequestDTO {
@@ -15,5 +17,6 @@ export interface UserRequestDTO {
     email: string;
     password?: string;
     departmentId: number;
-    roleName: string;
+    roleId: number;
+    status: string;
 }
