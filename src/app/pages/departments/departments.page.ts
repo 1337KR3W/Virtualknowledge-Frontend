@@ -38,7 +38,6 @@ export class DepartmentsPage extends AbstractPage implements OnInit, OnDestroy {
             console.log('[DEPARTMENTS] Departamentos cargados:', this.departments);
         } catch (error) {
             console.error('[DEPARTMENTS] Error al cargar los departamentos:', error);
-            // Opcional: mostrar un toast aquí si tienes acceso al ToastController
         }
     }
 

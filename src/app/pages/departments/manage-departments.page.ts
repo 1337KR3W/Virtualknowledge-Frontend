@@ -31,12 +31,12 @@ export class ManageDepartmentsPage extends AbstractPage implements OnInit {
 
     async deleteDepartment(id: number) {
         const alert = await this.alertCtrl.create({
-            header: 'Confirmar eliminación',
-            message: '¿Borrar este departamento?',
+            header: 'Confirm Delete',
+            message: '¿Confirm department deletion? This will remove the department and all associated data.',
             buttons: [
-                { text: 'Cancelar', role: 'cancel' },
+                { text: 'Cancel', role: 'cancel' },
                 {
-                    text: 'Borrar',
+                    text: 'Delete',
                     role: 'destructive',
                     handler: async () => {
                         await this.dataMgmt.deleteDepartment(id);

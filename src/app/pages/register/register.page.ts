@@ -33,25 +33,25 @@ export class RegisterPage extends AbstractPage implements OnInit {
         try {
             this.departments = await this.dataMgmt.getDepartments();
         } catch (error) {
-            console.error('Error al cargar departamentos', error);
-            this.showToast('Error al cargar departamentos', 'danger');
+            console.error('Error loading departments', error);
+            this.showToast('Error loading departments', 'danger');
         }
     }
 
     async onRegister() {
         if (!this.newUser.email || !this.newUser.password) {
-            this.showToast('Email y contraseña son obligatorios', 'warning');
+            this.showToast('Email and password are required', 'warning');
             return;
         }
 
         try {
             await this.dataMgmt.createNewUser(this.newUser);
-            console.log('Usuario creado con éxito');
-            this.showToast('Usuario registrado correctamente', 'success');
+            console.log('User created successfully');
+            this.showToast('User registered successfully', 'success');
             this.nav.back();
         } catch (error) {
-            console.error('Error al registrar usuario', error);
-            this.showToast('Error al registrar usuario', 'danger');
+            console.error('Error registering user', error);
+            this.showToast('Error registering user', 'danger');
         }
     }
 

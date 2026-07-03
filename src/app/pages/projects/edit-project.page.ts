@@ -54,14 +54,14 @@ export class EditProjectPage extends AbstractPage implements OnInit {
             this.isInitialLoad = false;
         } catch (error) {
             console.error(error);
-            this.showToast('Error al cargar datos', 'danger');
+            this.showToast('Error loading data', 'danger');
         }
     }
 
     async saveChanges() {
         try {
             await this.dataMgmt.updateProject(this.project.id, this.project);
-            this.showToast('Proyecto actualizado con éxito', 'success');
+            this.showToast('Updated project successfully', 'success');
             this.nav.back();
         } catch (error) {
             this.showToast('Error saving changes', 'danger');

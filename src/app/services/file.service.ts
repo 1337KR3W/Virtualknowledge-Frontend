@@ -12,9 +12,6 @@ export class FileService {
         this.storagePath = this.normalizePath(environment.destPathFiles);
     }
 
-    /**
-     * Lee un archivo JSON y devuelve su contenido tipado
-     */
     async getValue<T>(key: string): Promise<T | null> {
         const fullPath = `${this.storagePath}/${key}${this.extension}`;
         try {
@@ -30,9 +27,6 @@ export class FileService {
         }
     }
 
-    /**
-     * Guarda cualquier objeto como un archivo JSON
-     */
     async setValue(key: string, value: any): Promise<boolean> {
         try {
             await this.ensureDirectory();
@@ -52,9 +46,6 @@ export class FileService {
         }
     }
 
-    /**
-     * Borra un dato específico
-     */
     async removeValue(key: string): Promise<void> {
         try {
             const fullPath = `${this.storagePath}/${key}${this.extension}`;
@@ -67,9 +58,6 @@ export class FileService {
         }
     }
 
-    /**
-     * Resetea todos los valores (borra la carpeta de la sesión)
-     */
     async resetValues(): Promise<boolean> {
         try {
             await Filesystem.rmdir({
@@ -83,8 +71,6 @@ export class FileService {
             return false;
         }
     }
-
-    // --- MÉTODOS PRIVADOS DE UTILIDAD ---
 
     private async ensureDirectory(): Promise<void> {
         try {

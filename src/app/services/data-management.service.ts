@@ -77,9 +77,7 @@ export class DataManagementService {
     return version;
   }
 
-  /**
- * Envía el TimeSheet al backend y actualiza la caché local
- */
+
   async saveTimeSheet(timeSheet: TimeSheetResponseDTO): Promise<void> {
     try {
       const user = await this.getValueFromStorage<UserResponseDTO>('userLogged');
@@ -159,11 +157,6 @@ export class DataManagementService {
     }
   }
 
-  /**
-   * Recupera proyectos de forma segura.
-   * Ya no necesita userId porque el Backend lo extrae del JWT.
-   * @param weekId (Opcional) Si se envía, filtra por vigencia. Si no, trae todos.
-   */
   async getProjects(weekId?: string): Promise<ProjectResponseDTO[]> {
     try {
       if (weekId && weekId.trim() !== '') {
@@ -215,7 +208,6 @@ export class DataManagementService {
 
   async createDepartment(department: DepartmentRequestDTO): Promise<void> {
     try {
-      // Asumiendo que tu RestService.createDepartment también recibe el objeto
       await this.rest.createDepartment(department);
     } catch (error) {
       console.error('[DM.createDepartment] Error:', error);

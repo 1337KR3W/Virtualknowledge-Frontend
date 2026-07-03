@@ -45,8 +45,6 @@ export class AbstractService {
         this.http.delete<T>(url, { headers, params, observe: 'response' }));
       return response.body as T;
     } catch (err: any) {
-      //legacy backend compatibility:
-      // DELETE that returns 200 through error channel
       if (err?.status === 200) {
         return err.error?.text ?? null;
       }
@@ -59,8 +57,6 @@ export class AbstractService {
     try {
       return await firstValueFrom(this.http.post<T>(url, data, { headers }));
     } catch (err: any) {
-      //legacy behavior compatibility: swallow error
-      //return Promise.reject(null);
       const errorMessage = err?.message || 'Error en la peticion POST';
       throw new Error(errorMessage);
     }
@@ -108,7 +104,6 @@ export class AbstractService {
 
       console.log('[ABSTRACT LOG] HTTP Status:', response?.status);
 
-      // Si el servidor responde con un 204, detenemos el flujo con un error controlado
       if (response?.status === 204) {
         throw new Error('No hay datos disponibles para generar el PDF de esta semana.');
       }

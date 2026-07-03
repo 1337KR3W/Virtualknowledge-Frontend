@@ -18,7 +18,6 @@ export class EditUserPage extends AbstractPage implements OnInit {
     private readonly route = inject(ActivatedRoute);
     private readonly toastCtrl = inject(ToastController);
 
-    // Definición limpia de lo que realmente vas a editar
     public user: any = {
         id: null,
         firstName: '',
@@ -40,14 +39,13 @@ export class EditUserPage extends AbstractPage implements OnInit {
 
     async loadData(id: number) {
         try {
-            // Cargamos usuario y departamentos en paralelo
+
             const [userData, depts] = await Promise.all([
                 this.dataMgmt.getUserById(id),
                 this.dataMgmt.getDepartments()
             ]);
 
             this.allDepartments = depts;
-            // Aseguramos que el objeto user tenga los datos correctos
             this.user = { ...userData };
         } catch (error) {
             console.error(error);

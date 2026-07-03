@@ -47,7 +47,7 @@ export class LoginPage extends AbstractPage {
     } catch (error) {
 
       this.authError = 'Invalid email/password. Please try again.';
-      console.error('Error de autenticación detectado en el componente');
+      console.error('Authentication error:', error);
     } finally {
       await loading.dismiss();
     }

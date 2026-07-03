@@ -29,17 +29,16 @@ export class CreateDepartmentPage extends AbstractPage {
         try {
             this.allUsers = await this.dataMgmt.getAllUsers();
         } catch (error) {
-            this.showToast('Error al cargar la lista de usuarios.', 'danger');
+            this.showToast('Error loading users list.', 'danger');
         }
     }
 
     async onCreateDepartment() {
         if (!this.departmentName || this.departmentName.trim() === '') {
-            this.showToast('El nombre del departamento es obligatorio.', 'warning');
+            this.showToast('The department name is required.', 'warning');
             return;
         }
 
-        // Creamos el objeto plano que cumple con la interfaz DepartmentRequestDTO
         const departmentRequest: DepartmentRequestDTO = {
             name: this.departmentName.trim(),
             userIds: this.selectedUserIds
@@ -49,10 +48,10 @@ export class CreateDepartmentPage extends AbstractPage {
             console.log('Creando departamento:', departmentRequest);
             await this.dataMgmt.createDepartment(departmentRequest);
 
-            this.showToast('Departamento creado correctamente.', 'success');
+            this.showToast('Department created successfully.', 'success');
             this.goBack();
         } catch (error) {
-            this.showToast('Error al crear el departamento. Puede que ya exista.', 'danger');
+            this.showToast('Error creating department. It might already exist.', 'danger');
         }
     }
 

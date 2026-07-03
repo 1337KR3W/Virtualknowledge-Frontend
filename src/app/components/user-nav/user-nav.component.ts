@@ -22,10 +22,7 @@ export class UserNavComponent extends AbstractPage implements OnInit {
   async ngOnInit() {
     this.user = await this.dataMgmt.getValueFromStorage<UserResponseDTO>('userLogged');
 
-    // Aseguramos que el estado se actualice
     await this.dataMgmt.checkAdminStatus();
-
-    // Opcional: Depuración para ver qué está viendo el componente
     this.isAdmin$.subscribe(val => console.log('[DEBUG] isAdmin en UserNav es:', val));
   }
 
