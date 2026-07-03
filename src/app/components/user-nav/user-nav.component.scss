@@ -20,3 +20,17 @@ ion-card {
     display: inline-block;
     vertical-align: middle;
 }
+
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: flex;
+    }
+}

@@ -1,7 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { IonicModule } from "@ionic/angular";
-import { UserDTO } from 'src/app/models/userDTO.model';
+import { UserResponseDTO } from 'src/app/models/userDTO.model';
+
 import { AbstractPage } from 'src/app/pages/abstract';
 import { DataManagementService } from 'src/app/services/data-management.service';
 
@@ -15,36 +16,59 @@ export class UserNavComponent extends AbstractPage implements OnInit {
 
   private readonly dataMgmt = inject(DataManagementService);
 
-  public user: UserDTO | null = null;
+  public user: UserResponseDTO | null = null;
   public isAdmin$ = this.dataMgmt.isAdmin$;
 
   async ngOnInit() {
-    this.user = await this.dataMgmt.getValueFromStorage<UserDTO>('userLogged');
+    this.user = await this.dataMgmt.getValueFromStorage<UserResponseDTO>('userLogged');
+
+    // Aseguramos que el estado se actualice
     await this.dataMgmt.checkAdminStatus();
+
+    // Opcional: Depuración para ver qué está viendo el componente
+    this.isAdmin$.subscribe(val => console.log('[DEBUG] isAdmin en UserNav es:', val));
   }
 
-  async goToProjects() {
-    this.nav.navigateForward('projects');
+  async goToManageUsers() {
+    this.nav.navigateForward('admin/manage-users');
   }
 
   async goToRegister() {
     this.nav.navigateForward('admin/register');
   }
 
-  async goToCreateDepartment() {
-    this.nav.navigateForward('admin/create-department');
+  async goToProjects() {
+    this.nav.navigateForward('projects');
   }
 
   async goToCreateProject() {
     this.nav.navigateForward('admin/create-project');
   }
 
+  async goToManageProjects() {
+    this.nav.navigateForward('admin/manage-projects');
+  }
+
+  async goToDepartments() {
+    this.nav.navigateForward('departments');
+  }
+
+  async goToCreateDepartment() {
+    this.nav.navigateForward('admin/create-department');
+  }
+
+  async goToManageDepartments() {
+    this.nav.navigateForward('admin/manage-departments');
+  }
+
+
+
   public getDisplayRole(): string {
-    if (!this.user || !this.user.roles || this.user.roles.length === 0) {
+    if (!this.user || !this.user.roleName || this.user.roleName.length === 0) {
       return '';
     }
-    // Asumiendo que roles es un array de strings, tomamos el primero
-    const role = Array.isArray(this.user.roles) ? this.user.roles[0] : this.user.roles;
+
+    const role = Array.isArray(this.user.roleName) ? this.user.roleName[0] : this.user.roleName;
     return role.replace('ROLE_', '');
   }
 
