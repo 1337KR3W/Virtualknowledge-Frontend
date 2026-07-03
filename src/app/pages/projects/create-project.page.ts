@@ -108,10 +108,10 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
         try {
             if (this.isEditMode && this.projectId) {
                 await this.dataMgmt.updateProject(this.projectId, projectRequest);
-                this.showToast('Proyecto actualizado.', 'success');
+                this.showToast('Project created successfully!', 'success');
             } else {
                 await this.dataMgmt.createProject(projectRequest);
-                this.showToast('Proyecto creado.', 'success');
+                this.showToast('Project created successfully.', 'success');
             }
             this.goBack();
         } catch (error) {

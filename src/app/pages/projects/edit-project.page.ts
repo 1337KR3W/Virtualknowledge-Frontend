@@ -58,7 +58,7 @@ export class EditProjectPage extends AbstractPage implements OnInit {
     async saveChanges() {
         try {
             await this.dataMgmt.updateProject(this.project.id, this.project);
-            this.showToast('Updated project successfully', 'success');
+            this.showToast('Updated project successfully!', 'success');
             this.nav.back();
         } catch (error) {
             this.showToast('Error saving changes', 'danger');

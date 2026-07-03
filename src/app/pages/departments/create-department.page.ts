@@ -47,7 +47,7 @@ export class CreateDepartmentPage extends AbstractPage {
         try {
             await this.dataMgmt.createDepartment(departmentRequest);
 
-            this.showToast('Department created successfully.', 'success');
+            this.showToast('Department created successfully!', 'success');
             this.goBack();
         } catch (error) {
             this.showToast('Error creating department. It might already exist.', 'danger');

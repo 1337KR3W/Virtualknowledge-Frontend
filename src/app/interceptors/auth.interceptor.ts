@@ -11,7 +11,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
     return from(persistence.getValue('token')).pipe(
         switchMap(token => {
-            console.log(`[Interceptor] Path: ${req.url} | JWT presente: ${!!token}`);
 
             let authReq = req;
 
@@ -25,10 +24,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             return next(authReq).pipe(
                 catchError((error: HttpErrorResponse) => {
                     if (error.status === 401) {
-                        const errorMessage = error.error?.message || 'Credenciales inválidas';
-                        utils.showToast(errorMessage, 'danger');
+
                     } else if (error.status === 400) {
-                        utils.showToast(error.error?.details || 'Error en la petición', 'warning');
+
                     }
                     return throwError(() => error);
                 })
