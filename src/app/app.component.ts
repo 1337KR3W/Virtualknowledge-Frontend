@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 
 import { IonicModule } from "@ionic/angular";
 import { addIcons } from 'ionicons';
-import { globe, logOutOutline, shieldCheckmarkOutline, gitBranchOutline, folderOpenOutline, briefcaseOutline, createOutline, cloudUploadOutline, calendarNumberOutline, personAddOutline, businessOutline, addCircleOutline, arrowBackOutline, saveOutline, refreshOutline, downloadOutline, settingsOutline, listOutline, trashOutline, documentTextOutline, personOutline, menuOutline } from 'ionicons/icons'; // 2. Importar los iconos específicos
+import { globe, logOutOutline, shieldCheckmarkOutline, gitBranchOutline, folderOpenOutline, briefcaseOutline, createOutline, cloudUploadOutline, calendarNumberOutline, personAddOutline, businessOutline, addCircleOutline, arrowBackOutline, saveOutline, refreshOutline, downloadOutline, settingsOutline, listOutline, trashOutline, documentTextOutline, personOutline, menuOutline, menu } from 'ionicons/icons'; // 2. Importar los iconos específicos
 import { DataManagementService } from './services/data-management.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -43,7 +43,7 @@ export class AppComponent {
       "trash-outline": trashOutline,
       "document-text-outline": documentTextOutline,
       "person-outline": personOutline,
-      "menu-outline": menuOutline
+      "menu": menu
 
     });
   }

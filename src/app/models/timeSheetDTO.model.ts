@@ -6,6 +6,7 @@ export interface TimeEntryDTO {
 export interface ProjectTimeRowDTO {
     pid: number;
     projectName: string;
+    departmentName: string;
     days: { [key: string]: TimeEntryDTO };
 }
 

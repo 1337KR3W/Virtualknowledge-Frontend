@@ -7,8 +7,8 @@
     </ion-card-title>
 
     <ion-buttons slot="end" class="mobile-only">
-      <ion-button id="menu-trigger">
-        <ion-icon name="menu-outline"></ion-icon>
+      <ion-button color="primary" id="menu-trigger">
+        <ion-icon name="menu"></ion-icon>
       </ion-button>
     </ion-buttons>
 
@@ -18,14 +18,14 @@
           slot="icon-only"></ion-icon></ion-button>
       <ion-button fill="clear" color="success" (click)="goToRegister()"><ion-icon name="person-add-outline"
           slot="icon-only"></ion-icon></ion-button>
-      <div class="vertical-divider"></div>
+
       <ion-button fill="clear" color="tertiary" (click)="goToManageDepartments()"><ion-icon name="list-outline"
           slot="icon-only"></ion-icon></ion-button>
       <ion-button fill="clear" color="tertiary" (click)="goToCreateDepartment()"><ion-icon name="add-circle-outline"
           slot="icon-only"></ion-icon></ion-button>
       <ion-button fill="clear" color="tertiary" (click)="goToDepartments()"><ion-icon name="business-outline"
           slot="icon-only"></ion-icon></ion-button>
-      <div class="vertical-divider"></div>
+
       <ion-button fill="clear" color="primary" (click)="goToManageProjects()"><ion-icon name="list-outline"
           slot="icon-only"></ion-icon></ion-button>
       <ion-button fill="clear" color="primary" (click)="goToCreateProject()"><ion-icon name="add-circle-outline"
@@ -33,7 +33,7 @@
       }
       <ion-button fill="clear" color="primary" (click)="goToProjects()"><ion-icon name="folder-open-outline"
           slot="icon-only"></ion-icon></ion-button>
-      <div class="vertical-divider"></div>
+
       <ion-button fill="clear" color="danger" (click)="logout()"><ion-icon name="log-out-outline"
           slot="icon-only"></ion-icon></ion-button>
     </ion-buttons>

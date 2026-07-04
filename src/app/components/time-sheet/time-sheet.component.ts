@@ -35,10 +35,11 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
 
   private createEmptyEntry(): TimeEntryDTO { return { hours: 0, comment: '' }; }
 
-  private createEmptyRow(pid: number, projectName: string): ProjectTimeRowDTO {
+  private createEmptyRow(pid: number, projectName: string, departmentName: string): ProjectTimeRowDTO {
     return {
       pid,
       projectName,
+      departmentName,
       days: {
         sun: this.createEmptyEntry(), mon: this.createEmptyEntry(), tue: this.createEmptyEntry(),
         wed: this.createEmptyEntry(), thu: this.createEmptyEntry(), fri: this.createEmptyEntry(), sat: this.createEmptyEntry()
@@ -75,7 +76,7 @@ export class TimeSheetComponent implements OnInit, OnDestroy {
 
       const rows: ProjectTimeRowDTO[] = activeProjects.map(project => {
         const existingRow = savedData?.rows?.find(r => Number(r.pid) === project.id);
-        let rowToUse = existingRow ? { ...existingRow } : this.createEmptyRow(project.id, project.name);
+        let rowToUse = existingRow ? { ...existingRow } : this.createEmptyRow(project.id, project.name, project.departmentName || '');
 
         diasSemanales.forEach(dia => {
           if (!rowToUse.days[dia]) rowToUse.days[dia] = this.createEmptyEntry();
