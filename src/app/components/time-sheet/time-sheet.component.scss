@@ -150,4 +150,18 @@ ion-card {
             font-size: 1rem;
         }
     }
+
+    .custom-textarea ion-textarea::part(placeholder) {
+        font-size: 12px;
+        font-weight: normal;
+        color: #888;
+        opacity: 1;
+        font-style: italic;
+
+
+    }
+
+    .custom-textarea ion-textarea {
+        font-size: 14px;
+    }
 }
