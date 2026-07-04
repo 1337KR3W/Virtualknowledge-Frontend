@@ -57,8 +57,7 @@ export class AbstractService {
     try {
       return await firstValueFrom(this.http.post<T>(url, data, { headers }));
     } catch (err: any) {
-      const errorMessage = err?.message || 'Error en la peticion POST';
-      throw new Error(errorMessage);
+      throw err;
     }
   }
 
