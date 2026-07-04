@@ -48,9 +48,12 @@ export class RegisterPage extends AbstractPage implements OnInit {
             await this.dataMgmt.createNewUser(this.newUser);
             this.showToast('User registered successfully', 'success');
             this.nav.back();
-        } catch (error) {
-            console.error('Error registering user', error);
-            this.showToast('Error registering user', 'danger');
+        } catch (error: any) {
+            const errorMessage = (error.error && error.error.details)
+                ? error.error.details
+                : 'Unexpected error occurred while creating new user';
+
+            this.showToast(errorMessage, 'danger');
         }
     }
 
