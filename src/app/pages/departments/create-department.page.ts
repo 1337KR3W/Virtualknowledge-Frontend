@@ -35,7 +35,7 @@ export class CreateDepartmentPage extends AbstractPage {
 
     async onCreateDepartment() {
         if (!this.departmentName || this.departmentName.trim() === '') {
-            this.showToast('The department name is required.', 'warning');
+            this.showToast('The department name is required', 'warning');
             return;
         }
 
@@ -49,8 +49,8 @@ export class CreateDepartmentPage extends AbstractPage {
 
             this.showToast('Department created successfully!', 'success');
             this.goBack();
-        } catch (error) {
-            this.showToast('Error creating department. It might already exist.', 'danger');
+        } catch (error: any) {
+            this.showToast('Department already exists', 'warning');
         }
     }
 

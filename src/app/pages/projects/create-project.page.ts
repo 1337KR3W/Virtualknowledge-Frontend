@@ -44,8 +44,8 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
                 this.projectId = Number(idParam);
                 await this.loadProjectData(this.projectId);
             }
-        } catch (error) {
-            this.showToast('Error al cargar datos iniciales', 'danger');
+        } catch (error: any) {
+            this.showToast('Error loading initial data', 'danger');
         }
     }
 
@@ -61,8 +61,8 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
                 userIds: project.userIds || []
             };
             await this.onDepartmentChange();
-        } catch (error) {
-            this.showToast('Error al cargar datos del proyecto', 'danger');
+        } catch (error: any) {
+            this.showToast('Error loading data from project', 'danger');
         }
     }
 
@@ -77,12 +77,12 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
                 if (Array.isArray(result)) {
                     this.filteredUsers = result;
                 } else {
-                    console.error('[ERROR] El servicio no devolvió un array:', result);
+                    console.error('[ERROR] The service did not return an array:', result);
                     this.filteredUsers = [];
                 }
-            } catch (error) {
-                console.error('[ERROR] Fallo en la llamada:', error);
-                this.showToast('Error al cargar usuarios', 'danger');
+            } catch (error: any) {
+                console.error('[ERROR] Callback failed:', error);
+                this.showToast('Error loading users', 'danger');
                 this.filteredUsers = [];
             }
         }
@@ -92,7 +92,7 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
         const { name, description, startDate, departmentId, userIds } = this.projectData;
 
         if (!name || !description || !startDate || departmentId === null) {
-            this.showToast('Todos los campos son obligatorios.', 'warning');
+            this.showToast('Project name, start date and department are required', 'warning');
             return;
         }
 
@@ -111,11 +111,15 @@ export class CreateProjectPage extends AbstractPage implements OnInit {
                 this.showToast('Project created successfully!', 'success');
             } else {
                 await this.dataMgmt.createProject(projectRequest);
-                this.showToast('Project created successfully.', 'success');
+                this.showToast('Project created successfully!', 'success');
             }
             this.goBack();
-        } catch (error) {
-            this.showToast('Error al guardar el proyecto.', 'danger');
+        } catch (error: any) {
+            const errorMessage = (error.error && error.error.details)
+                ? error.error.details
+                : 'Unexpected error occurred while creating new project';
+
+            this.showToast(errorMessage, 'warning')
         }
     }
 
