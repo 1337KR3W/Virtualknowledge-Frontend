@@ -1,11 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { RestService } from './rest.service';
 import { PersistenceService } from './persistence.service';
-import { UserDTO } from '../models/userDTO.model';
+import { UserResponseDTO } from '../models/userDTO.model';
 import { VersionDTO } from '../models/versionDTO.model';
-import { ProjectDTO } from '../models/projectDTO.model';
 import { BehaviorSubject } from 'rxjs';
-import { TimeSheetDTO } from '../models/timeSheetDTO.model';
+import { TimeSheetResponseDTO } from '../models/timeSheetDTO.model';
+import { DepartmentRequestDTO, DepartmentResponseDTO } from '../models/departmentDTO.model';
+import { ProjectRequestDTO, ProjectResponseDTO } from '../models/projectDTO.model';
 
 @Injectable({ providedIn: 'root' })
 export class DataManagementService {
@@ -14,15 +15,20 @@ export class DataManagementService {
   public showBackButton = new BehaviorSubject<boolean>(false);
   public isAdmin$ = new BehaviorSubject<boolean>(false);
 
-  /**
-   * LOGIN
-   */
-  async login(email: string, password: string): Promise<[UserDTO, VersionDTO]> {
+  async login(email: string, password: string): Promise<[UserResponseDTO, VersionDTO]> {
     const authResponse = await this.rest.login(email, password);
+
     if (!authResponse?.token) { throw new Error('LOGIN_ERROR: No token received'); }
+    if (!authResponse.id) {
+      console.error('[ERROR] El backend no envió el id, recibido:', authResponse);
+      throw new Error('LOGIN_ERROR: id missing');
+    }
+
     await this.persistence.setValue('token', authResponse.token);
-    const roles: string[] = authResponse.roles || [];
-    const isAdmin = roles.includes('ROLE_ADMIN');
+
+    const role = String(authResponse.role || '');
+    const isAdmin = role.includes('ROLE_ADMIN');
+
     this.isAdmin$.next(isAdmin);
     await this.persistence.setValue('isAdmin', isAdmin);
 
@@ -30,16 +36,12 @@ export class DataManagementService {
       this.loadUserLogged(authResponse.id),
       this.loadProxyVersion()
     ]);
+
     return [userLogged, version];
   }
 
   async createNewUser(userData: any): Promise<void> {
     try {
-      const isAdmin = await this.persistence.getValue('isAdmin');
-      const token = await this.persistence.getValue('token');
-
-      console.log('[DEBUG] ¿Soy Admin según storage?:', isAdmin);
-      console.log('[DEBUG] Token que se va a enviar:', token?.substring(0, 20) + '...');
       await this.rest.registerUser(userData);
     } catch (error) {
       console.error('[DM] Error creating user:', error);
@@ -52,37 +54,25 @@ export class DataManagementService {
     this.isAdmin$.next(!!isAdmin);
   }
 
-  /**
-   * Obtiene los datos del perfil del usuario usando el token guardado
-   */
-  async loadUserLogged(userId: number): Promise<UserDTO> {
+  async loadUserLogged(userId: number): Promise<UserResponseDTO> {
     const user = await this.rest.getUserProfile(userId);
-    console.log('[DM] Usuario cargado con roles:', user.roles);
     await this.persistence.setValue('userLogged', user);
     return user;
   }
 
-  /**
-   * Obtiene la versión del backend
-   */
   async loadProxyVersion(): Promise<VersionDTO> {
     const version = await this.rest.getVersion();
     await this.persistence.setValue('lastSync', new Date().toISOString());
     return version;
   }
 
-  /**
- * Envía el TimeSheet al backend y actualiza la caché local
- */
-  async saveTimeSheet(timeSheet: TimeSheetDTO): Promise<void> {
+
+  async saveTimeSheet(timeSheet: TimeSheetResponseDTO): Promise<void> {
     try {
-      const user = await this.getValueFromStorage<UserDTO>('userLogged');
+      const user = await this.getValueFromStorage<UserResponseDTO>('userLogged');
       if (!user) throw new Error('No user logged in');
 
-      console.log('[DM] Guardando TimeSheet para la semana:', timeSheet.weekId);
-
       await this.rest.saveTimeSheet(timeSheet, user.id);
-
       await this.persistence.setValue(`timesheet_${timeSheet.weekId}`, timeSheet);
 
     } catch (error) {
@@ -91,24 +81,31 @@ export class DataManagementService {
     }
   }
 
-  /**
- * Obtiene la semana de trabajo. Primero intenta el servidor, si falla busca en local.
- */
-  async getTimeSheet(weekId: string): Promise<TimeSheetDTO> {
+  private createEmptyTimeSheet(weekId: string): TimeSheetResponseDTO {
+    return {
+      weekId: weekId,
+      globalComment: '',
+      rows: [],
+      updatedAt: new Date().toISOString()
+    };
+  }
+
+  async getTimeSheet(weekId: string): Promise<TimeSheetResponseDTO> {
     if (!weekId || weekId.trim() === '' || !weekId.includes('-W')) {
       console.warn('[DM] Intento de carga con ID inválido, abortando:', weekId);
-      return new TimeSheetDTO(weekId || 'N/A');
+      return this.createEmptyTimeSheet(weekId || 'N/A');
     }
-    const user = await this.getValueFromStorage<UserDTO>('userLogged');
+
+    const user = await this.getValueFromStorage<UserResponseDTO>('userLogged');
     if (!user) throw new Error('No user logged');
 
     try {
       const data = await this.rest.getTimeSheetByWeek(weekId, user.id);
-      return data || new TimeSheetDTO(weekId);
+      return data || this.createEmptyTimeSheet(weekId);
     } catch (error) {
       console.warn('[DM] No se pudo recuperar del servidor, buscando en local...', error);
-      const localData = await this.getValueFromStorage<TimeSheetDTO>(`timesheet_${weekId}`);
-      return localData || new TimeSheetDTO(weekId);
+      const localData = await this.getValueFromStorage<TimeSheetResponseDTO>(`timesheet_${weekId}`);
+      return localData || this.createEmptyTimeSheet(weekId);
     }
   }
 
@@ -120,35 +117,33 @@ export class DataManagementService {
 
   async getToken(): Promise<string> {
     const token = await this.persistence.getValue('token');
-    console.log('[DM.getToken] Token recuperado (ocultado):', token ? 'OK' : 'NULL'); //BORRAR LOG
     return token;
   }
 
   async setValueFromStorage(key: string, value: unknown): Promise<void> {
-    console.log('[DM.setValueFromStorage] Guardando clave:', key, 'valor:', value); //BORRAR LOG
     await this.persistence.setValue(key, value);
-    console.log('[DM.setValueFromStorage] Guardado OK'); //BORRAR LOG
   }
 
   async getValueFromStorage<T>(key: string): Promise<T | null> {
     const val = await this.persistence.getValue(key);
-    console.log('[DM.getValueFromStorage] Leyendo clave:', key, '→', val); //BORRAR LOG
     return val;
   }
 
-  /**
-   * Recupera proyectos de forma segura.
-   * Ya no necesita userId porque el Backend lo extrae del JWT.
-   * @param weekId (Opcional) Si se envía, filtra por vigencia. Si no, trae todos.
-   */
-  async getProjects(weekId?: string): Promise<ProjectDTO[]> {
+  async getAllUsers(): Promise<UserResponseDTO[]> {
+    try {
+
+      return await this.rest.getAllUsers();
+    } catch (error) {
+      console.error('[DM.getAllUsers] Error al obtener usuarios:', error);
+      return [];
+    }
+  }
+
+  async getProjects(weekId?: string): Promise<ProjectResponseDTO[]> {
     try {
       if (weekId && weekId.trim() !== '') {
-        console.log(`[DM] Cargando proyectos filtrados para la semana: ${weekId}`);
         return await this.rest.getProjectsByUserIdAndWeek(weekId);
       } else {
-
-        console.log(`[DM] Cargando listado histórico de proyectos`);
         return await this.rest.getProjectsByUserId();
       }
     } catch (error) {
@@ -157,11 +152,29 @@ export class DataManagementService {
     }
   }
 
+  async getProjectById(id: number): Promise<ProjectRequestDTO> {
+    try {
+      return await this.rest.getProjectById(id);
+    } catch (error) {
+      console.error(`[DM.getProjectById] Error al recuperar el proyecto ${id}:`, error);
+      throw error;
+    }
+  }
+
+  async getUserById(id: number): Promise<UserResponseDTO> {
+    try {
+      return await this.rest.getUserById(id);
+    } catch (error) {
+      console.error(`[DM.getUserById] Error al recuperar el usuario ${id}:`, error);
+      throw error;
+    }
+  }
+
   setBackButton(value: boolean) {
     this.showBackButton.next(value);
   }
 
-  async getDepartments(): Promise<any[]> {
+  async getDepartments(): Promise<DepartmentResponseDTO[]> {
     try {
       return await this.rest.getDepartments();
     } catch (error) {
@@ -170,18 +183,16 @@ export class DataManagementService {
     }
   }
 
-  async createDepartment(name: string): Promise<void> {
+  async createDepartment(department: DepartmentRequestDTO): Promise<void> {
     try {
-      await this.rest.createDepartment({ name });
-
-      console.log(`[DM] Departamento '${name}' creado correctamente.`);
+      await this.rest.createDepartment(department);
     } catch (error) {
-      console.error('[DM.createDepartment] Error al crear departamento:', error);
+      console.error('[DM.createDepartment] Error:', error);
       throw error;
     }
   }
 
-  async getUsersByDepartment(departmentId: number): Promise<UserDTO[]> {
+  async getUsersByDepartment(departmentId: number): Promise<UserResponseDTO[]> {
     try {
       return await this.rest.getUsersByDepartment(departmentId);
     } catch (error) {
@@ -190,30 +201,93 @@ export class DataManagementService {
     }
   }
 
-  async createProject(projectData: { name: string; description: string; startDate: string; endDate?: string; userId: number; departmentId: number }): Promise<void> {
+
+  async updateDepartment(id: number, departmentData: { name: string, userIds: number[] }): Promise<void> {
     try {
-      const payload = {
-        name: projectData.name,
-        description: projectData.description,
-        startDate: projectData.startDate,
-        endDate: projectData.endDate || null,
-        user: { id: projectData.userId },
-        department: { id: projectData.departmentId }
-      };
-      await this.rest.createProject(payload);
+
+      await this.rest.updateDepartment(id, departmentData);
+    } catch (error) {
+      console.error(`[DM.updateDepartment] Error:`, error);
+      throw error;
+    }
+  }
+
+  async deleteDepartment(id: number): Promise<void> {
+    try {
+      await this.rest.deleteDepartment(id);
+    } catch (error) {
+      console.error(`[DM.deleteDepartment] Error al borrar departamento ${id}:`, error);
+      throw error;
+    }
+  }
+
+  async createProject(project: ProjectRequestDTO): Promise<void> {
+    try {
+      await this.rest.createProject(project);
     } catch (error) {
       console.error('[DM.createProject] Error al crear proyecto:', error);
+      throw error;
+    }
+  }
+  async getAllProjectsAdmin(): Promise<ProjectResponseDTO[]> {
+    try {
+      return await this.rest.getAllProjectsAdmin();
+    } catch (error) {
+      console.error('[DM.getAllProjectsAdmin] Error:', error);
+      throw error;
+    }
+  }
+
+  async updateProject(id: number, project: ProjectRequestDTO): Promise<void> {
+    try {
+      await this.rest.updateProject(id, project);
+    } catch (error) {
+      console.error(`[DM.updateProject] Error al editar proyecto ${id}:`, error);
+      throw error;
+    }
+  }
+
+  async updateUser(id: number, userData: any): Promise<void> {
+    try {
+      await this.rest.updateUser(id, userData);
+    } catch (error) {
+      console.error(`[DM.updateUser] Error al editar usuario ${id}:`, error);
+      throw error;
+    }
+  }
+
+  async deleteProject(id: number): Promise<void> {
+    try {
+      await this.rest.deleteProject(id);
+    } catch (error) {
+      console.error(`[DM.deleteProject] Error al borrar proyecto ${id}:`, error);
+      throw error;
+    }
+  }
+
+  async deleteUser(id: number): Promise<void> {
+    try {
+      await this.rest.deleteUser(id);
+    } catch (error) {
+      console.error(`[DM.deleteUser] Error al borrar usuario ${id}:`, error);
       throw error;
     }
   }
 
   async downloadWeeklyTimesheetPdf(weekId: string): Promise<Blob> {
     try {
-      console.log('[DM] Solicitando generación de informe semanal en PDF:', weekId);
       return await this.rest.getWeeklyTimesheetPdf(weekId);
     } catch (error) {
       console.error('[DM.downloadWeeklyTimesheetPdf] Error al procesar el documento:', error);
       throw error;
     }
   }
+  async getDepartmentById(id: number): Promise<DepartmentResponseDTO> {
+    return await this.rest.getDepartmentById(id);
+  }
+
+
+
+
+
 }

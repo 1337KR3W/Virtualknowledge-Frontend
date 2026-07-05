@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { DataManagementService } from 'src/app/services/data-management.service';
 import { AbstractPage } from '../abstract';
+import { UserResponseDTO } from 'src/app/models/userDTO.model';
+import { DepartmentRequestDTO } from 'src/app/models/departmentDTO.model';
 
 @Component({
     selector: 'app-create-department',
@@ -18,24 +20,37 @@ export class CreateDepartmentPage extends AbstractPage {
     private readonly toastCtrl = inject(ToastController);
 
     public departmentName: string = '';
+    public allUsers: UserResponseDTO[] = [];
+    public selectedUserIds: number[] = [];
 
-    ionViewWillEnter() {
+    async ionViewWillEnter() {
         this.dataMgmt.setBackButton(true);
+
+        try {
+            this.allUsers = await this.dataMgmt.getAllUsers();
+        } catch (error) {
+            this.showToast('Error loading users list.', 'danger');
+        }
     }
 
     async onCreateDepartment() {
         if (!this.departmentName || this.departmentName.trim() === '') {
-            this.showToast('El nombre del departamento es obligatorio.', 'warning');
+            this.showToast('The department name is required', 'warning');
             return;
         }
 
+        const departmentRequest: DepartmentRequestDTO = {
+            name: this.departmentName.trim(),
+            userIds: this.selectedUserIds
+        };
+
         try {
-            await this.dataMgmt.createDepartment(this.departmentName.trim());
-            this.showToast('Departamento creado correctamente.', 'success');
-            this.departmentName = '';
+            await this.dataMgmt.createDepartment(departmentRequest);
+
+            this.showToast('Department created successfully!', 'success');
             this.goBack();
-        } catch (error) {
-            this.showToast('Error al crear el departamento. Puede que ya exista.', 'danger');
+        } catch (error: any) {
+            this.showToast('Department already exists', 'warning');
         }
     }
 

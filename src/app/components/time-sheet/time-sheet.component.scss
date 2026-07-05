@@ -17,10 +17,9 @@ ion-card {
         border-collapse: collapse;
         font-size: 0.9rem;
 
-        // --- ENCABEZADOS PRINCIPALES (SUN, MON...) ---
         th {
             background: var(--ion-color-light);
-            padding: 10px 12px 2px 12px; // Reducimos el padding inferior (2px) para acercar la fila secundaria
+            padding: 10px 12px 2px 12px;
             text-align: center;
             color: var(--ion-color-medium);
             font-weight: 600;
@@ -29,11 +28,10 @@ ion-card {
             letter-spacing: 0.05em;
         }
 
-        // --- NUEVA FILA SECUNDARIA (DEPARTMENTS Y FECHAS) ---
         .sub-headers-row {
             th {
-                padding: 0px 12px 10px 12px; // Quitamos espacio superior para pegarlo al encabezado principal
-                text-transform: none; // Evitamos mayúsculas automáticas en las fechas si no se desea
+                padding: 0px 12px 10px 12px;
+                text-transform: none;
                 letter-spacing: normal;
 
 
@@ -44,7 +42,7 @@ ion-card {
                 font-size: 0.65rem;
                 font-weight: bold;
                 opacity: 0.8;
-                padding-left: 16px; // Sincronizado con el alineado del nombre del proyecto
+                padding-left: 16px;
                 text-align: center;
             }
 
@@ -55,15 +53,14 @@ ion-card {
             }
         }
 
-        // Aseguramos que la columna Total se centre verticalmente al ocupar 2 filas
         .total-col {
             vertical-align: middle;
             padding: 12px;
         }
 
         td {
-            padding: 4px; // Reducimos el padding general de la celda
-            vertical-align: middle; // Fuerza que todo se centre
+            padding: 4px;
+            vertical-align: middle;
             text-align: center;
             border-bottom: 1px solid rgba(var(--ion-color-medium-rgb), 0.1);
         }
@@ -73,13 +70,12 @@ ion-card {
             gap: 4px;
         }
 
-        // --- CASILLAS DE PROYECTOS Y DEPARTAMENTOS ---
         .project-name {
 
             text-align: left;
             padding-left: 16px;
             display: flex;
-            flex-direction: column; // Apila los textos verticalmente
+            flex-direction: column;
             justify-content: center;
             vertical-align: middle;
 
@@ -98,13 +94,12 @@ ion-card {
             }
         }
 
-        /* --- CELDAS DE HORAS --- */
         .hour-cell {
             .cell-content {
 
                 display: flex;
-                justify-content: center; // Centramos horizontalmente
-                align-items: center; // Centramos verticalmente
+                justify-content: center;
+                align-items: center;
                 gap: 4px;
                 min-width: 80px;
             }
@@ -125,7 +120,7 @@ ion-card {
                     background: var(--ion-color-primary-tiny, rgba(56, 128, 255, 0.05));
                 }
 
-                /* Ocultar flechas de subir/bajar (Spinners) */
+
                 &::-webkit-outer-spin-button,
                 &::-webkit-inner-spin-button {
                     webkit-appearance: none;
@@ -133,7 +128,7 @@ ion-card {
                 }
 
                 &[type=number] {
-                    -moz-appearance: textfield; // Firefox
+                    -moz-appearance: textfield;
                 }
             }
 
@@ -154,5 +149,19 @@ ion-card {
             color: var(--ion-color-primary);
             font-size: 1rem;
         }
+    }
+
+    .custom-textarea ion-textarea::part(placeholder) {
+        font-size: 12px;
+        font-weight: normal;
+        color: #888;
+        opacity: 1;
+        font-style: italic;
+
+
+    }
+
+    .custom-textarea ion-textarea {
+        font-size: 14px;
     }
 }

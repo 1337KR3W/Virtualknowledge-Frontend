@@ -1,14 +1,13 @@
 
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { DataManagementService } from 'src/app/services/data-management.service';
 import { EncryptionService } from 'src/app/services/encryption.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { AbstractPage } from '../../abstract';
 import { Credentials } from 'src/app/models/cretendials.model';
-import { PersistenceService } from 'src/app/services/persistence.service';
+
 
 @Component({
   selector: 'app-login',
@@ -18,12 +17,11 @@ import { PersistenceService } from 'src/app/services/persistence.service';
   imports: [IonicModule, ReactiveFormsModule]
 })
 export class LoginPage extends AbstractPage {
-  private readonly fb = inject(FormBuilder);
+
   private readonly dataMgmt = inject(DataManagementService);
   private readonly utils = inject(UtilsService);
-  private readonly router = inject(Router);
   private readonly encrypt = inject(EncryptionService);
-  private readonly persistence = inject(PersistenceService);
+  public authError: string | null = null;
 
   public loginForm: FormGroup = new FormGroup({
     customerCode: new FormControl(),
@@ -32,19 +30,26 @@ export class LoginPage extends AbstractPage {
   });
 
   public async login() {
+    this.authError = null;
     if (this.loginForm.invalid) return;
+    const loading = await this.utils.showLoading('Iniciando sesión...');
+
     try {
       await this.dataMgmt.setValueFromStorage('customer', this.loginForm.value.customerCode);
+      await this.dataMgmt.login(this.loginForm.value.email, this.loginForm.value.password);
+      await this.encryptAndSaveCredentials(
+        this.loginForm.value.customerCode,
+        this.loginForm.value.email,
+        this.loginForm.value.password
+      );
 
-      await this.handleOnlineLogin();
-
+      this.nav.navigateRoot('welcome');
     } catch (error) {
-      console.error(error);
-      //this.showAlert();
 
-
+      this.authError = 'Invalid email/password. Please try again.';
+      console.error('Authentication error:', error);
     } finally {
-      //await loading.dismiss();
+      await loading.dismiss();
     }
   }
 

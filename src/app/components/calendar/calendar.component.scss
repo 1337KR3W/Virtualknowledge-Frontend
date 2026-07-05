@@ -3,10 +3,9 @@
     margin: 0 !important;
 }
 
-// Si dentro del componente usas un ion-card como contenedor principal:
 ion-card {
     margin: 0 !important;
-    width: 100%; // Asegura que ocupe todo el ancho de su columna
+    width: 100%;
 }
 
 .calendar-container {
@@ -53,8 +52,6 @@ ion-card {
                 background-color: var(--ion-color-primary);
                 color: var(--ion-color-primary-contrast, white);
                 font-weight: bold;
-
-                // Si quieres que parezca una barra continua, quitamos el redondeo lateral
                 border-radius: 0;
             }
         }

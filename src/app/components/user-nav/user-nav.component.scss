@@ -11,3 +11,26 @@ ion-card {
 .user-card {
     margin-bottom: 15px;
 }
+
+.vertical-divider {
+    width: 1px;
+    height: 20px;
+    background-color: #444;
+    margin: 0 12px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: flex;
+    }
+}

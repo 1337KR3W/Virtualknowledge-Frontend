@@ -9,13 +9,6 @@ export class UtilsService {
   private readonly platform = inject(Platform);
   private readonly modalCtrl = inject(ModalController);
 
-  /**
-   * Abre un modal genérico y devuelve los datos al cerrar
-   * @param component El componente que se mostrará
-   * @param componentProps Propiedades que recibe el componente (@Input)
-   * @param css Clase CSS personalizada (opcional)
-   * @param backDrop Si se puede cerrar haciendo clic fuera (default: true)
-   */
   public async openModal(
     component: any,
     componentProps: any,
@@ -46,17 +39,12 @@ export class UtilsService {
       message,
       duration: 2000,
       color,
-      position: 'bottom'
+      position: 'bottom',
     });
     await toast.present();
   }
 
-  /**
-   * Returns the platform where the application is running
-   *  * ios: ios device as native app
-   *  * Android: android device as native app
-   *  * web: anything else runing from a web browser
-   */
+
   public getPlatform(): 'android' | 'ios' | 'web' {
     if (this.platform.is('ios') && this.platform.is('capacitor')) {
       return 'ios';
@@ -67,16 +55,11 @@ export class UtilsService {
     }
   }
 
-  /**
-   * Checks if the app is running as webApp
-   */
+
   public isVersionWeb(): boolean {
     return (!this.platform.is('capacitor') || this.platform.is('mobileweb'));
   }
 
-  /**
-   * Checks if the app is running in a desktop browser
-   */
   public isDesktop(): boolean {
     return (!this.platform.is('capacitor') || this.platform.is('desktop'));
   }

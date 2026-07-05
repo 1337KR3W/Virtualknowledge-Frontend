@@ -13,15 +13,13 @@ export class CommentModalComponent {
 
   private readonly modalCtrl = inject(ModalController);
 
-  // Recibimos el comentario actual
   @Input() comment: string = '';
 
   save() {
-    // Cerramos enviando el nuevo comentario
     this.modalCtrl.dismiss(this.comment);
   }
 
   close() {
-    this.modalCtrl.dismiss(); // Cierra sin cambios
+    this.modalCtrl.dismiss();
   }
 }

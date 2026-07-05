@@ -6,10 +6,17 @@
         <h1 class="brand-title">
           <span>Virtual </span> Knowledge
         </h1>
-        <p class="brand-subtitle">Bienvenido al sistema de gestión</p>
+        <p class="brand-subtitle">Elevate your team's potential</p>
       </div>
 
       <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+        @if (authError) {
+        <div class="auth-error-banner">
+          {{authError}}
+        </div>
+        }
+
         <ion-card class="ion-no-margin">
           <ion-card-content>
             <ion-item>

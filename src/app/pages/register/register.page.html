@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar color="primary">
+    <ion-toolbar>
         <ion-buttons slot="start">
             <ion-button (click)="goBack()">
                 <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
@@ -9,38 +9,60 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-
-    <div class="register-container">
+<ion-content>
+    <div class="form-container">
         <ion-card>
+            <ion-card-header>
+                <ion-card-title>New user details:</ion-card-title>
+            </ion-card-header>
+
             <ion-card-content>
                 <form (ngSubmit)="onRegister()">
                     <ion-item>
-                        <ion-label position="stacked">Full Name</ion-label>
-                        <ion-input [(ngModel)]="newUser.name" name="name" type="text" required></ion-input>
+
+                        <ion-input label="First Name" labelPlacement="floating" [(ngModel)]="newUser.firstName"
+                            name="firstName" type="text" required class="ion-margin-bottom"></ion-input>
                     </ion-item>
 
                     <ion-item>
-                        <ion-label position="stacked">Email</ion-label>
-                        <ion-input [(ngModel)]="newUser.email" name="email" type="email" required></ion-input>
+
+                        <ion-input label="Last Name" labelPlacement="floating" [(ngModel)]="newUser.lastName"
+                            name="lastName" type="text" required class="ion-margin-bottom"></ion-input>
                     </ion-item>
 
                     <ion-item>
-                        <ion-label position="stacked">Password</ion-label>
-                        <ion-input [(ngModel)]="newUser.password" name="password" type="password" required></ion-input>
+
+                        <ion-input label="Email" labelPlacement="floating" [(ngModel)]="newUser.email" name="email"
+                            type="email" required class="ion-margin-bottom"></ion-input>
                     </ion-item>
 
                     <ion-item>
-                        <ion-label position="stacked">Role</ion-label>
-                        <ion-select [ngModel]="newUser.roles[0]" (ngModelChange)="newUser.roles = [$event]" name="role">
-                            <ion-select-option value="ROLE_USER">ROLE_USER</ion-select-option>
-                            <ion-select-option value="ROLE_ADMIN">ROLE_ADMIN</ion-select-option>
+                        <ion-input label="Password" labelPlacement="floating" [(ngModel)]="newUser.password"
+                            name="password" type="password" required class="ion-margin-bottom"></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-select label="Department" labelPlacement="floating" [(ngModel)]="newUser.departmentId"
+                            name="department" placeholder="Select a department" class="ion-margin-bottom">
+                            @for (dept of departments; track dept.id) {
+                            <ion-select-option [value]="dept.id">
+                                {{ dept.name }}
+                            </ion-select-option>
+                            }
+                        </ion-select>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-select label="Role" labelPlacement="floating" [ngModel]="newUser.roleId"
+                            (ngModelChange)="newUser.roleId = $event" name="role" class="ion-margin-bottom">
+                            <ion-select-option value="1">ROLE_USER</ion-select-option>
+                            <ion-select-option value="2">ROLE_ADMIN</ion-select-option>
                         </ion-select>
                     </ion-item>
 
                     <div class="ion-margin-top">
                         <ion-button expand="block" type="submit"
-                            [disabled]="!newUser.name || !newUser.email || !newUser.password">
+                            [disabled]="!newUser.firstName || !newUser.lastName || !newUser.email || !newUser.password">
                             CREATE USER
                         </ion-button>
                     </div>

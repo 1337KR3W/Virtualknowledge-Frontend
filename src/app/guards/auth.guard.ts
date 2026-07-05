@@ -16,7 +16,6 @@ export const authGuard: CanActivateFn = async (route, state) => {
     const expectedRole = route.data['role'];
 
     if (expectedRole === 'ROLE_ADMIN') {
-        // LEER DIRECTAMENTE DEL STORAGE para evitar el delay del Observable
         const isAdmin = await dataMgmt.getValueFromStorage<boolean>('isAdmin');
 
         console.log('[AuthGuard] Validando acceso ADMIN. Valor en storage:', isAdmin);

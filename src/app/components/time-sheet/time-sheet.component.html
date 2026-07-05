@@ -54,8 +54,7 @@
     <div class="global-comment-box">
       <ion-item lines="none" class="custom-textarea">
         <ion-label position="stacked">Weekly comment</ion-label>
-        <ion-textarea [(ngModel)]="timeSheet.globalComment" placeholder="Write a global message for this week here..."
-          rows="2">
+        <ion-textarea [(ngModel)]="globalComment" placeholder="Write a global message for this week here..." rows="4">
         </ion-textarea>
       </ion-item>
     </div>
@@ -63,12 +62,12 @@
     <div class="actions-bar">
       <ion-button expand="full" color="primary" (click)="saveTimeSheet()">
         <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
-        GUARDAR reporte semanal
+        SAVE weekly report
       </ion-button>
 
       <ion-button (click)="downloadWeeklyPdf()" color="medium" [disabled]="isDownloadingPdf" style="flex: 1;">
         <ion-icon [name]="isDownloadingPdf ? 'refresh-outline' : 'download-outline'" slot="start"></ion-icon>
-        {{ isDownloadingPdf ? 'Generando...' : 'EXPORTAR PDF' }}
+        {{ isDownloadingPdf ? 'Generating...' : 'EXPORT PDF' }}
       </ion-button>
     </div>
   </div>
@@ -77,6 +76,6 @@
 } @else {
 <div class="ion-text-center ion-padding">
   <ion-spinner name="crescent"></ion-spinner>
-  <p>Cargando reporte semanal...</p>
+  <p>Loading weekly report...</p>
 </div>
 }
