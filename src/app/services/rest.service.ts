@@ -8,6 +8,9 @@ import { DepartmentRequestDTO, DepartmentResponseDTO } from '../models/departmen
 import { AuthResponse } from '../models/auth.model';
 import { UserResponseDTO } from '../models/userDTO.model';
 import { TimeSheetResponseDTO } from '../models/timeSheetDTO.model';
+import { firstValueFrom } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
+
 
 @Injectable({ providedIn: 'root' })
 export class RestService extends AbstractService {
@@ -168,5 +171,11 @@ export class RestService extends AbstractService {
   async deleteUser(id: number): Promise<void> {
     const basePath = await this.getPath();
     await this.makeDeleteRequest(`${basePath}users/admin/delete/${id}`);
+  }
+
+  async refreshToken(refreshToken: string): Promise<AuthResponse> {
+    const basePath = await this.getPath();
+
+    return this.makePostRequest<AuthResponse>(`${basePath}auth/refresh`, {}, refreshToken);
   }
 }
