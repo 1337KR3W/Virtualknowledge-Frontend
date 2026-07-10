@@ -45,7 +45,7 @@ export class UserNavComponent extends AbstractPage implements OnInit {
   }
 
   async goToDepartments() {
-    this.nav.navigateForward('departments');
+    this.nav.navigateForward('departments/my-department');
   }
 
   async goToCreateDepartment() {

@@ -139,6 +139,16 @@ export class DataManagementService {
     }
   }
 
+  async getAllUsersWithoutDepartment(): Promise<UserResponseDTO[]> {
+    try {
+
+      return await this.rest.getAllUsersWithoutDepartment();
+    } catch (error) {
+      console.error('[DM.getAllUsers] Error al obtener usuarios:', error);
+      return [];
+    }
+  }
+
   async getProjects(weekId?: string): Promise<ProjectResponseDTO[]> {
     try {
       if (weekId && weekId.trim() !== '') {
@@ -179,6 +189,15 @@ export class DataManagementService {
       return await this.rest.getDepartments();
     } catch (error) {
       console.error('[DM.getDepartments] Error al traer departamentos:', error);
+      throw error;
+    }
+  }
+
+  async getMyDepartment(): Promise<DepartmentResponseDTO> {
+    try {
+      return await this.rest.getMyDepartment();
+    } catch (error) {
+      console.error('[DM.getMyDepartment] Error al traer el departamento:', error);
       throw error;
     }
   }

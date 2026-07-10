@@ -4,13 +4,14 @@ import { IonicModule, AlertController, ToastController } from '@ionic/angular';
 import { DataManagementService } from 'src/app/services/data-management.service';
 import { AbstractPage } from '../abstract';
 import { UserResponseDTO } from 'src/app/models/userDTO.model';
+import { BaseListComponent } from 'src/app/components/base/base-list.component';
 
 @Component({
     selector: 'app-manage-users',
     templateUrl: './manage-users.page.html',
     styleUrls: ['./manage-users.page.scss'],
     standalone: true,
-    imports: [CommonModule, IonicModule]
+    imports: [CommonModule, IonicModule, BaseListComponent]
 })
 export class ManageUsersPage extends AbstractPage implements OnInit {
     private readonly dataMgmt = inject(DataManagementService);

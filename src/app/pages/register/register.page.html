@@ -1,73 +1,43 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-button (click)="goBack()">
-                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>Create new User</ion-title>
-    </ion-toolbar>
-</ion-header>
+<app-base-form title="Create new User" subtitle="New user details:" saveLabel="CREATE USER" (back)="goBack()"
+    (save)="onRegister()">
 
-<ion-content>
-    <div class="form-container">
-        <ion-card>
-            <ion-card-header>
-                <ion-card-title>New user details:</ion-card-title>
-            </ion-card-header>
+    <ion-item>
+        <ion-input label="First Name" labelPlacement="floating" [(ngModel)]="newUser.firstName" name="firstName"
+            type="text" required class="ion-margin-bottom"></ion-input>
+    </ion-item>
 
-            <ion-card-content>
-                <form (ngSubmit)="onRegister()">
-                    <ion-item>
+    <ion-item>
+        <ion-input label="Last Name" labelPlacement="floating" [(ngModel)]="newUser.lastName" name="lastName"
+            type="text" required class="ion-margin-bottom"></ion-input>
+    </ion-item>
 
-                        <ion-input label="First Name" labelPlacement="floating" [(ngModel)]="newUser.firstName"
-                            name="firstName" type="text" required class="ion-margin-bottom"></ion-input>
-                    </ion-item>
+    <ion-item>
+        <ion-input label="Email" labelPlacement="floating" [(ngModel)]="newUser.email" name="email" type="email"
+            required class="ion-margin-bottom"></ion-input>
+    </ion-item>
 
-                    <ion-item>
+    <ion-item>
+        <ion-input label="Password" labelPlacement="floating" [(ngModel)]="newUser.password" name="password"
+            type="password" required class="ion-margin-bottom"></ion-input>
+    </ion-item>
 
-                        <ion-input label="Last Name" labelPlacement="floating" [(ngModel)]="newUser.lastName"
-                            name="lastName" type="text" required class="ion-margin-bottom"></ion-input>
-                    </ion-item>
+    <ion-item>
+        <ion-select label="Department" labelPlacement="floating" [(ngModel)]="newUser.departmentId" name="department"
+            placeholder="Select a department" class="ion-margin-bottom">
+            @for (dept of departments; track dept.id) {
+            <ion-select-option [value]="dept.id">
+                {{ dept.name }}
+            </ion-select-option>
+            }
+        </ion-select>
+    </ion-item>
 
-                    <ion-item>
+    <ion-item>
+        <ion-select label="Role" labelPlacement="floating" [ngModel]="newUser.roleId"
+            (ngModelChange)="newUser.roleId = $event" name="role" class="ion-margin-bottom">
+            <ion-select-option value="1">ROLE_USER</ion-select-option>
+            <ion-select-option value="2">ROLE_ADMIN</ion-select-option>
+        </ion-select>
+    </ion-item>
 
-                        <ion-input label="Email" labelPlacement="floating" [(ngModel)]="newUser.email" name="email"
-                            type="email" required class="ion-margin-bottom"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-input label="Password" labelPlacement="floating" [(ngModel)]="newUser.password"
-                            name="password" type="password" required class="ion-margin-bottom"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-select label="Department" labelPlacement="floating" [(ngModel)]="newUser.departmentId"
-                            name="department" placeholder="Select a department" class="ion-margin-bottom">
-                            @for (dept of departments; track dept.id) {
-                            <ion-select-option [value]="dept.id">
-                                {{ dept.name }}
-                            </ion-select-option>
-                            }
-                        </ion-select>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-select label="Role" labelPlacement="floating" [ngModel]="newUser.roleId"
-                            (ngModelChange)="newUser.roleId = $event" name="role" class="ion-margin-bottom">
-                            <ion-select-option value="1">ROLE_USER</ion-select-option>
-                            <ion-select-option value="2">ROLE_ADMIN</ion-select-option>
-                        </ion-select>
-                    </ion-item>
-
-                    <div class="ion-margin-top">
-                        <ion-button expand="block" type="submit"
-                            [disabled]="!newUser.firstName || !newUser.lastName || !newUser.email || !newUser.password">
-                            CREATE USER
-                        </ion-button>
-                    </div>
-                </form>
-            </ion-card-content>
-        </ion-card>
-    </div>
-</ion-content>
+</app-base-form>

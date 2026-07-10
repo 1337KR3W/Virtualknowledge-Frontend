@@ -6,13 +6,14 @@ import { DataManagementService } from 'src/app/services/data-management.service'
 import { AbstractPage } from '../abstract';
 
 import { ActivatedRoute } from '@angular/router';
+import { BaseFormComponent } from 'src/app/components/base/base-form.component';
 
 @Component({
     selector: 'app-edit-department',
     templateUrl: './edit-department.page.html',
     styleUrls: ['./edit-department.page.scss'],
     standalone: true,
-    imports: [CommonModule, FormsModule, IonicModule]
+    imports: [CommonModule, FormsModule, IonicModule, BaseFormComponent]
 })
 
 export class EditDepartmentPage extends AbstractPage implements OnInit {
@@ -28,7 +29,11 @@ export class EditDepartmentPage extends AbstractPage implements OnInit {
 
         this.deptId = this.route.snapshot.paramMap.get('id')!;
         await this.loadDepartment();
-        this.allUsers = await this.dataMgmt.getAllUsers();
+        const usersWithoutDepartment = await this.dataMgmt.getAllUsersWithoutDepartment();
+        const usersFromDepartment = await this.dataMgmt.getUsersByDepartment(Number(this.deptId));
+        const availableUsers = [...usersWithoutDepartment, ...usersFromDepartment];
+
+        this.allUsers = availableUsers;
     }
 
     async loadDepartment() {

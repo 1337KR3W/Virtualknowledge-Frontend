@@ -1,37 +1,20 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Assigned Projects</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="ion-padding">
-  <div class="form-container">
-    <ion-card>
-      <ion-list lines="inset">
-        @for (project of projects; track project.id) {
-        <ion-item button>
-          <ion-icon name="briefcase-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>
-            <h2 class="ion-text-uppercase"><b>{{ project.name }}</b></h2>
-            <p>{{ project.description }}</p>
-            @if (project.departmentName) {
-            <ion-badge color="secondary" style="margin-top: 5px;">{{ project.departmentName }}</ion-badge>
-            }
-          </ion-label>
-        </ion-item>
-        } @empty {
-        <ion-item lines="none">
-          <ion-label color="medium" class="ion-text-center">
-            Project not found. No projects found for this user.
-          </ion-label>
-        </ion-item>
-        }
-      </ion-list>
-    </ion-card>
-  </div>
-</ion-content>
+<app-base-list [title]="'Assigned Projects'" (back)="goBack()">
+  @for (project of projects; track project.id) {
+  <ion-item button>
+    <ion-icon name="briefcase-outline" slot="start" color="primary"></ion-icon>
+    <ion-label>
+      <h2 class="ion-text-uppercase"><b>{{ project.name }}</b></h2>
+      <p>{{ project.description }}</p>
+      @if (project.departmentName) {
+      <ion-badge color="secondary" style="margin-top: 5px;">{{ project.departmentName }}</ion-badge>
+      }
+    </ion-label>
+  </ion-item>
+  } @empty {
+  <ion-item lines="none">
+    <ion-label color="medium" class="ion-text-center">
+      Project not found. No projects found for this user.
+    </ion-label>
+  </ion-item>
+  }
+</app-base-list>

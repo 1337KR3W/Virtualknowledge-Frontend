@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { IonicModule, AlertController } from '@ionic/angular';
 import { DataManagementService } from 'src/app/services/data-management.service';
 import { AbstractPage } from '../abstract';
+import { BaseListComponent } from 'src/app/components/base/base-list.component';
 
 @Component({
     selector: 'app-manage-departments',
     templateUrl: './manage-departments.page.html',
     styleUrls: ['./manage-departments.page.scss'],
     standalone: true,
-    imports: [CommonModule, IonicModule]
+    imports: [CommonModule, IonicModule, BaseListComponent]
 })
 export class ManageDepartmentsPage extends AbstractPage implements OnInit {
     private readonly dataMgmt = inject(DataManagementService);

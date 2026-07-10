@@ -6,19 +6,20 @@ import { DataManagementService } from 'src/app/services/data-management.service'
 import { AbstractPage } from '../abstract';
 import { DepartmentResponseDTO } from 'src/app/models/departmentDTO.model';
 import { UserResponseDTO } from 'src/app/models/userDTO.model';
+import { BaseListComponent } from 'src/app/components/base/base-list.component';
 
 @Component({
     selector: 'app-departments',
     templateUrl: './departments.page.html',
     styleUrls: ['./departments.page.scss'],
     standalone: true,
-    imports: [CommonModule, FormsModule, IonicModule]
+    imports: [CommonModule, FormsModule, IonicModule, BaseListComponent]
 })
 export class DepartmentsPage extends AbstractPage implements OnInit, OnDestroy {
 
     private readonly dataMgmt = inject(DataManagementService);
 
-    public departments: DepartmentResponseDTO[] = [];
+    public department: DepartmentResponseDTO | null = null;
     public user: UserResponseDTO | null = null;
 
     async ngOnInit() {
@@ -33,9 +34,9 @@ export class DepartmentsPage extends AbstractPage implements OnInit, OnDestroy {
 
     async loadDepartments() {
         try {
-            this.departments = await this.dataMgmt.getDepartments();
+            this.department = await this.dataMgmt.getMyDepartment();
         } catch (error) {
-            console.error('[DEPARTMENTS] Error al cargar los departamentos:', error);
+            console.error('[DEPARTMENTS] Error al cargar el departamento:', error);
         }
     }
 

@@ -1,73 +1,40 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-button (click)="goBack()">
-                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>Create Project</ion-title>
-    </ion-toolbar>
-</ion-header>
+<app-base-form title="Create Project" subtitle="New project details:" saveLabel="Save Project" (back)="goBack()"
+    (save)="onSave()">
 
-<ion-content>
-    <div class="form-container">
-        <ion-card>
-            <ion-card-header>
-                <ion-card-title>New project details:</ion-card-title>
-            </ion-card-header>
+    <ion-item class="ion-margin-bottom">
+        <ion-input label="Project Name" labelPlacement="floating" [(ngModel)]="projectData.name"></ion-input>
+    </ion-item>
 
-            <ion-card-content>
-                <ion-list>
+    <ion-item class="ion-margin-bottom">
+        <ion-textarea label="Description" labelPlacement="floating"
+            [(ngModel)]="projectData.description"></ion-textarea>
+    </ion-item>
 
-                    <ion-item class="ion-margin-bottom">
-                        <ion-input label="Project Name" labelPlacement="floating" type="text"
-                            [(ngModel)]="projectData.name"></ion-input>
-                    </ion-item>
+    <ion-item class="ion-margin-bottom">
+        <ion-input label="Start Date" labelPlacement="floating" type="date"
+            [(ngModel)]="projectData.startDate"></ion-input>
+    </ion-item>
 
-                    <ion-item class="ion-margin-bottom">
-                        <ion-textarea label="Description" labelPlacement="floating"
-                            [(ngModel)]="projectData.description"></ion-textarea>
-                    </ion-item>
+    <ion-item class="ion-margin-bottom">
+        <ion-input label="End Date (Optional)" labelPlacement="floating" type="date"
+            [(ngModel)]="projectData.endDate"></ion-input>
+    </ion-item>
 
-                    <ion-item class="ion-margin-bottom">
-                        <ion-input label="Start Date" labelPlacement="floating" type="date"
-                            [(ngModel)]="projectData.startDate"></ion-input>
-                    </ion-item>
+    <ion-item class="ion-margin-bottom">
+        <ion-select label="Department" labelPlacement="floating" [(ngModel)]="projectData.departmentId"
+            (ionChange)="onDepartmentChange()">
+            @for (dept of departments; track dept.id) {
+            <ion-select-option [value]="dept.id">{{ dept.name }}</ion-select-option>
+            }
+        </ion-select>
+    </ion-item>
 
-                    <ion-item class="ion-margin-bottom">
-                        <ion-input label="End Date (Optional)" labelPlacement="floating" type="date"
-                            [(ngModel)]="projectData.endDate"></ion-input>
-                    </ion-item>
+    <ion-item class="ion-margin-bottom" [disabled]="!projectData.departmentId">
+        <ion-select label="Assign Worker" labelPlacement="floating" [(ngModel)]="projectData.userIds" multiple="true">
+            @for (user of (filteredUsers || []); track user.id) {
+            <ion-select-option [value]="user.id">{{ user.firstName }} {{ user.lastName }}</ion-select-option>
+            }
+        </ion-select>
+    </ion-item>
 
-                    <ion-item class="ion-margin-bottom">
-                        <ion-select label="Department" labelPlacement="floating" [(ngModel)]="projectData.departmentId"
-                            (ionChange)="onDepartmentChange()">
-                            <ion-select-option [value]="null" disabled></ion-select-option>
-                            @for (dept of departments; track dept.id) {
-                            <ion-select-option [value]="dept.id">{{ dept.name }}</ion-select-option>
-                            }
-                        </ion-select>
-                    </ion-item>
-
-                    <ion-item class="ion-margin-bottom" [disabled]="!projectData.departmentId">
-                        <ion-select label="Assign Worker" labelPlacement="floating" [(ngModel)]="projectData.userIds"
-                            multiple="true">
-                            @for (user of (filteredUsers || []); track user.id) {
-                            <ion-select-option [value]="user.id">{{ user.firstName }} {{ user.lastName }} ({{ user.email
-                                }})</ion-select-option>
-                            } @empty {
-                            <ion-select-option [disabled]="true">No workers in this department</ion-select-option>
-                            }
-                        </ion-select>
-                    </ion-item>
-
-                </ion-list>
-
-                <ion-button expand="block" color="primary" (click)="onSave()" class="ion-margin-top">
-                    <ion-icon slot="start" name="save-outline"></ion-icon>
-                    Save Project
-                </ion-button>
-            </ion-card-content>
-        </ion-card>
-    </div>
-</ion-content>
+</app-base-form>

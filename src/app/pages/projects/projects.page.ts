@@ -6,13 +6,14 @@ import { DataManagementService } from 'src/app/services/data-management.service'
 import { AbstractPage } from '../abstract';
 import { ProjectResponseDTO } from 'src/app/models/projectDTO.model';
 import { UserResponseDTO } from 'src/app/models/userDTO.model';
+import { BaseListComponent } from 'src/app/components/base/base-list.component';
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.page.html',
   styleUrls: ['./projects.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule]
+  imports: [CommonModule, FormsModule, IonicModule, BaseListComponent]
 })
 export class ProjectsPage extends AbstractPage implements OnInit, OnDestroy {
 

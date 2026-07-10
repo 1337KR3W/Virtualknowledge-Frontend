@@ -6,13 +6,14 @@ import { DataManagementService } from 'src/app/services/data-management.service'
 import { AbstractPage } from '../abstract';
 import { UserResponseDTO } from 'src/app/models/userDTO.model';
 import { DepartmentRequestDTO } from 'src/app/models/departmentDTO.model';
+import { BaseFormComponent } from 'src/app/components/base/base-form.component';
 
 @Component({
     selector: 'app-create-department',
     templateUrl: './create-department.page.html',
     styleUrls: ['./create-department.page.scss'],
     standalone: true,
-    imports: [CommonModule, FormsModule, IonicModule]
+    imports: [CommonModule, FormsModule, IonicModule, BaseFormComponent]
 })
 export class CreateDepartmentPage extends AbstractPage {
 
@@ -27,7 +28,7 @@ export class CreateDepartmentPage extends AbstractPage {
         this.dataMgmt.setBackButton(true);
 
         try {
-            this.allUsers = await this.dataMgmt.getAllUsers();
+            this.allUsers = await this.dataMgmt.getAllUsersWithoutDepartment();
         } catch (error) {
             this.showToast('Error loading users list.', 'danger');
         }

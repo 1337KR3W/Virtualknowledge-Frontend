@@ -1,35 +1,26 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-button (click)="goBack()">
-                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+<app-base-list [title]="'Departments Management'" (back)="goBack()">
+
+    @for (d of departments; track d.id) {
+    <ion-item>
+        <ion-icon name="business-outline" slot="start" color="primary"></ion-icon>
+
+        <ion-label>
+            <ion-badge color="secondary"><b>{{ d.name }}</b></ion-badge>
+        </ion-label>
+
+        <ion-buttons slot="end">
+            <ion-button (click)="editDepartment(d)">
+                <ion-icon name="create-outline"></ion-icon>
+            </ion-button>
+            <ion-button color="danger" (click)="deleteDepartment(d.id)">
+                <ion-icon name="trash-outline"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title>Departments Management</ion-title>
-    </ion-toolbar>
-</ion-header>
+    </ion-item>
+    } @empty {
+    <ion-item lines="none">
+        <ion-label color="medium" class="ion-text-center">No departments found.</ion-label>
+    </ion-item>
+    }
 
-<ion-content>
-    <div class="form-container">
-        <ion-card>
-            <ion-list lines="inset">
-
-                @for (d of departments; track d.id) {
-
-                <ion-item>
-                    <ion-icon name="business-outline" slot="start" color="primary"></ion-icon>
-
-                    <ion-label>
-                        <ion-badge color="secondary"><b>{{ d.name }}</b></ion-badge>
-                    </ion-label>
-                    <ion-buttons slot="end">
-                        <ion-button (click)="editDepartment(d)"><ion-icon name="create-outline"></ion-icon></ion-button>
-                        <ion-button color="danger" (click)="deleteDepartment(d.id)"><ion-icon
-                                name="trash-outline"></ion-icon></ion-button>
-                    </ion-buttons>
-                </ion-item>
-                }
-            </ion-list>
-        </ion-card>
-    </div>
-</ion-content>
+</app-base-list>

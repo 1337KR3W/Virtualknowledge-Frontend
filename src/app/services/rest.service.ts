@@ -8,6 +8,9 @@ import { DepartmentRequestDTO, DepartmentResponseDTO } from '../models/departmen
 import { AuthResponse } from '../models/auth.model';
 import { UserResponseDTO } from '../models/userDTO.model';
 import { TimeSheetResponseDTO } from '../models/timeSheetDTO.model';
+import { firstValueFrom } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
+
 
 @Injectable({ providedIn: 'root' })
 export class RestService extends AbstractService {
@@ -40,6 +43,11 @@ export class RestService extends AbstractService {
     return this.makeGetRequest<UserResponseDTO[]>(`${basePath}users/admin/all`);
   }
 
+  async getAllUsersWithoutDepartment(): Promise<UserResponseDTO[]> {
+    const basePath = await this.getPath();
+    return this.makeGetRequest<UserResponseDTO[]>(`${basePath}users/admin/no-department`);
+  }
+
   async getUserProfile(id: number): Promise<UserResponseDTO> { //
     const basePath = await this.getPath();
     return this.makeGetRequest<UserResponseDTO>(`${basePath}users/${id}`);
@@ -54,6 +62,12 @@ export class RestService extends AbstractService {
     const basePath = await this.getPath();
     const url = `${basePath}projects/my-projects`;
     return this.makeGetRequest<ProjectResponseDTO[]>(url);
+  }
+
+  async getMyDepartment(): Promise<DepartmentResponseDTO> {
+    const basePath = await this.getPath();
+    const url = `${basePath}departments/my-department`;
+    return this.makeGetRequest<DepartmentResponseDTO>(url);
   }
 
   async getProjectsByUserIdAndWeek(weekId: string): Promise<ProjectResponseDTO[]> {
@@ -168,5 +182,11 @@ export class RestService extends AbstractService {
   async deleteUser(id: number): Promise<void> {
     const basePath = await this.getPath();
     await this.makeDeleteRequest(`${basePath}users/admin/delete/${id}`);
+  }
+
+  async refreshToken(refreshToken: string): Promise<AuthResponse> {
+    const basePath = await this.getPath();
+
+    return this.makePostRequest<AuthResponse>(`${basePath}auth/refresh`, {}, refreshToken);
   }
 }
