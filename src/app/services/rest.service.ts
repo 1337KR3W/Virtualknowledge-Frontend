@@ -43,6 +43,11 @@ export class RestService extends AbstractService {
     return this.makeGetRequest<UserResponseDTO[]>(`${basePath}users/admin/all`);
   }
 
+  async getAllUsersWithoutDepartment(): Promise<UserResponseDTO[]> {
+    const basePath = await this.getPath();
+    return this.makeGetRequest<UserResponseDTO[]>(`${basePath}users/admin/no-department`);
+  }
+
   async getUserProfile(id: number): Promise<UserResponseDTO> { //
     const basePath = await this.getPath();
     return this.makeGetRequest<UserResponseDTO>(`${basePath}users/${id}`);
@@ -57,6 +62,12 @@ export class RestService extends AbstractService {
     const basePath = await this.getPath();
     const url = `${basePath}projects/my-projects`;
     return this.makeGetRequest<ProjectResponseDTO[]>(url);
+  }
+
+  async getMyDepartment(): Promise<DepartmentResponseDTO> {
+    const basePath = await this.getPath();
+    const url = `${basePath}departments/my-department`;
+    return this.makeGetRequest<DepartmentResponseDTO>(url);
   }
 
   async getProjectsByUserIdAndWeek(weekId: string): Promise<ProjectResponseDTO[]> {

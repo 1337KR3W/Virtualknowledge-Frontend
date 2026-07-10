@@ -4,13 +4,14 @@ import { IonicModule, AlertController, ToastController } from '@ionic/angular';
 import { DataManagementService } from 'src/app/services/data-management.service';
 import { AbstractPage } from '../abstract';
 import { ProjectResponseDTO } from 'src/app/models/projectDTO.model';
+import { BaseListComponent } from 'src/app/components/base/base-list.component';
 
 @Component({
     selector: 'app-manage-projects',
     templateUrl: './manage-projects.page.html',
     styleUrls: ['./manage-projects.page.scss'],
     standalone: true,
-    imports: [CommonModule, IonicModule]
+    imports: [CommonModule, IonicModule, BaseListComponent]
 })
 export class ManageProjectsPage extends AbstractPage implements OnInit {
     private readonly dataMgmt = inject(DataManagementService);

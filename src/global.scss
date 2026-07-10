@@ -63,3 +63,9 @@
     --height: 400px;
     --border-radius: 16px;
 }
+
+app-base-form,
+app-base-list {
+    display: block;
+    height: 100%;
+}

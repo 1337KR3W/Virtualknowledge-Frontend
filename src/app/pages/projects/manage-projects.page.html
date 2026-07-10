@@ -1,40 +1,29 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-button (click)="goBack()">
-                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+<app-base-list [title]="'Projects Management'" (back)="goBack()">
+
+    @for (p of projects; track p.id) {
+    <ion-item>
+        <ion-icon name="briefcase-outline" slot="start" color="primary"></ion-icon>
+        <ion-label>
+            <h2 class="ion-text-uppercase"><b>{{ p.name }}</b></h2>
+            <p>{{ p.description }}</p>
+            @if (p.departmentName) {
+            <ion-badge color="secondary" style="margin-top: 5px;">{{ p.departmentName }}</ion-badge>
+            }
+        </ion-label>
+
+        <ion-buttons slot="end">
+            <ion-button (click)="editProject(p)">
+                <ion-icon name="create-outline"></ion-icon>
+            </ion-button>
+            <ion-button color="danger" (click)="deleteProject(p.id!)">
+                <ion-icon name="trash-outline"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title>Projects Management</ion-title>
-    </ion-toolbar>
-</ion-header>
+    </ion-item>
+    } @empty {
+    <ion-item lines="none">
+        <ion-label color="medium" class="ion-text-center">No projects found.</ion-label>
+    </ion-item>
+    }
 
-<ion-content>
-    <div class="form-container">
-        <ion-card>
-            <ion-list lines="inset">
-
-                @for (p of projects; track p.id) {
-
-                <ion-item>
-                    <ion-icon name="briefcase-outline" slot="start" color="primary"></ion-icon>
-                    <ion-label>
-
-                        <h2 class="ion-text-uppercase"><b>{{ p.name }}</b></h2>
-                        <p>{{ p.description }}</p>
-                        @if (p.departmentName) {
-                        <ion-badge color="secondary" style="margin-top: 5px;">{{ p.departmentName }}</ion-badge>
-                        }
-                    </ion-label>
-
-                    <ion-buttons>
-                        <ion-button (click)="editProject(p)"><ion-icon name="create-outline"></ion-icon></ion-button>
-                        <ion-button color="danger" (click)="deleteProject(p.id!)"><ion-icon
-                                name="trash-outline"></ion-icon></ion-button>
-                    </ion-buttons>
-                </ion-item>
-                }
-            </ion-list>
-        </ion-card>
-    </div>
-</ion-content>
+</app-base-list>

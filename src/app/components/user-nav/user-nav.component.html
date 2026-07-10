@@ -13,26 +13,44 @@
     </ion-buttons>
 
     <ion-buttons slot="end" class="desktop-only">
+
+
+
       @if ((isAdmin$ | async) === true) {
+
       <ion-button fill="clear" color="success" (click)="goToManageUsers()"><ion-icon name="list-outline"
           slot="icon-only"></ion-icon></ion-button>
+
       <ion-button fill="clear" color="success" (click)="goToRegister()"><ion-icon name="person-add-outline"
           slot="icon-only"></ion-icon></ion-button>
 
       <ion-button fill="clear" color="tertiary" (click)="goToManageDepartments()"><ion-icon name="list-outline"
           slot="icon-only"></ion-icon></ion-button>
+
       <ion-button fill="clear" color="tertiary" (click)="goToCreateDepartment()"><ion-icon name="add-circle-outline"
           slot="icon-only"></ion-icon></ion-button>
+
       <ion-button fill="clear" color="tertiary" (click)="goToDepartments()"><ion-icon name="business-outline"
           slot="icon-only"></ion-icon></ion-button>
 
       <ion-button fill="clear" color="primary" (click)="goToManageProjects()"><ion-icon name="list-outline"
           slot="icon-only"></ion-icon></ion-button>
+
       <ion-button fill="clear" color="primary" (click)="goToCreateProject()"><ion-icon name="add-circle-outline"
           slot="icon-only"></ion-icon></ion-button>
-      }
+
       <ion-button fill="clear" color="primary" (click)="goToProjects()"><ion-icon name="folder-open-outline"
           slot="icon-only"></ion-icon></ion-button>
+
+
+      }@else{
+      <ion-button fill="clear" color="tertiary" (click)="goToDepartments()"><ion-icon name="business-outline"
+          slot="icon-only"></ion-icon></ion-button>
+
+      <ion-button fill="clear" color="primary" (click)="goToProjects()"><ion-icon name="folder-open-outline"
+          slot="icon-only"></ion-icon></ion-button>
+
+      }
 
       <ion-button fill="clear" color="danger" (click)="logout()"><ion-icon name="log-out-outline"
           slot="icon-only"></ion-icon></ion-button>
@@ -46,35 +64,56 @@
       <ion-list lines="full">
         @if ((isAdmin$ | async) === true) {
 
-        <ion-item button fill="clear" color="success" (click)="goToManageUsers(); popover.dismiss()"><ion-label>Manage
-            Users</ion-label></ion-item>
-        <ion-item button fill="clear" color="success" (click)="goToRegister(); popover.dismiss()"><ion-label>Register
-            New
-            User</ion-label></ion-item>
-        <div class="vertical-divider"></div>
-        <ion-item button fill="clear" color="tertiary"
-          (click)="goToManageDepartments(); popover.dismiss()  "><ion-label>Manage
-            Departments</ion-label></ion-item>
-        <ion-item button fill="clear" color="tertiary"
-          (click)="goToCreateDepartment(); popover.dismiss()"><ion-label>Create New
-            Department</ion-label></ion-item>
-        <ion-item button fill="clear" color="tertiary" (click)="goToDepartments(); popover.dismiss()"><ion-label>View
-            Departments</ion-label></ion-item>
+        <ion-item button fill="clear" color="success" (click)="goToManageUsers(); popover.dismiss()">
+          <ion-label>Manage Users</ion-label>
+        </ion-item>
+
+        <ion-item button fill="clear" color="success" (click)="goToRegister(); popover.dismiss()">
+          <ion-label>Register New User</ion-label>
+        </ion-item>
+
         <div class="vertical-divider"></div>
 
-        <ion-item button fill="clear" color="primary"
-          (click)="goToManageProjects(); popover.dismiss()"><ion-label>Manage
-            Projects</ion-label></ion-item>
-        <ion-item button fill="clear" color="primary" (click)="goToCreateProject(); popover.dismiss()"><ion-label>Create
-            New
-            Project</ion-label></ion-item>
-        <ion-item button fill="clear" color="primary" (click)="goToProjects(); popover.dismiss()"><ion-label>View
-            Projects</ion-label></ion-item>
+        <ion-item button fill="clear" color="tertiary" (click)="goToManageDepartments(); popover.dismiss()">
+          <ion-label>Manage Departments</ion-label>
+        </ion-item>
 
+        <ion-item button fill="clear" color="tertiary" (click)="goToCreateDepartment(); popover.dismiss()">
+          <ion-label>Create New Department</ion-label>
+        </ion-item>
+
+        <ion-item button fill="clear" color="tertiary" (click)="goToDepartments(); popover.dismiss()">
+          <ion-label>View Departments</ion-label>
+        </ion-item>
+
+        <div class="vertical-divider"></div>
+
+        <ion-item button fill="clear" color="primary" (click)="goToManageProjects(); popover.dismiss()">
+          <ion-label>Manage Projects</ion-label>
+        </ion-item>
+
+        <ion-item button fill="clear" color="primary" (click)="goToCreateProject(); popover.dismiss()">
+          <ion-label>Create New Project</ion-label>
+        </ion-item>
+        <ion-item button fill="clear" color="primary" (click)="goToProjects(); popover.dismiss()">
+          <ion-label>View Projects</ion-label>
+        </ion-item>
+
+        }@else{
+
+        <ion-item button fill="clear" color="tertiary" (click)="goToDepartments(); popover.dismiss()">
+          <ion-label>My Departments</ion-label>
+        </ion-item>
+
+        <ion-item button fill="clear" color="primary" (click)="goToProjects(); popover.dismiss()">
+          <ion-label>My Projects</ion-label>
+        </ion-item>
+
+        <ion-item button (click)="logout(); popover.dismiss()" color="danger">
+          <ion-label>Logout</ion-label>
+        </ion-item>
         }
-        <ion-item button (click)="goToProjects(); popover.dismiss(); popover.dismiss()"><ion-label>My
-            Projects</ion-label></ion-item>
-        <ion-item button (click)="logout(); popover.dismiss()" color="danger"><ion-label>Logout</ion-label></ion-item>
+
       </ion-list>
     </ion-content>
   </ng-template>

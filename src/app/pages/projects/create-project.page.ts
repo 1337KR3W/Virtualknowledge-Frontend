@@ -7,13 +7,14 @@ import { DataManagementService } from 'src/app/services/data-management.service'
 import { AbstractPage } from '../abstract';
 import { UserResponseDTO } from 'src/app/models/userDTO.model';
 import { ProjectRequestDTO } from 'src/app/models/projectDTO.model';
+import { BaseFormComponent } from 'src/app/components/base/base-form.component';
 
 @Component({
     selector: 'app-create-project',
     templateUrl: './create-project.page.html',
     styleUrls: ['./create-project.page.scss'],
     standalone: true,
-    imports: [CommonModule, FormsModule, IonicModule]
+    imports: [CommonModule, FormsModule, IonicModule, BaseFormComponent]
 })
 export class CreateProjectPage extends AbstractPage implements OnInit {
 

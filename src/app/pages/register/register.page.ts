@@ -5,13 +5,14 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { DataManagementService } from 'src/app/services/data-management.service';
 import { AbstractPage } from 'src/app/pages/abstract';
 import { UserRequestDTO } from 'src/app/models/userDTO.model';
+import { BaseFormComponent } from 'src/app/components/base/base-form.component';
 
 @Component({
     selector: 'app-register',
     templateUrl: './register.page.html',
     styleUrls: ['./register.page.scss'],
     standalone: true,
-    imports: [IonicModule, CommonModule, FormsModule]
+    imports: [IonicModule, CommonModule, FormsModule, BaseFormComponent]
 })
 export class RegisterPage extends AbstractPage implements OnInit {
     private readonly dataMgmt = inject(DataManagementService);
@@ -24,7 +25,7 @@ export class RegisterPage extends AbstractPage implements OnInit {
         lastName: '',
         email: '',
         password: '',
-        departmentId: 1,
+        departmentId: 0,
         roleId: 1,
         status: 'ACTIVE'
     };
