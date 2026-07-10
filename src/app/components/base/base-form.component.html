@@ -1,0 +1,27 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="back.emit()">
+                <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>{{ title }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="form-container">
+        <ion-card>
+            <ion-card-header><ion-card-title>{{ subtitle }}</ion-card-title></ion-card-header>
+            <ion-card-content>
+                <ion-list>
+                    <ng-content></ng-content>
+                </ion-list>
+                <ion-button expand="block" color="primary" (click)="save.emit()" class="ion-margin-top">
+                    <ion-icon slot="start" name="save-outline"></ion-icon>
+                    {{ saveLabel }}
+                </ion-button>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>
