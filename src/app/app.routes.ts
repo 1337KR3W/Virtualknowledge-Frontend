@@ -22,7 +22,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'departments',
+    path: 'departments/my-department',
     loadComponent: () => import('./pages/departments/departments.page').then(m => m.DepartmentsPage),
     canActivate: [authGuard]
   },
